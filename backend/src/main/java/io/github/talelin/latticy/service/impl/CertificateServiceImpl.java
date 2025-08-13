@@ -45,7 +45,6 @@ public class CertificateServiceImpl implements CertificateService {
 
     private void copyFields(CertificateDO target, CertificateDTO dto) {
         target.setName(dto.getName());
-        target.setBadge(dto.getBadge());
         target.setHasReceipt(dto.getHasReceipt());
         target.setPrintSize(dto.getPrintSize());
         target.setPixelSize(dto.getPixelSize());
