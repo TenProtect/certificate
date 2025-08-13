@@ -19,7 +19,10 @@ public class CertificateMiniController {
     private CertificateService certificateService;
 
     @GetMapping("")
-    public List<CertificateDO> getAll() {
+    public List<CertificateDO> getAll(@RequestParam(value = "keyword", required = false) String keyword) {
+        if (keyword != null && !keyword.isEmpty()) {
+            return certificateService.search(keyword);
+        }
         return certificateService.findAll();
     }
 
