@@ -245,8 +245,9 @@ export default {
       analysisResult: [],
       
       // 文档信息
-      documentInfo: {
+       documentInfo: {
         name: '身份证',
+        price: 20,
         specs: {
           requirements: '免冠，照片可看见两耳轮廓和相当于男士喉结处的地方'
         }

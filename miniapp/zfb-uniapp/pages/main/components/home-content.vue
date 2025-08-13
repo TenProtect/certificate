@@ -122,6 +122,7 @@ export default {
             name: '身份证',
             badge: '含回执',
             hasReceipt: true,
+            price: 20,
             specs: {
               printSize: '26x32mm',
               pixelSize: '358x441px',
@@ -139,6 +140,7 @@ export default {
             name: '港澳通行证',
             badge: '含回执',
             hasReceipt: true,
+            price: 20,
             specs: {
               printSize: '33x48mm',
               pixelSize: '390x567px',
@@ -156,6 +158,7 @@ export default {
             name: '社保证',
             badge: '含回执',
             hasReceipt: true,
+            price: 20,
             specs: {
               printSize: '26x32mm',
               pixelSize: '358x441px',
@@ -173,6 +176,7 @@ export default {
             name: '护照',
             badge: '含回执',
             hasReceipt: true,
+            price: 20,
             specs: {
               printSize: '33x48mm',
               pixelSize: '390x567px',
@@ -192,6 +196,7 @@ export default {
             name: '驾驶证',
             badge: '标准证照',
             hasReceipt: false,
+            price: 20,
             specs: {
               printSize: '22x32mm',
               pixelSize: '260x378px',
@@ -209,6 +214,7 @@ export default {
             name: '工作证',
             badge: '标准证照',
             hasReceipt: false,
+            price: 20,
             specs: {
               printSize: '25x35mm',
               pixelSize: '295x413px',
@@ -226,6 +232,7 @@ export default {
             name: '学生证',
             badge: '标准证照',
             hasReceipt: false,
+            price: 20,
             specs: {
               printSize: '26x32mm',
               pixelSize: '358x441px',
@@ -245,6 +252,7 @@ export default {
             name: '美国签证',
             badge: '签证专用',
             hasReceipt: false,
+            price: 20,
             specs: {
               printSize: '51x51mm',
               pixelSize: '600x600px',
@@ -262,6 +270,7 @@ export default {
             name: '日本签证',
             badge: '签证专用',
             hasReceipt: false,
+            price: 20,
             specs: {
               printSize: '45x45mm',
               pixelSize: '531x531px',
@@ -279,6 +288,7 @@ export default {
             name: '韩国签证',
             badge: '签证专用',
             hasReceipt: false,
+            price: 20,
             specs: {
               printSize: '35x45mm',
               pixelSize: '413x531px',
@@ -298,6 +308,7 @@ export default {
             name: '公务员考试',
             badge: '考试专用',
             hasReceipt: false,
+            price: 20,
             specs: {
               printSize: '25x35mm',
               pixelSize: '295x413px',
@@ -315,6 +326,7 @@ export default {
             name: '教师资格证',
             badge: '考试专用',
             hasReceipt: false,
+            price: 20,
             specs: {
               printSize: '25x35mm',
               pixelSize: '295x413px',
@@ -332,6 +344,7 @@ export default {
             name: '会计师考试',
             badge: '考试专用',
             hasReceipt: false,
+            price: 20,
             specs: {
               printSize: '26x32mm',
               pixelSize: '358x441px',
@@ -351,6 +364,7 @@ export default {
             name: '身份证',
             badge: '最近使用',
             hasReceipt: true,
+            price: 20,
             specs: {
               printSize: '26x32mm',
               pixelSize: '358x441px',
@@ -368,6 +382,7 @@ export default {
             name: '护照',
             badge: '最近使用',
             hasReceipt: true,
+            price: 20,
             specs: {
               printSize: '33x48mm',
               pixelSize: '390x567px',
