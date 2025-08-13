@@ -93,8 +93,7 @@ export default {
         return {
             currentCity: '重庆',
             searchKeyword: '',
-            searchResults: [],
-            allDocuments: []
+            searchResults: []
         }
     },
     async onLoad(options) {
@@ -107,46 +106,39 @@ export default {
         if (options.keyword) {
             this.searchKeyword = decodeURIComponent(options.keyword)
         }
-        await this.loadCertificates()
         if (this.searchKeyword) {
-            this.performSearch(this.searchKeyword)
+            await this.performSearch(this.searchKeyword)
         }
     },
     methods: {
-        async loadCertificates() {
-            try {
-                const list = await getCertificates()
-                this.allDocuments = list
-            } catch (e) {
-                this.allDocuments = mockCertificates
-            }
-        },
         onSearchInput(e) {
             const keyword = e.detail.value
             this.searchKeyword = keyword
             this.performSearch(keyword)
         },
-        
-        performSearch(keyword) {
-            // 触发搜索事件，传入地区和关键词参数
+
+        async performSearch(keyword) {
             this.handleSearchEvent(this.currentCity, keyword)
-            
+
             if (!keyword.trim()) {
                 this.searchResults = []
                 return
             }
-            
-            // 模拟搜索逻辑 - 搜索名称和规格相关字段
-            this.searchResults = this.allDocuments.filter(doc => {
-                const nameMatch = doc.name.includes(keyword)
-                const specsMatch =
-                    doc.printSize.includes(keyword) ||
-                    doc.pixelSize.includes(keyword) ||
-                    doc.resolution.includes(keyword) ||
-                    doc.imageFormat.includes(keyword) ||
-                    doc.requirements.includes(keyword)
-                return nameMatch || specsMatch
-            })
+
+            try {
+                this.searchResults = await getCertificates(keyword)
+            } catch (e) {
+                this.searchResults = mockCertificates.filter(doc => {
+                    const nameMatch = doc.name.includes(keyword)
+                    const specsMatch =
+                        doc.specs.printSize.includes(keyword) ||
+                        doc.specs.pixelSize.includes(keyword) ||
+                        doc.specs.resolution.includes(keyword) ||
+                        doc.specs.imageFormat.includes(keyword) ||
+                        doc.specs.requirements.includes(keyword)
+                    return nameMatch || specsMatch
+                })
+            }
         },
         
         handleSearchEvent(city, keyword) {

@@ -1,9 +1,12 @@
 const API_BASE = 'http://localhost:8080/v1/mini'
 
-export function getCertificates() {
+export function getCertificates(keyword = '') {
   return new Promise((resolve, reject) => {
+    const url = keyword
+      ? `${API_BASE}/certificate?keyword=${encodeURIComponent(keyword)}`
+      : `${API_BASE}/certificate`
     uni.request({
-      url: `${API_BASE}/certificate`,
+      url,
       method: 'GET',
       success: (res) => {
         const list = res.data && res.data.data ? res.data.data : res.data

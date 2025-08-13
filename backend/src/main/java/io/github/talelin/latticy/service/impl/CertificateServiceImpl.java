@@ -4,6 +4,7 @@ import io.github.talelin.latticy.dto.CertificateDTO;
 import io.github.talelin.latticy.mapper.CertificateMapper;
 import io.github.talelin.latticy.model.CertificateDO;
 import io.github.talelin.latticy.service.CertificateService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,13 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public List<CertificateDO> findAll() {
         return certificateMapper.selectList(null);
+    }
+
+    @Override
+    public List<CertificateDO> search(String keyword) {
+        QueryWrapper<CertificateDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().like(CertificateDO::getName, keyword);
+        return certificateMapper.selectList(wrapper);
     }
 
     @Override
