@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+security:
+  jwt:
+    issuer: certificate-app
+    secret: change-me-please-change-me-32chars
+    accessTtlMinutes: 30
+    refreshTtlDays: 14
