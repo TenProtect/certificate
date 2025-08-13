@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS certificate;
 CREATE TABLE certificate (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
+  category VARCHAR(50),
   has_receipt TINYINT(1) DEFAULT 0,
   print_size VARCHAR(20),
   pixel_size VARCHAR(20),

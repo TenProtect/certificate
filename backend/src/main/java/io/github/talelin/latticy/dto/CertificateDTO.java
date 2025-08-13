@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 public class CertificateDTO {
     @NotBlank
     private String name;
+    private String category;
     private Boolean hasReceipt;
     private String printSize;
     private String pixelSize;
