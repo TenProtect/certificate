@@ -32,7 +32,23 @@
         :sortable="item.sortable ? item.sortable : false"
         :fixed="item.fixed ? item.fixed : false"
         :width="item.width ? item.width : ''"
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          <span v-if="isBooleanField(scope.row[item.prop])" class="boolean-icon-wrapper">
+            <span v-if="scope.row[item.prop]" class="boolean-icon boolean-icon-true">
+              <svg viewBox="0 0 24 24" class="icon-svg">
+                <path d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41L9 19l11-11a.996.996 0 1 0-1.41-1.41L9 16.17z"/>
+              </svg>
+            </span>
+            <span v-else class="boolean-icon boolean-icon-false">
+              <svg viewBox="0 0 24 24" class="icon-svg">
+                <path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 0 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"/>
+              </svg>
+            </span>
+          </span>
+          <span v-else>{{ scope.row[item.prop] }}</span>
+        </template>
+      </el-table-column>
       <el-table-column v-if="operate.length > 0" label="操作" fixed="right" width="275">
         <template slot-scope="scope">
           <el-button
@@ -322,6 +338,10 @@ export default {
     //   } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
     //   return writeTable
     // },
+    // 判断字段是否为布尔值
+    isBooleanField(value) {
+      return typeof value === 'boolean'
+    },
   },
   watch: {
     fixedLeftList: {
@@ -424,6 +444,110 @@ export default {
   justify-content: flex-end;
   margin-right: -10px;
   margin-top: 15px;
+}
+
+.boolean-icon-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.boolean-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+  transform: scale(1);
+  margin-right: 8px;
+}
+
+.boolean-icon:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.boolean-icon-true {
+  background: linear-gradient(135deg, #52c41a 0%, #73d13d 50%, #95de64 100%);
+  box-shadow: 0 3px 8px rgba(82, 196, 26, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.boolean-icon-true::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  pointer-events: none;
+}
+
+.boolean-icon-false {
+  background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 50%, #ffa39e 100%);
+  box-shadow: 0 3px 8px rgba(255, 77, 79, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.boolean-icon-false::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  pointer-events: none;
+}
+
+.icon-svg {
+  width: 14px;
+  height: 14px;
+  fill: #ffffff;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+  z-index: 1;
+  position: relative;
+}
+
+/* 添加呼吸灯效果动画 */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 3px 8px rgba(82, 196, 26, 0.3);
+  }
+  50% {
+    box-shadow: 0 3px 12px rgba(82, 196, 26, 0.5);
+  }
+  100% {
+    box-shadow: 0 3px 8px rgba(82, 196, 26, 0.3);
+  }
+}
+
+@keyframes pulse-false {
+  0% {
+    box-shadow: 0 3px 8px rgba(255, 77, 79, 0.3);
+  }
+  50% {
+    box-shadow: 0 3px 12px rgba(255, 77, 79, 0.5);
+  }
+  100% {
+    box-shadow: 0 3px 8px rgba(255, 77, 79, 0.3);
+  }
+}
+
+.boolean-icon-true:hover {
+  animation: pulse 2s infinite;
+}
+
+.boolean-icon-false:hover {
+  animation: pulse-false 2s infinite;
 }
 </style>
 
