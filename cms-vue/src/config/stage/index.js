@@ -1,17 +1,6 @@
 import Utils from '@/lin/util/util'
 import adminConfig from './admin'
-import staticsConfig from './statics'
-import bannerConfig from './banner'
-import categoryConfig from './category'
-import gridCategoryConfig from './grid-categroy'
-import specConfig from './spec'
-import spuConfig from './spu'
-import skuConfig from './sku'
-import themeConfig from './theme'
-import activityConfig from './activity'
-import bookConfig from './book' // 引入图书管理路由文件
-import merchantConfig from './merchant'
-import pluginsConfig from './plugin'
+import certificateConfig from './certificate'
 
 // eslint-disable-next-line import/no-mutable-exports
 let homeRouter = [
@@ -54,47 +43,9 @@ let homeRouter = [
     inNav: false,
     icon: 'iconfont icon-rizhiguanli',
   },
-  staticsConfig,
-  bannerConfig,
-  categoryConfig,
-  gridCategoryConfig,
-  specConfig,
-  merchantConfig,
-  spuConfig,
-  skuConfig,
-  themeConfig,
-  activityConfig,
-  // bookConfig,
+  certificateConfig,
   adminConfig,
 ]
-
-const plugins = [
-  ...pluginsConfig
-]
-
-// 筛除已经被添加的插件
-function filterPlugin(data) {
-  if (plugins.length === 0) {
-    return
-  }
-  if (Array.isArray(data)) {
-    data.forEach(item => {
-      filterPlugin(item)
-    })
-  } else {
-    const findResult = plugins.findIndex(item => data === item)
-    if (findResult >= 0) {
-      plugins.splice(findResult, 1)
-    }
-    if (data.children) {
-      filterPlugin(data.children)
-    }
-  }
-}
-
-filterPlugin(homeRouter)
-
-homeRouter = homeRouter.concat(plugins)
 
 // 处理顺序
 homeRouter = Utils.sortByOrder(homeRouter)
