@@ -71,8 +71,8 @@
             </view>
             <view class="doc-info">
               <view class="doc-header">
-                <text class="doc-name">{{ document.name }}</text>
-                <text class="doc-badge">{{ document.badge }}</text>
+                  <text class="doc-name">{{ document.name }}</text>
+                  <text class="doc-badge" v-if="document.hasReceipt">含回执</text>
               </view>
               <view class="doc-specs">
                 <text class="spec-tag">可冲印</text>
@@ -120,7 +120,6 @@ export default {
           {
             id: 1,
             name: '身份证',
-            badge: '含回执',
             hasReceipt: true,
             price: 20,
             specs: {
@@ -138,7 +137,6 @@ export default {
           {
             id: 2,
             name: '港澳通行证',
-            badge: '含回执',
             hasReceipt: true,
             price: 20,
             specs: {
@@ -156,7 +154,6 @@ export default {
           {
             id: 3,
             name: '社保证',
-            badge: '含回执',
             hasReceipt: true,
             price: 20,
             specs: {
@@ -174,7 +171,6 @@ export default {
           {
             id: 4,
             name: '护照',
-            badge: '含回执',
             hasReceipt: true,
             price: 20,
             specs: {
@@ -194,7 +190,6 @@ export default {
           {
             id: 5,
             name: '驾驶证',
-            badge: '标准证照',
             hasReceipt: false,
             price: 20,
             specs: {
@@ -212,7 +207,6 @@ export default {
           {
             id: 6,
             name: '工作证',
-            badge: '标准证照',
             hasReceipt: false,
             price: 20,
             specs: {
@@ -230,7 +224,6 @@ export default {
           {
             id: 7,
             name: '学生证',
-            badge: '标准证照',
             hasReceipt: false,
             price: 20,
             specs: {
@@ -250,7 +243,6 @@ export default {
           {
             id: 8,
             name: '美国签证',
-            badge: '签证专用',
             hasReceipt: false,
             price: 20,
             specs: {
@@ -268,7 +260,6 @@ export default {
           {
             id: 9,
             name: '日本签证',
-            badge: '签证专用',
             hasReceipt: false,
             price: 20,
             specs: {
@@ -286,7 +277,6 @@ export default {
           {
             id: 10,
             name: '韩国签证',
-            badge: '签证专用',
             hasReceipt: false,
             price: 20,
             specs: {
@@ -306,7 +296,6 @@ export default {
           {
             id: 11,
             name: '公务员考试',
-            badge: '考试专用',
             hasReceipt: false,
             price: 20,
             specs: {
@@ -324,7 +313,6 @@ export default {
           {
             id: 12,
             name: '教师资格证',
-            badge: '考试专用',
             hasReceipt: false,
             price: 20,
             specs: {
@@ -342,7 +330,6 @@ export default {
           {
             id: 13,
             name: '会计师考试',
-            badge: '考试专用',
             hasReceipt: false,
             price: 20,
             specs: {
@@ -362,7 +349,6 @@ export default {
           {
             id: 14,
             name: '身份证',
-            badge: '最近使用',
             hasReceipt: true,
             price: 20,
             specs: {
@@ -380,7 +366,6 @@ export default {
           {
             id: 15,
             name: '护照',
-            badge: '最近使用',
             hasReceipt: true,
             price: 20,
             specs: {

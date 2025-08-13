@@ -25,6 +25,14 @@ const certificateRouter = {
       filePath: 'view/certificate/certificate-create.vue',
       inNav: false,
     },
+    {
+      title: '编辑证照',
+      type: 'view',
+      name: 'CertificateEdit',
+      route: '/certificate/edit',
+      filePath: 'view/certificate/certificate-create.vue',
+      inNav: false,
+    },
   ],
 }
 
