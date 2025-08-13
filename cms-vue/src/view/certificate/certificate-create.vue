@@ -100,25 +100,27 @@ export default {
       const info = await certificate.getCertificate(id)
       this.form = {
         name: info.name,
-        hasReceipt: !!info.hasReceipt,
+        hasReceipt: !!(info.has_receipt || info.hasReceipt),
         price: info.price,
-        printSize: info.printSize,
-        pixelSize: info.pixelSize,
+        printSize: info.print_size || info.printSize,
+        pixelSize: info.pixel_size || info.pixelSize,
         resolution: info.resolution,
-        saveElectronicPhoto: !!info.saveElectronicPhoto,
-        printLayout: !!info.printLayout,
-        bgColor: info.bgColor,
-        imageFormat: info.imageFormat,
-        imageFileSize: info.imageFileSize,
+        saveElectronicPhoto: !!(info.save_electronic_photo || info.saveElectronicPhoto),
+        printLayout: !!(info.print_layout || info.printLayout),
+        bgColor: info.bg_color || info.bgColor,
+        imageFormat: info.image_format || info.imageFormat,
+        imageFileSize: info.image_file_size || info.imageFileSize,
         requirements: info.requirements,
       }
-      if (info.printSize) {
-        const ps = info.printSize.replace('mm', '').split('x')
+      const printSize = this.form.printSize
+      if (printSize) {
+        const ps = printSize.replace('mm', '').split('x')
         this.printSizeW = Number(ps[0]) || null
         this.printSizeH = Number(ps[1]) || null
       }
-      if (info.pixelSize) {
-        const pxs = info.pixelSize.replace('px', '').split('x')
+      const pixelSize = this.form.pixelSize
+      if (pixelSize) {
+        const pxs = pixelSize.replace('px', '').split('x')
         this.pixelSizeW = Number(pxs[0]) || null
         this.pixelSizeH = Number(pxs[1]) || null
       }
@@ -132,12 +134,29 @@ export default {
       this.form.pixelSize = this.pixelSizeW !== null && this.pixelSizeH !== null
         ? `${this.pixelSizeW}x${this.pixelSizeH}px`
         : ''
+
+      // 将字段名转换为蛇形命名
+      const submitData = {
+        name: this.form.name,
+        has_receipt: this.form.hasReceipt,
+        price: this.form.price,
+        print_size: this.form.printSize,
+        pixel_size: this.form.pixelSize,
+        resolution: this.form.resolution,
+        save_electronic_photo: this.form.saveElectronicPhoto,
+        print_layout: this.form.printLayout,
+        bg_color: this.form.bgColor,
+        image_format: this.form.imageFormat,
+        image_file_size: this.form.imageFileSize,
+        requirements: this.form.requirements,
+      }
+
       try {
         if (this.isEdit) {
-          await certificate.editCertificate(this.certificateId, this.form)
+          await certificate.editCertificate(this.certificateId, submitData)
           this.$message.success('更新成功')
         } else {
-          await certificate.createCertificate(this.form)
+          await certificate.createCertificate(submitData)
           this.$message.success('创建成功')
         }
         this.$router.push({ path: '/certificate/list' })
