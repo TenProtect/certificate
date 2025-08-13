@@ -113,8 +113,6 @@ JWT 建议：HS256 或 RS256；accessToken 短期（如 1530 分钟），refresh
 统一响应格式：
 
 json
-复制
-编辑
 {
   "code": 0,
   "message": "ok",
@@ -158,10 +156,6 @@ json
 cms-vue 仅保存非敏感前端构建配置（如 API 基址），通过 .env.* 注入。
 
 后端 application.yml 示例（占位）：
-
-yaml
-复制
-编辑
 server:
   port: 8080
 
@@ -221,71 +215,3 @@ fields.xlsx（或 fields.md）：页面字段 → 接口参数 → DB 字段映�
 api.md：接口清单（路径、方法、入参、出参、错误码示例）
 
 每次字段/接口变更：先改 fields.* → 小程序补测试数据 → 覆写 update.sql → 更新后端实体/DTO → 更新 CMS → 跑用例。
-
-10. 代码风格与提交规范（简要）
-提交信息：feat: ... / fix: ... / refactor: ... / chore: ... / docs: ... / db: ...（涉及 update.sql 的变更以 db: 开头）。
-
-严禁提交密钥与 .env.production。
-
-PR 必须通过：构建、单测（如有）、update.sql 可重建校验脚本、小程序字段检查脚本（可后续补充）。
-
-11. 测试清单（最小保障）
-Auth：登录成功/失败、过期刷新、登出、权限不足访问受限接口。
-
-CRUD：列表/详情/新增/修改/删除 + 非法入参校验。
-
-支付宝登录：authCode 缺失/无效、首次绑定、重复登录、签名校验失败。
-
-跨端一致：小程序与 CMS 对同一资源的显示/编辑一致性。
-
-DB 可重建：空库执行 update.sql 可完全起库 + 基础数据可用。
-
-12. 子项目需要各自维护子 AGENTS.md（强烈建议）
-./backend/AGENTS.md：后端接口清单模板、DTO/校验约定、异常映射、JWT/刷新策略细节、支付宝网关交互点。
-
-./cms-vue/AGENTS.md：路由/权限模型、HTTP 适配层、全局错误处理、通用表单与表格组件约定。
-
-./miniapp/zfb-uniapp/AGENTS.md：登录流程、Mock/测试数据目录约定、网络层封装、页面字段最小集规范。
-
-下面直接给出三个子 AGENTS.md 模板，你可以复制到各自目录按需细化。
-
-附录 A：./backend/AGENTS.md（模板）
-Backend AGENTS
-1. 技术与结构
-JDK8、Spring Boot（兼容 JDK8 版本）
-
-分层：controller / service / repository / domain / infra
-
-统一 JSON 响应，异常 → code/message
-
-2. 鉴权
-POST /auth/login（账号/密码 → access/refresh）
-
-POST /auth/refresh（刷新）
-
-POST /auth/logout
-
-过滤器校验 Authorization: Bearer <token>
-
-3. 支付宝登录
-POST /auth/alipay：入参 { "authCode": "xxx" }
-
-服务端与支付宝网关交互，校验签名，换取 userId 等，完成本地账户绑定后签发 JWT
-
-4. 统一返回示例
-json
-复制
-编辑
-{"code":0,"message":"ok","data":{"token":"..."}}
-5. DB 管理
-仅维护 update.sql（覆写），可从空库重放
-
-任何表/字段变更前，要求对应 zfb-uniapp 存在字段测试数据
-
-6. 典型资源接口（示例）
-GET /api/items、POST /api/items、PUT /api/items/{id}、DELETE /api/items/{id}
-
-校验使用 javax.validation 注解
-
-7. 配置
-所有密钥/ID 放 application.yml（可被 env 覆盖）
