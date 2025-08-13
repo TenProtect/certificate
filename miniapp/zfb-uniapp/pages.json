@@ -1,0 +1,137 @@
+{
+	"pages": [
+		{
+			"path": "pages/main/main",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"transparentTitle": "always",
+				"titlePenetrate": "YES",
+				"enablePullDownRefresh": false,
+				"allowsBounceVertical": "NO"
+			}
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索证件照",
+				"navigationBarBackgroundColor": "#ffffff",
+				"enablePullDownRefresh": false,
+				"allowsBounceVertical": "NO"
+			}
+		},
+		{
+			"path": "pages/city-selector/city-selector",
+			"style": {
+				"navigationBarTitleText": "选择城市",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"transparentTitle": "always",
+				"titlePenetrate": "YES",
+				"enablePullDownRefresh": false,
+				"allowsBounceVertical": "NO"
+			}
+		},
+		{
+			"path": "pages/photo-detail/photo-detail",
+			"style": {
+				"navigationBarTitleText": "拍摄指引",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": false,
+				"allowsBounceVertical": "NO"
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "滚动播放组件"
+			}
+		},
+		{
+			"path": "pages/demo/demo",
+			"style": {
+				"navigationBarTitleText": "高级演示"
+			}
+		},
+		{
+			"path": "pages/photo-guide/photo-guide",
+			"style": {
+				"navigationBarTitleText": "拍摄指引",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"allowsBounceVertical": "NO",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/order-guide/order-guide",
+			"style": {
+				"navigationBarTitleText": "下单指引",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"allowsBounceVertical": "NO",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/camera-capture/camera-capture",
+			"style": {
+				"navigationBarTitleText": "拍摄照片",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"allowsBounceVertical": "NO",
+				"navigationBarBackgroundColor": "#000000",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/photo-preview/photo-preview",
+			"style": {
+				"navigationBarTitleText": "照片预览",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"allowsBounceVertical": "NO",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/order-submit/order-submit",
+			"style": {
+				"navigationBarTitleText": "提交订单",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"allowsBounceVertical": "NO",
+				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "black"
+			}
+		}
+	],
+	"tabBar": {
+		"custom": true,
+		"color": "#666666",
+		"selectedColor": "#3D45E6",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/main/main",
+				"text": "主页",
+				"iconPath": "/static/tabbar/home.svg",
+				"selectedIconPath": "static/tabbar/home-active.svg"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "证牛牛",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}

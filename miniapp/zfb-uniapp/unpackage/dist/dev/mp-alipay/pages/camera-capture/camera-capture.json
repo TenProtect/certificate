@@ -1,0 +1,9 @@
+{
+  "defaultTitle": "拍摄照片",
+  "pullRefresh": false,
+  "allowsBounceVertical": "NO",
+  "titleBarColor": "#000000",
+  "usingComponents": {
+    "u-camera-overlay": "../../components/ucamera-overlay/ucamera-overlay"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "defaultTitle": "",
+  "pullRefresh": false,
+  "allowsBounceVertical": "NO",
+  "transparentTitle": "always",
+  "titlePenetrate": "YES",
+  "usingComponents": {
+    "home-page": "./components/home-content",
+    "order-page": "./components/order-content",
+    "profile-page": "./components/profile-content",
+    "custom-tabbar": "../../components/custom-tabbar/custom-tabbar"
+  }
+}

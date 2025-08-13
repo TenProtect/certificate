@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "照片预览",
+  "pullRefresh": false,
+  "allowsBounceVertical": "NO",
+  "titleBarColor": "#ffffff",
+  "usingComponents": {}
+}

@@ -1,0 +1,195 @@
+
+.photo-preview-page.data-v-58145b37 {
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  min-height: 100vh;
+}
+
+/* 顶部导航栏 */
+.preview-header.data-v-58145b37 {
+  background: #fff;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+.header-content.data-v-58145b37 {
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32rpx;
+}
+.header-left.data-v-58145b37 {
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.back-icon.data-v-58145b37 {
+  font-size: 48rpx;
+  color: #333;
+  font-weight: 300;
+}
+.header-center.data-v-58145b37 {
+  flex: 1;
+  text-align: center;
+}
+.header-title.data-v-58145b37 {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
+}
+.header-right.data-v-58145b37 {
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.retry-btn.data-v-58145b37 {
+  padding: 12rpx 24rpx;
+  background: #6C5CE7;
+  border-radius: 24rpx;
+}
+.retry-text.data-v-58145b37 {
+  font-size: 24rpx;
+  color: #fff;
+}
+
+/* 照片预览区域 */
+.photo-container.data-v-58145b37 {
+  padding: 32rpx;
+}
+.photo-wrapper.data-v-58145b37 {
+  position: relative;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 12rpx 48rpx rgba(0, 0, 0, 0.15);
+  background: #fff;
+}
+.preview-image.data-v-58145b37 {
+  width: 100%;
+  height: 600rpx;
+  display: block;
+}
+.photo-overlay.data-v-58145b37 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.4) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24rpx;
+}
+.document-badge.data-v-58145b37 {
+  align-self: flex-start;
+  background: rgba(108, 92, 231, 0.9);
+  padding: 12rpx 24rpx;
+  border-radius: 24rpx;
+  -webkit-backdrop-filter: blur(10rpx);
+          backdrop-filter: blur(10rpx);
+}
+.badge-text.data-v-58145b37 {
+  font-size: 24rpx;
+  color: #fff;
+  font-weight: 500;
+}
+.photo-specs.data-v-58145b37 {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.spec-text.data-v-58145b37 {
+  font-size: 20rpx;
+  color: #fff;
+  text-align: right;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 6rpx 12rpx;
+  border-radius: 12rpx;
+  -webkit-backdrop-filter: blur(5rpx);
+          backdrop-filter: blur(5rpx);
+}
+
+/* 照片信息 */
+.photo-info.data-v-58145b37 {
+  margin: 32rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.08);
+}
+.info-header.data-v-58145b37 {
+  margin-bottom: 32rpx;
+  text-align: center;
+}
+.info-title.data-v-58145b37 {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+.info-subtitle.data-v-58145b37 {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+}
+.document-info.data-v-58145b37 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+.document-name.data-v-58145b37 {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+.document-specs.data-v-58145b37 {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 底部间距适配区域 */
+.bottom-spacer.data-v-58145b37 {
+  height: 152rpx;
+}
+
+/* 底部操作按钮 */
+.bottom-actions.data-v-58145b37 {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 32rpx;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
+  display: flex;
+  gap: 24rpx;
+}
+.action-btn.data-v-58145b37 {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.action-btn.secondary.data-v-58145b37 {
+  background: #F5F5F5;
+  color: #333;
+}
+.action-btn.primary.data-v-58145b37 {
+  background: linear-gradient(135deg, #6C5CE7, #A855F7);
+  color: #fff;
+}
+.action-btn.data-v-58145b37:active {
+  transform: scale(0.98);
+}
+.btn-text.data-v-58145b37 {
+  font-size: 32rpx;
+}

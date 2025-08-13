@@ -1,0 +1,286 @@
+
+/* 全局CSS变量定义 */
+.data-v-4194678e:root {
+  --status-bar-height: 44px;
+}
+
+/* 支付宝小程序环境变量支持 */
+@supports (top: env(safe-area-inset-top)) {
+.data-v-4194678e:root {
+    --status-bar-height: env(safe-area-inset-top);
+}
+}
+
+/* 微信小程序环境变量支持 */
+@supports (top: constant(safe-area-inset-top)) {
+.data-v-4194678e:root {
+    --status-bar-height: constant(safe-area-inset-top);
+}
+}
+.city-selector-page.data-v-4194678e {
+    height: 100vh;
+    background-color: #f5f6f8;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow-y: hidden;
+}
+
+/* 导航栏 */
+.nav-bar.data-v-4194678e {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20rpx 30rpx;
+    background-color: white;
+    position: relative;
+    z-index: 100;
+    /* CSS环境变量回退方案 */
+    padding-top: var(--status-bar-height, 44px);
+}
+.nav-title.data-v-4194678e {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #333;
+}
+.nav-placeholder.data-v-4194678e {
+    width: 80rpx;
+}
+
+/* 针对特殊机型的适配 */
+@media screen and (device-width: 414px) and (device-height: 896px) {
+  /* iPhone XR, iPhone 11 */
+.nav-bar.data-v-4194678e {
+    padding-top: 44px;
+}
+}
+@media screen and (device-width: 375px) and (device-height: 812px) {
+  /* iPhone X, iPhone XS, iPhone 11 Pro */
+.nav-bar.data-v-4194678e {
+    padding-top: 44px;
+}
+}
+@media screen and (device-width: 414px) and (device-height: 896px) {
+  /* iPhone XS Max, iPhone 11 Pro Max */
+.nav-bar.data-v-4194678e {
+    padding-top: 44px;
+}
+}
+
+/* 搜索框 */
+.search-container.data-v-4194678e {
+    background-color: white;
+    padding: 20rpx;
+    border-bottom: 1rpx solid #e9ecef;
+}
+.search-box.data-v-4194678e {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border: 1rpx solid #e9ecef;
+    border-radius: 25rpx;
+    padding: 0 20rpx;
+}
+.search-icon.data-v-4194678e {
+    margin-right: 15rpx;
+}
+.search-icon-svg.data-v-4194678e {
+    position: relative;
+    width: 32rpx;
+    height: 32rpx;
+}
+.search-circle.data-v-4194678e {
+    width: 24rpx;
+    height: 24rpx;
+    border: 3rpx solid #999;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.search-handle.data-v-4194678e {
+    width: 12rpx;
+    height: 3rpx;
+    background-color: #999;
+    border-radius: 2rpx;
+    position: absolute;
+    bottom: 7rpx;
+    right: -5rpx;
+    transform: rotate(40deg);
+    transform-origin: left center;
+}
+.search-input.data-v-4194678e {
+    flex: 1;
+    padding: 25rpx 0;
+    font-size: 28rpx;
+    border: none;
+    background: transparent;
+}
+.clear-btn.data-v-4194678e {
+    width: 40rpx;
+    height: 40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.clear-icon.data-v-4194678e {
+    font-size: 32rpx;
+    color: #999;
+}
+
+/* 热门城市 */
+.hot-cities.data-v-4194678e {
+    background-color: white;
+    padding: 30rpx 20rpx;
+    border-bottom: 1rpx solid #e9ecef;
+}
+.section-title.data-v-4194678e {
+    font-size: 28rpx;
+    color: #666;
+    margin-bottom: 20rpx;
+    display: block;
+}
+.hot-city-grid.data-v-4194678e {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20rpx;
+}
+.hot-city-item.data-v-4194678e {
+    padding: 20rpx;
+    text-align: center;
+    background: #f8f9fa;
+    border-radius: 12rpx;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.hot-city-item.data-v-4194678e:active {
+    background: #e9ecef;
+    transform: scale(0.98);
+}
+.hot-city-name.data-v-4194678e {
+    font-size: 28rpx;
+    color: #333;
+}
+
+/* 城市列表容器 */
+.city-list-container.data-v-4194678e {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 搜索结果 */
+.search-results.data-v-4194678e {
+    height: 100%;
+    background-color: white;
+}
+.no-results.data-v-4194678e {
+    padding: 100rpx 20rpx;
+    text-align: center;
+}
+.no-results-text.data-v-4194678e {
+    font-size: 28rpx;
+    color: #999;
+}
+.search-result-list.data-v-4194678e {
+    padding: 0 20rpx;
+}
+.search-result-item.data-v-4194678e {
+    border-bottom: 1rpx solid #f0f0f0;
+}
+
+/* 城市列表 */
+.city-list.data-v-4194678e {
+    height: 100%;
+    background-color: white;
+}
+.letter-section.data-v-4194678e {
+    margin-bottom: 20rpx;
+}
+.letter-header.data-v-4194678e {
+    background: #f8f9fa;
+    padding: 15rpx 20rpx;
+    border-bottom: 1rpx solid #e9ecef;
+}
+.letter-title.data-v-4194678e {
+    font-size: 24rpx;
+    color: #666;
+    font-weight: bold;
+}
+.city-group.data-v-4194678e {
+    background-color: white;
+}
+.city-item.data-v-4194678e {
+    padding: 30rpx 20rpx;
+    border-bottom: 1rpx solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.city-item.data-v-4194678e:active {
+    background-color: #f8f9fa;
+}
+.city-item.data-v-4194678e:last-child {
+    border-bottom: none;
+}
+.city-name.data-v-4194678e {
+    font-size: 32rpx;
+    color: #333;
+}
+
+/* 字母索引条 */
+.alphabet-index.data-v-4194678e {
+    position: fixed;
+    right: 10rpx;
+    top: calc(100vh - 480rpx);
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 20rpx;
+    padding: 10rpx 5rpx;
+}
+.index-letter.data-v-4194678e {
+    padding: 5rpx;
+    width: 30rpx;
+    height: 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+.index-letter.active.data-v-4194678e {
+    background-color: #565DF4;
+}
+.index-letter-text.data-v-4194678e {
+    font-size: 20rpx;
+    color: #666;
+    font-weight: bold;
+}
+.index-letter.active .index-letter-text.data-v-4194678e {
+    color: white;
+}
+
+/* 字母提示浮层 */
+.letter-tip.data-v-4194678e {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120rpx;
+    height: 120rpx;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 12rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.letter-tip-text.data-v-4194678e {
+    font-size: 48rpx;
+    color: white;
+    font-weight: bold;
+}

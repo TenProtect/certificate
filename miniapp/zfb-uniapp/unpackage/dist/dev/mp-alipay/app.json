@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/main/main",
+    "pages/search/search",
+    "pages/city-selector/city-selector",
+    "pages/photo-detail/photo-detail",
+    "pages/index/index",
+    "pages/demo/demo",
+    "pages/photo-guide/photo-guide",
+    "pages/order-guide/order-guide",
+    "pages/camera-capture/camera-capture",
+    "pages/photo-preview/photo-preview",
+    "pages/order-submit/order-submit"
+  ],
+  "window": {
+    "defaultTitle": "证牛牛",
+    "titleBarColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "textColor": "#666666",
+    "selectedColor": "#3D45E6",
+    "backgroundColor": "#ffffff",
+    "items": [
+      {
+        "pagePath": "pages/main/main",
+        "name": "主页",
+        "icon": "/static/tabbar/home.svg",
+        "activeIcon": "static/tabbar/home-active.svg"
+      }
+    ]
+  },
+  "subPackageBuildType": "shared",
+  "usingComponents": {}
+}

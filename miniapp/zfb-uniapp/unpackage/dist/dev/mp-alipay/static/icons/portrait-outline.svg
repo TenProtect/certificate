@@ -1,0 +1,30 @@
+<svg width="240" height="320" viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 头部轮廓椭圆 -->
+  <ellipse cx="120" cy="100" rx="45" ry="58" stroke="#00C8FF" stroke-width="2" fill="none" opacity="0.8"/>
+  
+  <!-- 肩部轮廓弧线 -->
+  <path d="M60 200 Q90 230 120 230 Q150 230 180 200" stroke="#00C8FF" stroke-width="2" fill="none" opacity="0.8"/>
+  
+  <!-- 中心十字准星 -->
+  <g stroke="#FFFFFF" stroke-width="1.5" opacity="0.9">
+    <line x1="105" y1="100" x2="135" y2="100"/>
+    <line x1="120" y1="85" x2="120" y2="115"/>
+    <!-- 十字中心圆点 -->
+    <circle cx="120" cy="100" r="2" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- 四角边框 -->
+  <g stroke="#00C8FF" stroke-width="2" fill="none" opacity="0.6">
+    <!-- 左上角 -->
+    <path d="M20 20 L20 50 M20 20 L50 20"/>
+    <!-- 右上角 -->
+    <path d="M220 20 L220 50 M220 20 L190 20"/>
+    <!-- 左下角 -->
+    <path d="M20 300 L20 270 M20 300 L50 300"/>
+    <!-- 右下角 -->
+    <path d="M220 300 L220 270 M220 300 L190 300"/>
+  </g>
+  
+  <!-- 顶部提示背景 -->
+  <rect x="45" y="5" width="150" height="20" rx="10" fill="rgba(0,0,0,0.7)" opacity="0.8"/>
+</svg>

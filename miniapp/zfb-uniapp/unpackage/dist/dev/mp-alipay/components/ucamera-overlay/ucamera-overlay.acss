@@ -1,0 +1,47 @@
+
+.ucam-root.data-v-74b31db0 {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+.ucam-camera.data-v-74b31db0 {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  height: 100vh;
+}
+.ucam-overlay.data-v-74b31db0 {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+}
+.ucam-hud.data-v-74b31db0 {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 24rpx;
+  display: flex; flex-direction: column; gap: 16rpx;
+}
+.ucam-tips.data-v-74b31db0 {
+  align-self: center;
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  padding: 8rpx 16rpx;
+  border-radius: 9999rpx;
+  font-size: 28rpx;
+}
+.ucam-btns.data-v-74b31db0 {
+  display: flex;
+  justify-content: center;
+  gap: 24rpx;
+}
+.ucam-btn.data-v-74b31db0 {
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  padding: 16rpx 28rpx;
+  border-radius: 9999rpx;
+  font-size: 30rpx;
+}
+.ucam-notice.data-v-74b31db0 {
+  position: absolute; left: 12rpx; right: 12rpx; bottom: 12rpx;
+  color: #fff; opacity: 0.8; text-align: center;
+}

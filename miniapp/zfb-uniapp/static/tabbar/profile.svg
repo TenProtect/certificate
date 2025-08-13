@@ -1,0 +1,5 @@
+<!-- 我的图标 - 未选中状态 -->
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M24 24C29.5228 24 34 19.5228 34 14C34 8.47715 29.5228 4 24 4C18.4772 4 14 8.47715 14 14C14 19.5228 18.4772 24 24 24Z" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M8 44C8 35.1634 15.1634 28 24 28C32.8366 28 40 35.1634 40 44" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

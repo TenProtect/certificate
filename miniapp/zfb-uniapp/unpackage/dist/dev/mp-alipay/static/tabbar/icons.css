@@ -1,0 +1,40 @@
+/* TabBar 图标字体样式 */
+@font-face {
+  font-family: 'TabBarIcons';
+  src: url('data:font/woff2;base64,') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.tabbar-icon {
+  font-family: 'TabBarIcons', sans-serif;
+  font-size: 48rpx;
+  line-height: 1;
+  display: inline-block;
+  text-align: center;
+}
+
+/* 首页图标 */
+.icon-home::before {
+  content: '🏠';
+}
+
+/* 订单图标 */
+.icon-order::before {
+  content: '📋';
+}
+
+/* 我的图标 */
+.icon-profile::before {
+  content: '👤';
+}
+
+/* 未选中状态 */
+.tabbar-icon {
+  color: #666666;
+}
+
+/* 选中状态 */
+.tabbar-icon.active {
+  color: #3D45E6;
+}

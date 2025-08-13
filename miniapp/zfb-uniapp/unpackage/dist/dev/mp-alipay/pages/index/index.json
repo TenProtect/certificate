@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "滚动播放组件",
+  "usingComponents": {
+    "scroll-banner": "../../components/scroll-banner"
+  }
+}
