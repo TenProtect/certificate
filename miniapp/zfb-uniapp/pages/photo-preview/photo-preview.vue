@@ -62,8 +62,9 @@ export default {
       statusBarHeight: 0,
       imagePath: '',
       currentCity: '',
-      documentInfo: {
+       documentInfo: {
         name: '身份证',
+        price: 20,
         specs: {
           printSize: '26x32mm',
           pixelSize: '358x441px',

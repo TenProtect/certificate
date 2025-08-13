@@ -1,1 +1,0 @@
-<view class="content"><view class="header"><text class="title">滚动播放组件演示</text></view><view class="demo-section"><scroll-banner onChange="{{a}}" u-i="156d5f0b-0" onVI="__l" u-p="{{b||''}}"/></view><view class="control-section"><button onTap="{{d}}" class="control-btn">{{c}}</button><button onTap="{{e}}" class="control-btn demo-btn"> 查看高级演示 </button></view></view>

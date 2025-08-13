@@ -69,7 +69,7 @@
                     <view class="doc-info">
                         <view class="doc-header">
                             <text class="doc-name">{{ item.name }}</text>
-                            <text class="doc-badge">{{ item.badge }}</text>
+                            <text v-if="item.hasReceipt" class="doc-badge">含回执</text>
                         </view>
                         <view class="doc-specs">
                             <text class="spec-tag">可冲印</text>
@@ -98,14 +98,12 @@ export default {
                 {
                     id: 1,
                     name: '身份证',
-                    badge: '含回执',
                     hasReceipt: true,
+                    price: 20,
                     specs: {
                         printSize: '26x32mm',
                         pixelSize: '358x441px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: '无要求',
                         imageFileSize: '无要求',
@@ -115,14 +113,12 @@ export default {
                 {
                     id: 2,
                     name: '港澳通行证',
-                    badge: '含回执',
                     hasReceipt: true,
+                    price: 20,
                     specs: {
                         printSize: '33x48mm',
                         pixelSize: '390x567px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: 'JPEG',
                         imageFileSize: '20KB-50KB',
@@ -132,14 +128,12 @@ export default {
                 {
                     id: 3,
                     name: '社保证',
-                    badge: '含回执',
                     hasReceipt: true,
+                    price: 20,
                     specs: {
                         printSize: '26x32mm',
                         pixelSize: '358x441px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: '无要求',
                         imageFileSize: '无要求',
@@ -149,14 +143,12 @@ export default {
                 {
                     id: 4,
                     name: '护照',
-                    badge: '含回执',
                     hasReceipt: true,
+                    price: 20,
                     specs: {
                         printSize: '33x48mm',
                         pixelSize: '390x567px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: 'JPEG',
                         imageFileSize: '40KB-120KB',
@@ -167,14 +159,12 @@ export default {
                 {
                     id: 5,
                     name: '驾驶证',
-                    badge: '标准证照',
                     hasReceipt: false,
+                    price: 20,
                     specs: {
                         printSize: '22x32mm',
                         pixelSize: '260x378px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: 'JPEG',
                         imageFileSize: '无要求',
@@ -184,14 +174,12 @@ export default {
                 {
                     id: 6,
                     name: '工作证',
-                    badge: '标准证照',
                     hasReceipt: false,
+                    price: 20,
                     specs: {
                         printSize: '25x35mm',
                         pixelSize: '295x413px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: '无要求',
                         imageFileSize: '无要求',
@@ -201,14 +189,12 @@ export default {
                 {
                     id: 7,
                     name: '学生证',
-                    badge: '标准证照',
                     hasReceipt: false,
+                    price: 20,
                     specs: {
                         printSize: '26x32mm',
                         pixelSize: '358x441px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: '无要求',
                         imageFileSize: '无要求',
@@ -218,14 +204,12 @@ export default {
                 {
                     id: 8,
                     name: '居住证',
-                    badge: '标准证照',
                     hasReceipt: false,
+                    price: 20,
                     specs: {
                         printSize: '26x32mm',
                         pixelSize: '358x441px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: '无要求',
                         imageFileSize: '无要求',
@@ -236,14 +220,12 @@ export default {
                 {
                     id: 9,
                     name: '美国签证',
-                    badge: '签证专用',
                     hasReceipt: false,
+                    price: 20,
                     specs: {
                         printSize: '51x51mm',
                         pixelSize: '600x600px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: 'JPEG',
                         imageFileSize: '240KB以下',
@@ -253,14 +235,12 @@ export default {
                 {
                     id: 10,
                     name: '日本签证',
-                    badge: '签证专用',
                     hasReceipt: false,
+                    price: 20,
                     specs: {
                         printSize: '45x45mm',
                         pixelSize: '531x531px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: 'JPEG',
                         imageFileSize: '无要求',
@@ -271,14 +251,12 @@ export default {
                 {
                     id: 11,
                     name: '公务员考试',
-                    badge: '考试专用',
                     hasReceipt: false,
+                    price: 20,
                     specs: {
                         printSize: '25x35mm',
                         pixelSize: '295x413px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: 'JPEG',
                         imageFileSize: '20KB-50KB',
@@ -288,14 +266,12 @@ export default {
                 {
                     id: 12,
                     name: '教师资格证',
-                    badge: '考试专用',
                     hasReceipt: false,
+                    price: 20,
                     specs: {
                         printSize: '25x35mm',
                         pixelSize: '295x413px',
                         resolution: '300DPI',
-                        saveElectronicPhoto: true,
-                        printLayout: true,
                         bgColor: '#FFFFFF',
                         imageFormat: 'JPEG',
                         imageFileSize: '200KB以下',
@@ -333,17 +309,16 @@ export default {
                 return
             }
             
-            // 模拟搜索逻辑 - 搜索名称、badge和specs相关字段
+            // 模拟搜索逻辑 - 搜索名称和规格相关字段
             this.searchResults = this.allDocuments.filter(doc => {
                 const nameMatch = doc.name.includes(keyword)
-                const badgeMatch = doc.badge.includes(keyword)
-                const specsMatch = 
+                const specsMatch =
                     doc.specs.printSize.includes(keyword) ||
                     doc.specs.pixelSize.includes(keyword) ||
                     doc.specs.resolution.includes(keyword) ||
                     doc.specs.imageFormat.includes(keyword) ||
                     doc.specs.requirements.includes(keyword)
-                return nameMatch || badgeMatch || specsMatch
+                return nameMatch || specsMatch
             })
         },
         

@@ -86,20 +86,8 @@
       <!-- 其他选项 -->
       <view class="other-options">
         <view class="option-item">
-          <text class="option-label">保存电子照</text>
-          <view class="option-switch active">
-            <view class="switch-dot"></view>
-          </view>
-        </view>
-        <view class="option-item">
-          <text class="option-label">冲印排版照</text>
-          <view class="option-switch active">
-            <view class="switch-dot"></view>
-          </view>
-        </view>
-        <view class="option-item">
           <text class="option-label">背景色</text>
-          <text class="option-value"></text>
+          <text class="option-value">{{ documentInfo.specs.bgColor }}</text>
         </view>
         <view class="option-item">
           <text class="option-label">图片格式</text>
@@ -143,14 +131,14 @@ export default {
     return {
       statusBarHeight: 0,
       currentCity: '',
-      documentInfo: {
+       documentInfo: {
         name: '身份证',
+        hasReceipt: true,
+        price: 20,
         specs: {
           printSize: '26x32mm',
           pixelSize: '358x441px',
           resolution: '300DPI',
-          saveElectronicPhoto: true,
-          printLayout: true,
           bgColor: '#FFFFFF',
           imageFormat: '无要求',
           imageFileSize: '无要求',

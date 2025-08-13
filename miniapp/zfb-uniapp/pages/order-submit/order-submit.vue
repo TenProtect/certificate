@@ -99,8 +99,9 @@ export default {
       imagePath: '',
       selectedCity: '',
       orderRemark: '',
-      documentInfo: {
+       documentInfo: {
         name: '身份证',
+        price: 20,
         specs: {
           printSize: '26x32mm',
           pixelSize: '358x441px',
