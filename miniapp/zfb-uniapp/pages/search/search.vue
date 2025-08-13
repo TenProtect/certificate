@@ -126,7 +126,7 @@ export default {
             }
 
             try {
-                this.searchResults = await getCertificates(keyword)
+                this.searchResults = await getCertificates({keyword})
             } catch (e) {
                 this.searchResults = mockCertificates.filter(doc => {
                     const nameMatch = doc.name.includes(keyword)
