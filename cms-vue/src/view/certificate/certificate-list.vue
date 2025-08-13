@@ -10,6 +10,7 @@
       v-loading="loading"
       :operate="operate"
       @handleEdit="handleEdit"
+      @handleDelete="handleDelete"
     ></lin-table>
   </div>
 </template>
@@ -42,6 +43,7 @@ export default {
     await this.getCertificates()
     this.operate = [
       { name: '编辑', func: 'handleEdit', type: 'primary' },
+      { name: '删除', func: 'handleDelete', type: 'danger' },
     ]
     this.loading = false
   },
@@ -59,6 +61,22 @@ export default {
     },
     handleEdit(val) {
       this.$router.push({ path: '/certificate/edit', query: { id: val.row.id } })
+    },
+    handleDelete(val) {
+      this.$confirm('此操作将永久删除该证照, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {
+        const res = await certificate.deleteCertificate(val.row.id)
+        if (res.code < window.MAX_SUCCESS_CODE) {
+          this.getCertificates()
+          this.$message({
+            type: 'success',
+            message: `${res.message}`,
+          })
+        }
+      })
     },
   },
 }
