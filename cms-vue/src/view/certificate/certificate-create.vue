@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="title">
-      <span>创建证照</span>
+      <span>{{ isEdit ? '编辑证照' : '创建证照' }}</span>
       <span class="back" @click="back"><i class="iconfont icon-fanhui"></i> 返回</span>
     </div>
     <div class="wrap">
@@ -18,10 +18,20 @@
               <el-input-number v-model="form.price" :precision="2" :step="1" />
             </el-form-item>
             <el-form-item label="打印尺寸" prop="printSize">
-              <el-input v-model="form.printSize" placeholder="例：26x32mm" />
+              <div class="size-input">
+                <el-input-number v-model="printSizeW" :min="0" />
+                <span class="cross">×</span>
+                <el-input-number v-model="printSizeH" :min="0" />
+                <span class="unit">mm</span>
+              </div>
             </el-form-item>
             <el-form-item label="像素尺寸" prop="pixelSize">
-              <el-input v-model="form.pixelSize" placeholder="例：358x441px" />
+              <div class="size-input">
+                <el-input-number v-model="pixelSizeW" :min="0" />
+                <span class="cross">×</span>
+                <el-input-number v-model="pixelSizeH" :min="0" />
+                <span class="unit">px</span>
+              </div>
             </el-form-item>
             <el-form-item label="分辨率" prop="resolution">
               <el-input v-model="form.resolution" placeholder="例：300DPI" />
@@ -74,16 +84,65 @@ export default {
         imageFileSize: '',
         requirements: '',
       },
+      printSizeW: null,
+      printSizeH: null,
+      pixelSizeW: null,
+      pixelSizeH: null,
+      isEdit: false,
+      certificateId: null,
+    }
+  },
+  async created() {
+    const { id } = this.$route.query
+    if (id) {
+      this.isEdit = true
+      this.certificateId = id
+      const info = await certificate.getCertificate(id)
+      this.form = {
+        name: info.name,
+        hasReceipt: !!info.hasReceipt,
+        price: info.price,
+        printSize: info.printSize,
+        pixelSize: info.pixelSize,
+        resolution: info.resolution,
+        saveElectronicPhoto: !!info.saveElectronicPhoto,
+        printLayout: !!info.printLayout,
+        bgColor: info.bgColor,
+        imageFormat: info.imageFormat,
+        imageFileSize: info.imageFileSize,
+        requirements: info.requirements,
+      }
+      if (info.printSize) {
+        const ps = info.printSize.replace('mm', '').split('x')
+        this.printSizeW = Number(ps[0]) || null
+        this.printSizeH = Number(ps[1]) || null
+      }
+      if (info.pixelSize) {
+        const pxs = info.pixelSize.replace('px', '').split('x')
+        this.pixelSizeW = Number(pxs[0]) || null
+        this.pixelSizeH = Number(pxs[1]) || null
+      }
     }
   },
   methods: {
     async submit() {
+      this.form.printSize = this.printSizeW !== null && this.printSizeH !== null
+        ? `${this.printSizeW}x${this.printSizeH}mm`
+        : ''
+      this.form.pixelSize = this.pixelSizeW !== null && this.pixelSizeH !== null
+        ? `${this.pixelSizeW}x${this.pixelSizeH}px`
+        : ''
       try {
-        await certificate.createCertificate(this.form)
-        this.$message.success('创建成功')
+        if (this.isEdit) {
+          await certificate.editCertificate(this.certificateId, this.form)
+          this.$message.success('更新成功')
+        } else {
+          await certificate.createCertificate(this.form)
+          this.$message.success('创建成功')
+        }
         this.$router.push({ path: '/certificate/list' })
       } catch (e) {
-        this.$message.error('创建失败')
+        this.$message.error(this.isEdit ? '更新失败' : '创建失败')
       }
     },
     back() {
@@ -109,6 +168,16 @@ export default {
       color: #606266;
       font-size: 14px;
     }
+  }
+}
+.size-input {
+  display: inline-flex;
+  align-items: center;
+  .cross {
+    margin: 0 4px;
+  }
+  .unit {
+    margin-left: 4px;
   }
 }
 </style>

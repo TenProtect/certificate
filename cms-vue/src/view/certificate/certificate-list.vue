@@ -8,6 +8,8 @@
       :tableColumn="tableColumn"
       :tableData="tableData"
       v-loading="loading"
+      :operate="operate"
+      @handleEdit="handleEdit"
     ></lin-table>
   </div>
 </template>
@@ -32,11 +34,15 @@ export default {
       ],
       tableData: [],
       loading: false,
+      operate: [],
     }
   },
   async created() {
     this.loading = true
     await this.getCertificates()
+    this.operate = [
+      { name: '编辑', func: 'handleEdit', type: 'primary' },
+    ]
     this.loading = false
   },
   methods: {
@@ -50,6 +56,9 @@ export default {
     },
     toCreate() {
       this.$router.push({ path: '/certificate/create' })
+    },
+    handleEdit(val) {
+      this.$router.push({ path: '/certificate/edit', query: { id: val.row.id } })
     },
   },
 }
