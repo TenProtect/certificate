@@ -56,7 +56,7 @@
             <!-- 拍摄提示文字 -->
             <cover-view class="photo-tips">
               <cover-view class="tip-text">请保持头部居中，面部清晰</cover-view>
-              <cover-view class="tip-text">{{ documentInfo.specs.requirements }}</cover-view>
+              <cover-view class="tip-text">{{ documentInfo.requirements }}</cover-view>
             </cover-view>
           </cover-view>
         </cover-view>

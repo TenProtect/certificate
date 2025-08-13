@@ -18,8 +18,8 @@
           </view>
           
           <view class="photo-specs">
-            <text class="spec-text">{{ documentInfo.specs.pixelSize }}</text>
-            <text class="spec-text">{{ documentInfo.specs.resolution }}</text>
+            <text class="spec-text">{{ documentInfo.pixelSize }}</text>
+            <text class="spec-text">{{ documentInfo.resolution }}</text>
           </view>
         </view>
       </view>
@@ -34,7 +34,7 @@
       
       <view class="document-info">
         <text class="document-name">{{ documentInfo.name }}</text>
-        <text class="document-specs">{{ documentInfo.specs.pixelSize }} · {{ documentInfo.specs.resolution }}</text>
+        <text class="document-specs">{{ documentInfo.pixelSize }} · {{ documentInfo.resolution }}</text>
       </view>
     </view>
 

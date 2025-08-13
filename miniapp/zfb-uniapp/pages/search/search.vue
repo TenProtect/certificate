@@ -73,9 +73,9 @@
                         </view>
                         <view class="doc-specs">
                             <text class="spec-tag">可冲印</text>
-                            <text class="spec-size">{{ item.specs.printSize }}</text>
+                            <text class="spec-size">{{ item.printSize }}</text>
                             <text class="spec-tag">电子照</text>
-                            <text class="spec-size">{{ item.specs.pixelSize }}</text>
+                            <text class="spec-size">{{ item.pixelSize }}</text>
                         </view>
                     </view>
                 </view>
@@ -140,11 +140,11 @@ export default {
             this.searchResults = this.allDocuments.filter(doc => {
                 const nameMatch = doc.name.includes(keyword)
                 const specsMatch =
-                    doc.specs.printSize.includes(keyword) ||
-                    doc.specs.pixelSize.includes(keyword) ||
-                    doc.specs.resolution.includes(keyword) ||
-                    doc.specs.imageFormat.includes(keyword) ||
-                    doc.specs.requirements.includes(keyword)
+                    doc.printSize.includes(keyword) ||
+                    doc.pixelSize.includes(keyword) ||
+                    doc.resolution.includes(keyword) ||
+                    doc.imageFormat.includes(keyword) ||
+                    doc.requirements.includes(keyword)
                 return nameMatch || specsMatch
             })
         },

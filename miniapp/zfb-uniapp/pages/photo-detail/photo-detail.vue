@@ -71,15 +71,15 @@
       <view class="specs-grid">
         <view class="spec-item">
           <text class="spec-label">冲印尺寸</text>
-          <text class="spec-value">{{ documentInfo.specs.printSize }}</text>
+          <text class="spec-value">{{ documentInfo.printSize }}</text>
         </view>
         <view class="spec-item">
           <text class="spec-label">像素尺寸</text>
-          <text class="spec-value">{{ documentInfo.specs.pixelSize }}</text>
+          <text class="spec-value">{{ documentInfo.pixelSize }}</text>
         </view>
         <view class="spec-item">
           <text class="spec-label">分辨率</text>
-          <text class="spec-value">{{ documentInfo.specs.resolution }}</text>
+          <text class="spec-value">{{ documentInfo.resolution }}</text>
         </view>
       </view>
       
@@ -99,19 +99,19 @@
         </view>
         <view class="option-item">
           <text class="option-label">背景色</text>
-          <view class="color-block" :style="{ backgroundColor: documentInfo.specs.bgColor }"></view>
+          <view class="color-block" :style="{ backgroundColor: documentInfo.bgColor }"></view>
         </view>
         <view class="option-item">
           <text class="option-label">图片格式</text>
-          <text class="option-value">{{ documentInfo.specs.imageFormat || '无要求' }}</text>
+          <text class="option-value">{{ documentInfo.imageFormat || '无要求' }}</text>
         </view>
         <view class="option-item">
           <text class="option-label">图片大小</text>
-          <text class="option-value">{{ documentInfo.specs.imageFileSize || '无要求' }}</text>
+          <text class="option-value">{{ documentInfo.imageFileSize || '无要求' }}</text>
         </view>
         <view class="option-item">
           <text class="option-label">其他要求</text>
-          <text class="option-value">{{ documentInfo.specs.requirements || '无要求' }}</text>
+          <text class="option-value">{{ documentInfo.requirements || '无要求' }}</text>
         </view>
       </view>
     </view>

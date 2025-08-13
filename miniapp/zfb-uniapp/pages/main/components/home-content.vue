@@ -76,9 +76,9 @@
               </view>
               <view class="doc-specs">
                 <text class="spec-tag">可冲印</text>
-                <text class="spec-size">{{ document.specs.printSize }}</text>
+                <text class="spec-size">{{ document.printSize }}</text>
                 <text class="spec-tag">电子照</text>
-                <text class="spec-size">{{ document.specs.pixelSize }}</text>
+                <text class="spec-size">{{ document.pixelSize }}</text>
               </view>
             </view>
           </view>
@@ -153,6 +153,7 @@ export default {
     async loadCertificates() {
       try {
         const list = await getCertificates()
+        console.log('获取证件列表:', list)
         this.allDocuments = list
       } catch (e) {
         this.allDocuments = mockCertificates

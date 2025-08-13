@@ -11,7 +11,7 @@
       </view>
       
       <view class="photo-specs">
-        <text class="spec-title">规格：{{ documentInfo.specs.printSize }}</text>
+        <text class="spec-title">规格：{{ documentInfo.printSize }}</text>
         <text class="spec-detail">照片回执（含电子照）</text>
         <view class="price-container">
           <text class="price-symbol">¥</text>
