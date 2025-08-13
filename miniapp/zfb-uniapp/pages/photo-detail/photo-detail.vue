@@ -99,19 +99,19 @@
         </view>
         <view class="option-item">
           <text class="option-label">背景色</text>
-          <text class="option-value"></text>
+          <view class="color-block" :style="{ backgroundColor: documentInfo.specs.bgColor }"></view>
         </view>
         <view class="option-item">
           <text class="option-label">图片格式</text>
-          <text class="option-value">{{ documentInfo.specs.imageFormat }}</text>
+          <text class="option-value">{{ documentInfo.specs.imageFormat || '无要求' }}</text>
         </view>
         <view class="option-item">
           <text class="option-label">图片大小</text>
-          <text class="option-value">{{ documentInfo.specs.imageFileSize }}</text>
+          <text class="option-value">{{ documentInfo.specs.imageFileSize || '无要求' }}</text>
         </view>
         <view class="option-item">
           <text class="option-label">其他要求</text>
-          <text class="option-value">{{ documentInfo.specs.requirements }}</text>
+          <text class="option-value">{{ documentInfo.specs.requirements || '无要求' }}</text>
         </view>
       </view>
     </view>
@@ -603,6 +603,15 @@ export default {
   max-width: 400rpx;
   text-align: right;
   line-height: 1.4;
+}
+
+/* 颜色显示组件 */
+.color-block {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 12rpx;
+  border: 2rpx solid #E0E0E0;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
 }
 
 .option-switch {
