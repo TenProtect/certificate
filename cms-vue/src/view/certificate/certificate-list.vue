@@ -24,7 +24,6 @@ export default {
     return {
       tableColumn: [
         { prop: 'name', label: '名称' },
-        { prop: 'badge', label: '类型' },
         { prop: 'hasReceipt', label: '含回执' },
         { prop: 'price', label: '价格' },
         { prop: 'printSize', label: '打印尺寸' },

@@ -11,9 +11,6 @@
             <el-form-item label="名称" prop="name">
               <el-input v-model="form.name" placeholder="请输入名称" />
             </el-form-item>
-            <el-form-item label="类型" prop="badge">
-              <el-input v-model="form.badge" placeholder="请输入类型" />
-            </el-form-item>
             <el-form-item label="含回执" prop="hasReceipt">
               <el-switch v-model="form.hasReceipt" />
             </el-form-item>
@@ -36,7 +33,7 @@
               <el-switch v-model="form.printLayout" />
             </el-form-item>
             <el-form-item label="背景色" prop="bgColor">
-              <el-input v-model="form.bgColor" placeholder="例：#FFFFFF" />
+              <el-color-picker v-model="form.bgColor" />
             </el-form-item>
             <el-form-item label="图片格式" prop="imageFormat">
               <el-input v-model="form.imageFormat" placeholder="例：JPEG" />
@@ -65,7 +62,6 @@ export default {
     return {
       form: {
         name: '',
-        badge: '',
         hasReceipt: false,
         price: 0,
         printSize: '',
