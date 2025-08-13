@@ -98,6 +98,8 @@
 
 <script>
 import ScrollBanner from '@/components/scroll-banner.vue'
+import { getCertificates } from '@/utils/api.js'
+import mockCertificates from '@/mock/certificates.js'
 
 export default {
   name: 'HomeContent',
@@ -115,273 +117,8 @@ export default {
         { id: 3, name: '考试', icon: '📝' },
         { id: 4, name: '近期', icon: '🕐' }
       ],
-      documentsData: {
-        0: [ // 回执
-          {
-            id: 1,
-            name: '身份证',
-            hasReceipt: true,
-            price: 20,
-            specs: {
-              printSize: '26x32mm',
-              pixelSize: '358x441px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: '无要求',
-              imageFileSize: '无要求',
-              requirements: '免冠，照片可看见两耳轮廓和相当于男士喉结处的地方'
-            }
-          },
-          {
-            id: 2,
-            name: '港澳通行证',
-            hasReceipt: true,
-            price: 20,
-            specs: {
-              printSize: '33x48mm',
-              pixelSize: '390x567px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '20KB-50KB',
-              requirements: '免冠正面照，头部占照片面积的2/3，白色背景'
-            }
-          },
-          {
-            id: 3,
-            name: '社保证',
-            hasReceipt: true,
-            price: 20,
-            specs: {
-              printSize: '26x32mm',
-              pixelSize: '358x441px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: '无要求',
-              imageFileSize: '无要求',
-              requirements: '免冠正面照，表情自然，双眼睁开'
-            }
-          },
-          {
-            id: 4,
-            name: '护照',
-            hasReceipt: true,
-            price: 20,
-            specs: {
-              printSize: '33x48mm',
-              pixelSize: '390x567px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '40KB-120KB',
-              requirements: '免冠正面照，不得佩戴帽子或头巾，白色背景'
-            }
-          }
-        ],
-        1: [ // 证照
-          {
-            id: 5,
-            name: '驾驶证',
-            hasReceipt: false,
-            price: 20,
-            specs: {
-              printSize: '22x32mm',
-              pixelSize: '260x378px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '无要求',
-              requirements: '免冠正面照，不得戴有色眼镜，白色背景'
-            }
-          },
-          {
-            id: 6,
-            name: '工作证',
-            hasReceipt: false,
-            price: 20,
-            specs: {
-              printSize: '25x35mm',
-              pixelSize: '295x413px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: '无要求',
-              imageFileSize: '无要求',
-              requirements: '免冠正面照，着正装，表情严肃自然'
-            }
-          },
-          {
-            id: 7,
-            name: '学生证',
-            hasReceipt: false,
-            price: 20,
-            specs: {
-              printSize: '26x32mm',
-              pixelSize: '358x441px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: '无要求',
-              imageFileSize: '无要求',
-              requirements: '免冠正面照，表情自然，着装整洁'
-            }
-          }
-        ],
-        2: [ // 签证
-          {
-            id: 8,
-            name: '美国签证',
-            hasReceipt: false,
-            price: 20,
-            specs: {
-              printSize: '51x51mm',
-              pixelSize: '600x600px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '240KB以下',
-              requirements: '正方形照片，头部占照片50%-69%，6个月内拍摄'
-            }
-          },
-          {
-            id: 9,
-            name: '日本签证',
-            hasReceipt: false,
-            price: 20,
-            specs: {
-              printSize: '45x45mm',
-              pixelSize: '531x531px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '无要求',
-              requirements: '正方形照片，头顶到下颌长度占总长度70%-80%'
-            }
-          },
-          {
-            id: 10,
-            name: '韩国签证',
-            hasReceipt: false,
-            price: 20,
-            specs: {
-              printSize: '35x45mm',
-              pixelSize: '413x531px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '无要求',
-              requirements: '免冠正面照，头部占照片2/3，6个月内拍摄'
-            }
-          }
-        ],
-        3: [ // 考试
-          {
-            id: 11,
-            name: '公务员考试',
-            hasReceipt: false,
-            price: 20,
-            specs: {
-              printSize: '25x35mm',
-              pixelSize: '295x413px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '20KB-50KB',
-              requirements: '免冠正面照，着正装，表情严肃，近期拍摄'
-            }
-          },
-          {
-            id: 12,
-            name: '教师资格证',
-            hasReceipt: false,
-            price: 20,
-            specs: {
-              printSize: '25x35mm',
-              pixelSize: '295x413px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '200KB以下',
-              requirements: '免冠正面照，不得佩戴首饰，着装整洁'
-            }
-          },
-          {
-            id: 13,
-            name: '会计师考试',
-            hasReceipt: false,
-            price: 20,
-            specs: {
-              printSize: '26x32mm',
-              pixelSize: '358x441px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '无要求',
-              requirements: '免冠正面照，着正装，表情自然严肃'
-            }
-          }
-        ],
-        4: [ // 近期
-          {
-            id: 14,
-            name: '身份证',
-            hasReceipt: true,
-            price: 20,
-            specs: {
-              printSize: '26x32mm',
-              pixelSize: '358x441px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: '无要求',
-              imageFileSize: '无要求',
-              requirements: '免冠，照片可看见两耳轮廓和相当于男士喉结处的地方'
-            }
-          },
-          {
-            id: 15,
-            name: '护照',
-            hasReceipt: true,
-            price: 20,
-            specs: {
-              printSize: '33x48mm',
-              pixelSize: '390x567px',
-              resolution: '300DPI',
-              saveElectronicPhoto: true,
-              printLayout: true,
-              bgColor: '#FFFFFF',
-              imageFormat: 'JPEG',
-              imageFileSize: '40KB-120KB',
-              requirements: '免冠正面照，不得佩戴帽子或头巾，白色背景'
-            }
-          }
-        ]
-      },
+      documentsData: {},
+      allDocuments: [],
       bannerImages: [
         {
           src: '/static/banner/banner1.png',
@@ -406,12 +143,37 @@ export default {
   mounted() {
     // 监听城市选择事件
     uni.$on('citySelected', this.onCitySelected)
+    this.loadCertificates()
   },
   beforeDestroy() {
     // 移除事件监听
     uni.$off('citySelected', this.onCitySelected)
   },
   methods: {
+    async loadCertificates() {
+      try {
+        const list = await getCertificates()
+        this.allDocuments = list
+      } catch (e) {
+        this.allDocuments = mockCertificates
+      }
+      this.groupDocuments()
+    },
+    groupDocuments() {
+      const grouped = {}
+      this.allDocuments.forEach(doc => {
+        if (!grouped[doc.category]) grouped[doc.category] = []
+        grouped[doc.category].push(doc)
+      })
+      this.documentsData = {}
+      this.categories.forEach((cat, index) => {
+        if (cat.name === '近期') {
+          this.documentsData[index] = this.allDocuments.slice(0, 5)
+        } else {
+          this.documentsData[index] = grouped[cat.name] || []
+        }
+      })
+    },
     onCitySelect() {
       console.log('选择城市')
       // 跳转到城市选择页面

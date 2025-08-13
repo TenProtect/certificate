@@ -14,6 +14,9 @@
             <el-form-item label="含回执" prop="hasReceipt">
               <el-switch v-model="form.hasReceipt" />
             </el-form-item>
+            <el-form-item label="分类" prop="category">
+              <el-input v-model="form.category" placeholder="请输入分类" />
+            </el-form-item>
             <el-form-item label="价格" prop="price">
               <el-input-number v-model="form.price" :precision="2" :step="1" />
             </el-form-item>
@@ -73,6 +76,7 @@ export default {
       form: {
         name: '',
         hasReceipt: false,
+        category: '',
         price: 0,
         printSize: '',
         pixelSize: '',
@@ -94,15 +98,16 @@ export default {
   },
   async created() {
     const { id } = this.$route.query
-    if (id) {
-      this.isEdit = true
-      this.certificateId = id
-      const info = await certificate.getCertificate(id)
-      this.form = {
-        name: info.name,
-        hasReceipt: !!(info.has_receipt || info.hasReceipt),
-        price: info.price,
-        printSize: info.print_size || info.printSize,
+      if (id) {
+        this.isEdit = true
+        this.certificateId = id
+        const info = await certificate.getCertificate(id)
+        this.form = {
+          name: info.name,
+          hasReceipt: !!(info.has_receipt || info.hasReceipt),
+          category: info.category,
+          price: info.price,
+          printSize: info.print_size || info.printSize,
         pixelSize: info.pixel_size || info.pixelSize,
         resolution: info.resolution,
         saveElectronicPhoto: !!(info.save_electronic_photo || info.saveElectronicPhoto),
@@ -139,6 +144,7 @@ export default {
       const submitData = {
         name: this.form.name,
         has_receipt: this.form.hasReceipt,
+        category: this.form.category,
         price: this.form.price,
         print_size: this.form.printSize,
         pixel_size: this.form.pixelSize,
