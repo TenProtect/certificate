@@ -17,6 +17,14 @@ const certificateRouter = {
       inNav: true,
       icon: 'iconfont icon-tushuguanli',
     },
+    {
+      title: '新增证照',
+      type: 'view',
+      name: 'CertificateCreate',
+      route: '/certificate/create',
+      filePath: 'view/certificate/certificate-create.vue',
+      inNav: false,
+    },
   ],
 }
 

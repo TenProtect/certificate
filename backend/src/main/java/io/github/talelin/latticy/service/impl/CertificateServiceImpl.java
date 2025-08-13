@@ -56,5 +56,6 @@ public class CertificateServiceImpl implements CertificateService {
         target.setImageFormat(dto.getImageFormat());
         target.setImageFileSize(dto.getImageFileSize());
         target.setRequirements(dto.getRequirements());
+        target.setPrice(dto.getPrice());
     }
 }

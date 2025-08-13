@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @TableName("certificate")
@@ -24,4 +25,5 @@ public class CertificateDO extends BaseModel implements Serializable {
     private String imageFormat;
     private String imageFileSize;
     private String requirements;
+    private BigDecimal price;
 }

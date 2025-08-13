@@ -13,6 +13,7 @@ CREATE TABLE certificate (
   image_format VARCHAR(20),
   image_file_size VARCHAR(50),
   requirements VARCHAR(255),
+  price DECIMAL(10,2) DEFAULT 0,
   create_time DATETIME,
   update_time DATETIME,
   delete_time DATETIME
