@@ -10,5 +10,6 @@ public interface CertificateService {
     boolean update(CertificateDO certificate, CertificateDTO dto);
     CertificateDO getById(Integer id);
     List<CertificateDO> findAll();
+    List<CertificateDO> search(String keyword);
     boolean deleteById(Integer id);
 }
