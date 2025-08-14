@@ -18,3 +18,23 @@ CREATE TABLE certificate (
   update_time DATETIME,
   delete_time DATETIME
 );
+
+DROP TABLE IF EXISTS photo_order;
+CREATE TABLE photo_order (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_no VARCHAR(64) NOT NULL,
+  user_id INT,
+  document_name VARCHAR(100),
+  location VARCHAR(100),
+  amount DECIMAL(10,2) DEFAULT 0,
+  original_photo VARCHAR(255),
+  standard_photo VARCHAR(255),
+  layout_photo VARCHAR(255),
+  receipt_photo VARCHAR(255),
+  reject_reason VARCHAR(255),
+  status TINYINT DEFAULT 0,
+  create_time DATETIME,
+  update_time DATETIME,
+  delete_time DATETIME
+);
+
