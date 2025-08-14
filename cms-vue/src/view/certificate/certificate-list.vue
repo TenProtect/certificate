@@ -7,7 +7,7 @@
     <lin-table
       :tableColumn="tableColumn"
       :tableData="tableData"
-      v-loading="loading"
+      :loading="loading"
       :operate="operate"
       @handleEdit="handleEdit"
       @handleDelete="handleDelete"
@@ -51,8 +51,7 @@ export default {
   methods: {
     async getCertificates() {
       try {
-        const list = await certificate.getCertificates()
-        this.tableData = list
+        this.tableData = await certificate.getCertificates()
       } catch (error) {
         this.tableData = []
       }
@@ -71,7 +70,7 @@ export default {
       }).then(async () => {
         const res = await certificate.deleteCertificate(val.row.id)
         if (res.code < window.MAX_SUCCESS_CODE) {
-          this.getCertificates()
+          await this.getCertificates()
           this.$message({
             type: 'success',
             message: `${res.message}`,
