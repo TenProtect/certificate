@@ -3,10 +3,15 @@
     <!-- 用户信息头部 -->
     <view class="user-header">
       <view class="user-avatar">
-        <image class="avatar-image" src="/static/default-avatar.svg" mode="aspectFill" />
+        <image class="avatar-image" :src="avatarUrl" mode="aspectFill" />
       </view>
-      <view class="user-title">{{ hasToken ? '支付宝用户' : '未登录' }}</view>
-      <button v-if="!hasToken" class="login-button" @tap="login">支付宝登录</button>
+      <view class="user-title">{{ userName }}</view>
+      <button
+        v-if="!hasToken"
+        type="primary"
+        class="login-button"
+        @tap="login"
+      >支付宝登录</button>
       </view>
     
     <!-- 菜单列表 -->
@@ -68,22 +73,39 @@ export default {
   name: 'ProfileContent',
   data() {
     return {
-      hasToken: false
+      hasToken: false,
+      avatarUrl: '/static/default-avatar.svg',
+      userName: '未登录'
     }
   },
   mounted() {
     this.hasToken = !!uni.getStorageSync('token')
+    if (this.hasToken) {
+      this.avatarUrl = uni.getStorageSync('avatar') || this.avatarUrl
+      this.userName = uni.getStorageSync('nickName') || '支付宝用户'
+    }
   },
   methods: {
     login() {
       my.getAuthCode({
-        scopes: 'auth_base',
+        scopes: 'auth_user',
         success: async (res) => {
           try {
             const resp = await alipayLogin({ authCode: res.authCode })
             if (resp && resp.data && resp.data.token) {
               uni.setStorageSync('token', resp.data.token)
               this.hasToken = true
+              my.getUserInfo({
+                success: (user) => {
+                  this.avatarUrl = user.avatar
+                  this.userName = user.nickName
+                  uni.setStorageSync('avatar', user.avatar)
+                  uni.setStorageSync('nickName', user.nickName)
+                },
+                fail: () => {
+                  this.userName = '支付宝用户'
+                }
+              })
             } else {
               uni.showToast({ title: '登录失败', icon: 'none' })
             }
@@ -151,6 +173,11 @@ export default {
 
 .login-button {
   margin-top: 20rpx;
+  width: 60%;
+  background: linear-gradient(90deg, #1677ff 0%, #69b1ff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50rpx;
 }
 
 .user-avatar {
