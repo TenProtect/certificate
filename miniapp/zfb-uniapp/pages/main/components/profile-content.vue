@@ -81,37 +81,57 @@ export default {
   mounted() {
     this.hasToken = !!uni.getStorageSync('token')
     if (this.hasToken) {
-      this.avatarUrl = uni.getStorageSync('avatar') || this.avatarUrl
-      this.userName = uni.getStorageSync('nickName') || '支付宝用户'
+      my.getAuthCode({
+        scopes: 'auth_user',
+        success: (auth) => {
+          my.getUserInfo({
+            success: async (user) => {
+              this.avatarUrl = user.avatar
+              this.userName = user.nickName
+              uni.setStorageSync('avatar', user.avatar)
+              uni.setStorageSync('nickName', user.nickName)
+              try {
+                await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
+              } catch (e) {
+                // ignore
+              }
+            },
+            fail: () => {
+              this.avatarUrl = uni.getStorageSync('avatar') || this.avatarUrl
+              this.userName = uni.getStorageSync('nickName') || '支付宝用户'
+            }
+          })
+        }
+      })
     }
   },
   methods: {
     login() {
       my.getAuthCode({
         scopes: 'auth_user',
-        success: async (res) => {
-          try {
-            const resp = await alipayLogin({ authCode: res.authCode })
-            if (resp && resp.data && resp.data.token) {
-              uni.setStorageSync('token', resp.data.token)
-              this.hasToken = true
-              my.getUserInfo({
-                success: (user) => {
+        success: (auth) => {
+          my.getUserInfo({
+            success: async (user) => {
+              try {
+                const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
+                if (resp && resp.data && resp.data.token) {
+                  uni.setStorageSync('token', resp.data.token)
+                  this.hasToken = true
                   this.avatarUrl = user.avatar
                   this.userName = user.nickName
                   uni.setStorageSync('avatar', user.avatar)
                   uni.setStorageSync('nickName', user.nickName)
-                },
-                fail: () => {
-                  this.userName = '支付宝用户'
+                } else {
+                  uni.showToast({ title: '登录失败', icon: 'none' })
                 }
-              })
-            } else {
-              uni.showToast({ title: '登录失败', icon: 'none' })
+              } catch (e) {
+                uni.showToast({ title: '登录失败', icon: 'none' })
+              }
+            },
+            fail: () => {
+              uni.showToast({ title: '授权失败', icon: 'none' })
             }
-          } catch (e) {
-            uni.showToast({ title: '登录失败', icon: 'none' })
-          }
+          })
         },
         fail: () => {
           uni.showToast({ title: '登录失败', icon: 'none' })
