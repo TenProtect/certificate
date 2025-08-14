@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/auth")
+@RequestMapping("/v1/mini/auth")
 @Validated
 public class AuthController {
 
@@ -36,7 +36,7 @@ public class AuthController {
     private DoubleJWT jwt;
 
     @PostMapping("/alipay")
-    public Map<String, Object> alipayLogin(@RequestBody @Validated AlipayLoginDTO dto) throws AlipayApiException {
+    public Map<String, Object> alipayLogin(@RequestBody AlipayLoginDTO dto) throws AlipayApiException {
         String alipayUserId = alipayService.getUserId(dto.getAuthCode());
         QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
         wrapper.lambda()

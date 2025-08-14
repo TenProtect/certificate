@@ -172,30 +172,64 @@ export default {
 }
 
 .login-button {
-  margin-top: 20rpx;
-  width: 60%;
-  background: linear-gradient(90deg, #1677ff 0%, #69b1ff 100%);
+  margin-top: 30rpx;
+  width: 70%;
+  height: 80rpx;
+  background: linear-gradient(135deg, #1890ff 0%, #40a9ff 50%, #69c0ff 100%);
   color: #fff;
   border: none;
-  border-radius: 50rpx;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  box-shadow: 0 8rpx 24rpx rgba(24, 144, 255, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.login-button:active::before {
+  left: 100%;
+}
+
+.login-button:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 4rpx 12rpx rgba(24, 144, 255, 0.4);
 }
 
 .user-avatar {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 60rpx;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 80rpx;
   overflow: hidden;
-  margin-bottom: 20rpx;
+  margin-bottom: 30rpx;
   background: #f0f0f0;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 4rpx solid #fff;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
 }
 
 .avatar-image {
   width: 100%;
   height: 100%;
-  border-radius: 60rpx;
+  border-radius: 80rpx;
 }
 
 .user-title {
