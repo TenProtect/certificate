@@ -19,4 +19,18 @@ public class AlipayLoginDTO {
     @JsonProperty("authCode")
     @JsonAlias({"authcode", "auth_code"})
     private String authCode;
+
+    /**
+     * 用户昵称
+     */
+    @NotBlank(message = "nickName不能为空")
+    @JsonProperty("nickName")
+    @JsonAlias({"nickname", "nick_name"})
+    private String nickname;
+
+    /**
+     * 用户头像
+     */
+    @NotBlank(message = "avatar不能为空")
+    private String avatar;
 }

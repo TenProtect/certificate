@@ -47,12 +47,16 @@ public class AuthController {
         if (identity == null) {
             user = UserDO.builder()
                     .username("alipay_" + alipayUserId)
-                    .nickname("支付宝用户")
+                    .nickname(dto.getNickname())
+                    .avatar(dto.getAvatar())
                     .build();
             userService.save(user);
             userIdentityService.createIdentity(user.getId(), IdentityConstant.ALIPAY_IDENTITY, alipayUserId, "");
         } else {
             user = userService.getById(identity.getUserId());
+            user.setNickname(dto.getNickname());
+            user.setAvatar(dto.getAvatar());
+            userService.updateById(user);
         }
         Tokens tokens = jwt.generateTokens(user.getId());
         Map<String, Object> data = new HashMap<>();
