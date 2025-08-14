@@ -59,4 +59,4 @@ alipay:
   appPrivateKey: ${ALIPAY_APP_PRIVATE_KEY:}
   alipayPublicKey: ${ALIPAY_PUBLIC_KEY:}
   gateway: https://openapi.alipay.com/gateway.do
-  notifyUrl: https://your.domain.com/api/alipay/notify
+  notifyUrl: https://your.domain.com/v1/alipay/notify

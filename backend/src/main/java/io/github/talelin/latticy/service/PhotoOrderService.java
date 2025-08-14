@@ -104,5 +104,15 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         res.put("receiptPhoto", order.getReceiptPhoto());
         return res;
     }
+
+    public void markPaid(String orderNo) {
+        LambdaQueryWrapper<PhotoOrderDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PhotoOrderDO::getOrderNo, orderNo);
+        PhotoOrderDO order = this.getOne(wrapper);
+        if (order != null && order.getStatus() == PhotoOrderStatus.UNPAID.getValue()) {
+            order.setStatus(PhotoOrderStatus.PAID.getValue());
+            this.updateById(order);
+        }
+    }
 }
 

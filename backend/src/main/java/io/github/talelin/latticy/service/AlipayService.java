@@ -5,11 +5,13 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradeCreateRequest;
 import com.alipay.api.response.AlipayTradeCreateResponse;
+import com.alipay.api.internal.util.AlipaySignature;
 import io.github.talelin.latticy.common.configuration.AlipayProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Service
 public class AlipayService {
@@ -37,6 +39,10 @@ public class AlipayService {
             return response.getTradeNo();
         }
         throw new AlipayApiException("create trade failed:" + response.getSubMsg());
+    }
+
+    public boolean verifyNotify(Map<String, String> params) throws AlipayApiException {
+        return AlipaySignature.rsaCheckV1(params, properties.getAlipayPublicKey(), "UTF-8", "RSA2");
     }
 }
 

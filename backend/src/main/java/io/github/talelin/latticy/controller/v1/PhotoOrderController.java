@@ -48,6 +48,7 @@ public class PhotoOrderController {
     public List<PhotoOrderDO> listAll(@RequestParam(value = "status", required = false) Integer status) {
         return photoOrderService.listAll(status);
     }
+
     @PostMapping("/{id}/resubmit")
     @LoginRequired
     public UpdatedVO resubmit(@PathVariable("id") @Positive Long id, @RequestBody @Validated ResubmitPhotoDTO dto) {
