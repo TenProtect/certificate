@@ -52,7 +52,7 @@ public class AlipayService {
     }
 
     /**
-     * 根据小程序 authCode 换取支付宝用户 id
+     * 根据小程序 authCode 换取支付宝用户 openid
      */
     public String getUserId(String authCode) throws AlipayApiException {
         AlipayClient client = buildClient();
@@ -61,9 +61,8 @@ public class AlipayService {
         request.setGrantType("authorization_code");
         AlipaySystemOauthTokenResponse response = client.execute(request);
         if (response.isSuccess()) {
-            return response.getUserId();
+            return response.getOpenId();
         }
         throw new AlipayApiException("exchange authCode failed:" + response.getSubMsg());
     }
 }
-

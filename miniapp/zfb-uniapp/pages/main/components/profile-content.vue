@@ -112,7 +112,6 @@ export default {
         success: (auth) => {
           my.getUserInfo({
             success: async (user) => {
-              console.log(user)
               try {
                 const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.userName, avatar: user.avatar })
                 if (resp && resp.data && resp.data.token) {
