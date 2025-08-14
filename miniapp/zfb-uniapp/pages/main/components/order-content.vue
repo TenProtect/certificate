@@ -122,6 +122,7 @@
 </template>
 
 <script>
+import { getOrders } from '@/utils/api.js'
 export default {
   name: 'OrderContent',
   data() {
@@ -136,43 +137,7 @@ export default {
         { label: '已驳回', value: 'rejected' },
         { label: '已完成', value: 'completed' }
       ],
-      // 模拟订单数据
-      mockOrders: [
-        {
-          orderNo: '432507230000272',
-          documentName: '广东身份证',
-          location: '广东省广州市',
-          amount: '¥18',
-          checkTime: '2025-07-23 11:54:07',
-          status: 'completed',
-          hasReceipt: true,
-          photo: '/static/default-license.png',
-          standardUrl: '/static/default-license.png',
-          layoutUrl: '/static/default-license.png',
-          receiptUrl: '/static/default-license.png'
-        },
-        {
-          orderNo: '432507230000273',
-          documentName: '护照',
-          location: '广东省深圳市',
-          amount: '¥25',
-          checkTime: '2025-07-22 15:30:20',
-          status: 'rejected',
-          hasReceipt: true,
-          photo: '/static/default-license.png',
-          rejectReason: '背景不合格'
-        },
-        {
-          orderNo: '432507230000274',
-          documentName: '驾驶证',
-          location: '广东省广州市',
-          amount: '¥15',
-          checkTime: '2025-07-21 09:15:33',
-          status: 'processing',
-          hasReceipt: false,
-          photo: '/static/default-license.png'
-        }
-      ]
+      orders: []
     }
   },
   computed: {
@@ -182,13 +147,18 @@ export default {
     currentOrders() {
       const tabValue = this.orderTabs[this.activeTabIndex].value
       if (tabValue === 'all') {
-        return this.mockOrders
+        return this.orders
       }
-      return this.mockOrders.filter(order => order.status === tabValue)
+      return this.orders.filter(order => order.status === tabValue)
     }
   },
   created() {
     this.getSystemInfo()
+    this.loadOrders()
+    uni.$on('order-updated', this.loadOrders)
+  },
+  beforeDestroy() {
+    uni.$off('order-updated', this.loadOrders)
   },
   methods: {
     switchTab(index) {
@@ -197,6 +167,19 @@ export default {
     goToHome() {
       // 通过事件通知父组件切换到首页
       this.$emit('switch-tab', 0)
+    },
+    loadOrders() {
+      getOrders()().then(res => {
+        this.orders = res.data.map(o => ({
+          ...o,
+          amount: `¥${o.amount}`,
+          photo: o.originalPhoto,
+          hasReceipt: !!o.receiptPhoto,
+          status: this.mapStatus(o.status)
+        }))
+      }).catch(() => {
+        this.orders = []
+      })
     },
     contactService() {
       // 联系客服
@@ -207,7 +190,7 @@ export default {
     },
     downloadStandard(order) {
       uni.downloadFile({
-        url: order.standardUrl,
+        url: order.standardPhoto,
         success: () => {
           uni.showToast({ title: '下载成功', icon: 'success' })
         }
@@ -215,7 +198,7 @@ export default {
     },
     downloadLayout(order) {
       uni.downloadFile({
-        url: order.layoutUrl,
+        url: order.layoutPhoto,
         success: () => {
           uni.showToast({ title: '下载成功', icon: 'success' })
         }
@@ -223,15 +206,16 @@ export default {
     },
     downloadReceipt(order) {
       uni.downloadFile({
-        url: order.receiptUrl,
+        url: order.receiptPhoto,
         success: () => {
           uni.showToast({ title: '下载成功', icon: 'success' })
         }
       })
     },
     reupload(order) {
+      const data = encodeURIComponent(JSON.stringify({ name: order.documentName, specs: { requirements: '' } }))
       uni.navigateTo({
-        url: `/pages/photo-guide/photo-guide?orderNo=${order.orderNo}`
+        url: `/pages/custom-camera/custom-camera?orderId=${order.id}&data=${data}`
       })
     },
     formatTime(timeString) {
@@ -265,6 +249,15 @@ export default {
         'completed': '办理完成'
       }
       return resultMap[status] || '未知结果'
+    },
+    mapStatus(value) {
+      const map = {
+        0: 'pending_payment',
+        1: 'processing',
+        2: 'rejected',
+        3: 'completed'
+      }
+      return map[value] || 'pending_payment'
     },
     // 获取系统信息，适配刘海屏
     getSystemInfo() {

@@ -1,6 +1,7 @@
 package io.github.talelin.latticy.service;
 
 import com.alipay.api.AlipayApiException;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.talelin.autoconfigure.exception.NotFoundException;
 import io.github.talelin.latticy.common.enumeration.PhotoOrderStatus;
@@ -10,11 +11,13 @@ import io.github.talelin.latticy.dto.RejectPhotoOrderDTO;
 import io.github.talelin.latticy.dto.ReviewPhotoOrderDTO;
 import io.github.talelin.latticy.mapper.PhotoOrderMapper;
 import io.github.talelin.latticy.model.PhotoOrderDO;
+import io.github.talelin.latticy.common.LocalUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -28,6 +31,7 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         BeanUtils.copyProperties(dto, order);
         order.setOrderNo(String.valueOf(System.currentTimeMillis()));
         order.setStatus(PhotoOrderStatus.UNPAID.getValue());
+        order.setUserId(LocalUser.getLocalUser().getId());
         this.save(order);
         String tradeNo = alipayService.createTrade(order.getOrderNo(), dto.getAmount(), dto.getDocumentName());
         Map<String, Object> res = new HashMap<>();
@@ -36,12 +40,33 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         return res;
     }
 
+    public List<PhotoOrderDO> listMine(Integer status) {
+        Integer uid = LocalUser.getLocalUser().getId();
+        LambdaQueryWrapper<PhotoOrderDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PhotoOrderDO::getUserId, uid);
+        if (status != null) {
+            wrapper.eq(PhotoOrderDO::getStatus, status);
+        }
+        wrapper.orderByDesc(PhotoOrderDO::getCreateTime);
+        return this.list(wrapper);
+    }
+
+    public List<PhotoOrderDO> listAll(Integer status) {
+        LambdaQueryWrapper<PhotoOrderDO> wrapper = new LambdaQueryWrapper<>();
+        if (status != null) {
+            wrapper.eq(PhotoOrderDO::getStatus, status);
+        }
+        wrapper.orderByDesc(PhotoOrderDO::getCreateTime);
+        return this.list(wrapper);
+    }
+
     public void resubmit(Long id, ResubmitPhotoDTO dto) {
         PhotoOrderDO order = this.getById(id);
         if (order == null) {
             throw new NotFoundException(110000);
         }
         order.setOriginalPhoto(dto.getOriginalPhoto());
+        order.setRejectReason(null);
         order.setStatus(PhotoOrderStatus.PAID.getValue());
         this.updateById(order);
     }

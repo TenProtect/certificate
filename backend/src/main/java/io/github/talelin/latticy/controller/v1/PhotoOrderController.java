@@ -9,6 +9,7 @@ import io.github.talelin.latticy.dto.ResubmitPhotoDTO;
 import io.github.talelin.latticy.dto.RejectPhotoOrderDTO;
 import io.github.talelin.latticy.dto.ReviewPhotoOrderDTO;
 import io.github.talelin.latticy.service.PhotoOrderService;
+import io.github.talelin.latticy.model.PhotoOrderDO;
 import io.github.talelin.latticy.vo.UpdatedVO;
 import io.github.talelin.latticy.common.util.ResponseUtil;
 import io.github.talelin.latticy.vo.UnifyResponseVO;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,6 +37,17 @@ public class PhotoOrderController {
         return ResponseUtil.generateCreatedResponse(0, data);
     }
 
+    @GetMapping("/mine")
+    @LoginRequired
+    public List<PhotoOrderDO> listMine(@RequestParam(value = "status", required = false) Integer status) {
+        return photoOrderService.listMine(status);
+    }
+
+    @GetMapping("")
+    @GroupRequired
+    public List<PhotoOrderDO> listAll(@RequestParam(value = "status", required = false) Integer status) {
+        return photoOrderService.listAll(status);
+    }
     @PostMapping("/{id}/resubmit")
     @LoginRequired
     public UpdatedVO resubmit(@PathVariable("id") @Positive Long id, @RequestBody @Validated ResubmitPhotoDTO dto) {

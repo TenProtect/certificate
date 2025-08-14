@@ -15,7 +15,7 @@
         <text class="spec-detail">照片回执（含电子照）</text>
         <view class="price-container">
           <text class="price-symbol">¥</text>
-          <text class="price-amount">25.00</text>
+        <text class="price-amount">{{ documentInfo.price.toFixed(2) }}</text>
         </view>
       </view>
     </view>
@@ -68,7 +68,7 @@
     <view class="total-section">
       <view class="total-left">
         <text class="total-label">合计：</text>
-        <text class="total-price">¥25.00</text>
+        <text class="total-price">¥{{ documentInfo.price.toFixed(2) }}</text>
       </view>
       <view class="agreement-checkbox" @tap="toggleAgreement">
         <view class="checkbox" :class="{ checked: agreedToTerms }">
@@ -103,7 +103,7 @@ export default {
       orderRemark: '',
       documentInfo: {
         name: '身份证',
-        price: 20,
+        price: 25,
         specs: {
           printSize: '26x32mm',
           pixelSize: '358x441px',
@@ -160,7 +160,7 @@ export default {
       const orderData = {
         documentName: this.documentInfo.name,
         location: this.selectedCity,
-        amount: 25,
+        amount: this.documentInfo.price,
         originalPhoto: this.imagePath
       }
 
