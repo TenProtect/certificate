@@ -5,8 +5,9 @@
       <view class="user-avatar">
         <image class="avatar-image" src="/static/default-avatar.svg" mode="aspectFill" />
       </view>
-      <view class="user-title">支付宝用户</view>
-    </view>
+      <view class="user-title">{{ hasToken ? '支付宝用户' : '未登录' }}</view>
+      <button v-if="!hasToken" class="login-button" @tap="login">支付宝登录</button>
+      </view>
     
     <!-- 菜单列表 -->
     <view class="menu-list">
@@ -61,9 +62,40 @@
 </template>
 
 <script>
+import { alipayLogin } from '@/utils/api.js'
+
 export default {
   name: 'ProfileContent',
+  data() {
+    return {
+      hasToken: false
+    }
+  },
+  mounted() {
+    this.hasToken = !!uni.getStorageSync('token')
+  },
   methods: {
+    login() {
+      my.getAuthCode({
+        scopes: 'auth_base',
+        success: async (res) => {
+          try {
+            const resp = await alipayLogin({ authCode: res.authCode })
+            if (resp && resp.data && resp.data.token) {
+              uni.setStorageSync('token', resp.data.token)
+              this.hasToken = true
+            } else {
+              uni.showToast({ title: '登录失败', icon: 'none' })
+            }
+          } catch (e) {
+            uni.showToast({ title: '登录失败', icon: 'none' })
+          }
+        },
+        fail: () => {
+          uni.showToast({ title: '登录失败', icon: 'none' })
+        }
+      })
+    },
     handleMenuTap(type) {
       switch(type) {
         case 'guide':
@@ -115,6 +147,10 @@ export default {
   margin: 20rpx;
   border-radius: 20rpx;
   /* box-shadow: 0 2rpx 20rpx rgba(0, 0, 0, 0.05); */
+}
+
+.login-button {
+  margin-top: 20rpx;
 }
 
 .user-avatar {
