@@ -12,4 +12,9 @@ public class IdentityConstant {
      */
     public static final String USERNAME_PASSWORD_IDENTITY = "USERNAME_PASSWORD";
 
+    /**
+     * 表示通过支付宝进行身份认证
+     */
+    public static final String ALIPAY_IDENTITY = "ALIPAY";
+
 }
