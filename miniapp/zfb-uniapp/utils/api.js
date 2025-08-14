@@ -65,3 +65,4 @@ export function Delete(url, options = {}) {
 
 // API 接口定义
 export const getCertificates = Get('/certificate')
+export const createOrder = Post('/order')
