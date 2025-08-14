@@ -164,12 +164,38 @@ export default {
     switchTab(index) {
       this.activeTabIndex = index
     },
+    
+    checkLogin() {
+      const hasToken = !!uni.getStorageSync('token')
+      if (!hasToken) {
+        uni.showModal({
+          title: '请先登录',
+          content: '拍摄证件照需要先登录账号，是否前往登录？',
+          confirmText: '去登录',
+          cancelText: '取消',
+          success: (res) => {
+            if (res.confirm) {
+              // 切换到个人中心tab进行登录
+              this.$emit('switch-tab', 2) // 个人中心通常是第3个tab(索引为2)
+            }
+          }
+        })
+        return false
+      }
+      return true
+    },
+    
     goToHome() {
+      // 检查登录状态
+      if (!this.checkLogin()) {
+        return
+      }
+      
       // 通过事件通知父组件切换到首页
       this.$emit('switch-tab', 0)
     },
     loadOrders() {
-      getOrders()().then(res => {
+      getOrders().then(res => {
         this.orders = res.data.map(o => ({
           ...o,
           amount: `¥${o.amount}`,

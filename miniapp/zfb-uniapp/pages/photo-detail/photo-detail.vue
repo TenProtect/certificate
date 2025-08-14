@@ -203,6 +203,11 @@ export default {
     },
     
     selectFromAlbum() {
+      // 检查登录状态
+      if (!this.checkLogin()) {
+        return
+      }
+      
       uni.chooseImage({
         count: 1,
         sizeType: ['original'],
@@ -218,7 +223,38 @@ export default {
       })
     },
     
+    checkLogin() {
+      const hasToken = !!uni.getStorageSync('token')
+      if (!hasToken) {
+        uni.showModal({
+          title: '请先登录',
+          content: '拍摄证件照需要先登录账号，是否前往登录？',
+          confirmText: '去登录',
+          cancelText: '取消',
+          success: (res) => {
+            if (res.confirm) {
+              // 跳转到主页的个人中心进行登录
+              uni.switchTab({
+                url: '/pages/main/main'
+              })
+              // 发送事件通知切换到个人中心tab
+              setTimeout(() => {
+                uni.$emit('switch-to-profile')
+              }, 100)
+            }
+          }
+        })
+        return false
+      }
+      return true
+    },
+    
     takePhoto() {
+      // 检查登录状态
+      if (!this.checkLogin()) {
+        return
+      }
+      
       // 跳转到相机拍照页面
       const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
       const cityData = encodeURIComponent(this.currentCity)

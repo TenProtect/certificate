@@ -154,6 +154,33 @@ export default {
   },
   
   onLoad(options) {
+    // 检查登录状态
+    const hasToken = !!uni.getStorageSync('token')
+    if (!hasToken) {
+      uni.showModal({
+        title: '请先登录',
+        content: '拍摄证件照需要先登录账号，是否前往登录？',
+        confirmText: '去登录',
+        cancelText: '取消',
+        success: (res) => {
+          if (res.confirm) {
+            // 跳转到主页的个人中心进行登录
+            uni.switchTab({
+              url: '/pages/main/main'
+            })
+            // 发送事件通知切换到个人中心tab
+            setTimeout(() => {
+              uni.$emit('switch-to-profile')
+            }, 100)
+          } else {
+            // 用户取消登录，返回上一页
+            uni.navigateBack()
+          }
+        }
+      })
+      return
+    }
+    
     // 获取传递的文档信息
     if (options.data) {
       try {

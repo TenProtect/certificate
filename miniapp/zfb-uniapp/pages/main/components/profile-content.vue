@@ -87,11 +87,11 @@ export default {
           my.getUserInfo({
             success: async (user) => {
               this.avatarUrl = user.avatar
-              this.userName = user.nickName
+              this.userName = user.userName
               uni.setStorageSync('avatar', user.avatar)
-              uni.setStorageSync('nickName', user.nickName)
+              uni.setStorageSync('nickName', user.userName)
               try {
-                await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
+                await alipayLogin({ authCode: auth.authCode, nickName: user.userName, avatar: user.avatar })
               } catch (e) {
                 // ignore
               }
@@ -112,15 +112,23 @@ export default {
         success: (auth) => {
           my.getUserInfo({
             success: async (user) => {
+              console.log(user)
               try {
-                const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
+                const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.userName, avatar: user.avatar })
                 if (resp && resp.data && resp.data.token) {
                   uni.setStorageSync('token', resp.data.token)
                   this.hasToken = true
                   this.avatarUrl = user.avatar
-                  this.userName = user.nickName
+                  this.userName = user.userName
                   uni.setStorageSync('avatar', user.avatar)
-                  uni.setStorageSync('nickName', user.nickName)
+                  uni.setStorageSync('nickName', user.userName)
+                  
+                  // 登录成功提示
+                  uni.showToast({ 
+                    title: '登录成功！现在可以拍摄证件照了', 
+                    icon: 'success',
+                    duration: 2000
+                  })
                 } else {
                   uni.showToast({ title: '登录失败', icon: 'none' })
                 }

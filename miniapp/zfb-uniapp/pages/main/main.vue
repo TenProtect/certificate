@@ -55,6 +55,11 @@ export default {
       this.currentTab = parseInt(options.tab) || 0
     }
     
+    // 监听切换到个人中心的事件
+    uni.$on('switch-to-profile', () => {
+      this.handleTabChange(2)
+    })
+    
     console.log('主容器加载完成，当前tab:', this.currentTab)
   },
   onShow() {
@@ -62,6 +67,10 @@ export default {
     uni.hideTabBar({
       animation: false
     })
+  },
+  onUnload() {
+    // 页面卸载时移除事件监听
+    uni.$off('switch-to-profile')
   },
   methods: {
     handleTabChange(tabIndex) {
