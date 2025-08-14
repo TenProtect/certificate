@@ -53,3 +53,10 @@ lin:
 sleeve:
   # 六宫格的最大数量
   grid-category-maximum-quantity: 6
+
+alipay:
+  appId: ${ALIPAY_APP_ID:}
+  appPrivateKey: ${ALIPAY_APP_PRIVATE_KEY:}
+  alipayPublicKey: ${ALIPAY_PUBLIC_KEY:}
+  gateway: https://openapi.alipay.com/gateway.do
+  notifyUrl: https://your.domain.com/api/alipay/notify

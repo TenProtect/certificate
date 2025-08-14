@@ -132,6 +132,7 @@
 </template>
 
 <script>
+import { resubmitOrder } from '@/utils/api.js'
 export default {
   name: 'CustomCamera',
   data() {
@@ -141,7 +142,8 @@ export default {
       frameSize: 'large', // 'small' | 'medium' | 'large'
       showSettings: false,
       capturedImage: null,
-       documentInfo: {
+      orderId: null,
+      documentInfo: {
         name: '身份证',
         price: 20,
         specs: {
@@ -159,6 +161,9 @@ export default {
       } catch (e) {
         console.error('解析文档数据失败:', e)
       }
+    }
+    if (options.orderId) {
+      this.orderId = options.orderId
     }
   },
   
@@ -223,7 +228,21 @@ export default {
     },
     
     confirmPhoto() {
-      if (this.capturedImage) {
+      if (!this.capturedImage) return
+      if (this.orderId) {
+        uni.showLoading({ title: '上传中...' })
+        resubmitOrder(this.orderId, { originalPhoto: this.capturedImage })
+          .then(() => {
+            uni.hideLoading()
+            uni.showToast({ title: '上传成功', icon: 'success' })
+            uni.$emit('order-updated')
+            uni.navigateBack()
+          })
+          .catch(() => {
+            uni.hideLoading()
+            uni.showToast({ title: '上传失败', icon: 'none' })
+          })
+      } else {
         // 返回上一页并传递图片路径
         const pages = getCurrentPages()
         const prevPage = pages[pages.length - 2]

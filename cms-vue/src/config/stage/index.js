@@ -1,6 +1,7 @@
 import Utils from '@/lin/util/util'
 import adminConfig from './admin'
 import certificateConfig from './certificate'
+import photoOrderConfig from './photo-order'
 
 // eslint-disable-next-line import/no-mutable-exports
 let homeRouter = [
@@ -44,6 +45,7 @@ let homeRouter = [
     icon: 'iconfont icon-rizhiguanli',
   },
   certificateConfig,
+  photoOrderConfig,
   adminConfig,
 ]
 

@@ -65,3 +65,8 @@ export function Delete(url, options = {}) {
 
 // API 接口定义
 export const getCertificates = Get('/certificate')
+export const createOrder = Post('/order')
+export const getOrders = Get('/order/mine')
+export function resubmitOrder(id, data) {
+  return request(`/order/${id}/resubmit`, 'POST', data)
+}

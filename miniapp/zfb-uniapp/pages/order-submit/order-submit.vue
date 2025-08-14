@@ -15,7 +15,7 @@
         <text class="spec-detail">照片回执（含电子照）</text>
         <view class="price-container">
           <text class="price-symbol">¥</text>
-          <text class="price-amount">25.00</text>
+        <text class="price-amount">{{ documentInfo.price.toFixed(2) }}</text>
         </view>
       </view>
     </view>
@@ -68,7 +68,7 @@
     <view class="total-section">
       <view class="total-left">
         <text class="total-label">合计：</text>
-        <text class="total-price">¥25.00</text>
+        <text class="total-price">¥{{ documentInfo.price.toFixed(2) }}</text>
       </view>
       <view class="agreement-checkbox" @tap="toggleAgreement">
         <view class="checkbox" :class="{ checked: agreedToTerms }">
@@ -91,6 +91,8 @@
 </template>
 
 <script>
+import { createOrder } from '@/utils/api.js'
+
 export default {
   name: 'OrderSubmit',
   data() {
@@ -99,9 +101,9 @@ export default {
       imagePath: '',
       selectedCity: '',
       orderRemark: '',
-       documentInfo: {
+      documentInfo: {
         name: '身份证',
-        price: 20,
+        price: 25,
         specs: {
           printSize: '26x32mm',
           pixelSize: '358x441px',
@@ -155,35 +157,40 @@ export default {
         return
       }
       
-      // 提交订单逻辑
       const orderData = {
-        image: this.imagePath,
-        document: this.documentInfo,
-        city: this.selectedCity,
-        remark: this.orderRemark,
-        agreedToTerms: this.agreedToTerms
+        documentName: this.documentInfo.name,
+        location: this.selectedCity,
+        amount: this.documentInfo.price,
+        originalPhoto: this.imagePath
       }
-      
-      console.log('提交订单数据:', orderData)
-      
+
       uni.showLoading({
         title: '提交中...'
       })
-      
-      setTimeout(() => {
-        uni.hideLoading()
-        uni.showToast({
-          title: '订单提交成功',
-          icon: 'success'
-        })
-        
-        // 可以跳转到订单详情或支付页面
-        setTimeout(() => {
-          uni.navigateBack({
-            delta: 3 // 返回到首页
+
+      createOrder(orderData)
+        .then(res => {
+          uni.hideLoading()
+          const tradeNo = res.data.tradeNo
+          my.tradePay({
+            tradeNO: tradeNo,
+            success: result => {
+              if (result.resultCode === '9000') {
+                uni.showToast({ title: '支付成功', icon: 'success' })
+                uni.navigateBack({ delta: 1 })
+              } else {
+                uni.showToast({ title: '支付失败', icon: 'none' })
+              }
+            },
+            fail: () => {
+              uni.showToast({ title: '支付取消', icon: 'none' })
+            }
           })
-        }, 1500)
-      }, 2000)
+        })
+        .catch(() => {
+          uni.hideLoading()
+          uni.showToast({ title: '订单创建失败', icon: 'none' })
+        })
     }
   }
 }

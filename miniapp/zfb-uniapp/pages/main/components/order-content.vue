@@ -65,7 +65,7 @@
                   <text class="result-label">检测结果：</text>
                   <text class="result-value" :class="order.status">{{ getResultText(order.status) }}</text>
                 </view>
-                <view v-if="order.status === 'pending'" class="status-description">
+                <view v-if="order.status === 'processing'" class="status-description">
                   <text class="status-desc">状态说明：</text>
                   <text class="status-detail">证件照回执正在审核中，审核结果将短信通知您，请稍等。</text>
                 </view>
@@ -74,37 +74,43 @@
             
             <!-- 操作按钮区域 -->
             <view class="order-actions">
-              <!-- 未完成状态只有咨询客服按钮 -->
-              <view v-if="order.status !== 'completed'" class="action-buttons single">
-                <view class="action-btn consultation" @tap="contactService">
-                  <image class="btn-icon" src="/static/customer-service.png" mode="aspectFit"></image>
-                  <text class="btn-text">咨询客服</text>
-                </view>
-              </view>
-              
-              <!-- 已完成状态的按钮组 - Element Plus风格 -->
-              <view v-else class="action-buttons button-group">
-                <view 
-                  class="action-btn group-btn first" 
+              <view v-if="order.status === 'completed'" class="action-buttons button-group">
+                <view
+                  class="action-btn group-btn first"
                   :class="{ 'only-two': !order.hasReceipt }"
                   @tap="downloadStandard(order)"
                 >
                   <text class="btn-text">下载标准照</text>
                 </view>
-                <view 
-                  class="action-btn group-btn" 
+                <view
+                  class="action-btn group-btn"
                   :class="{ 'middle': order.hasReceipt, 'last': !order.hasReceipt }"
                   @tap="downloadLayout(order)"
                 >
                   <text class="btn-text">下载排版照</text>
                 </view>
                 <!-- 如果支持回执，显示回执按钮 -->
-                <view 
-                  v-if="order.hasReceipt" 
-                  class="action-btn group-btn last" 
+                <view
+                  v-if="order.hasReceipt"
+                  class="action-btn group-btn last"
                   @tap="downloadReceipt(order)"
                 >
                   <text class="btn-text">下载回执照</text>
+                </view>
+              </view>
+              <view v-else-if="order.status === 'rejected'" class="action-buttons button-group">
+                <view class="action-btn group-btn first" @tap="reupload(order)">
+                  <text class="btn-text">重新上传</text>
+                </view>
+                <view class="action-btn group-btn last consultation" @tap="contactService">
+                  <image class="btn-icon" src="/static/customer-service.png" mode="aspectFit"></image>
+                  <text class="btn-text">咨询客服</text>
+                </view>
+              </view>
+              <view v-else class="action-buttons single">
+                <view class="action-btn consultation" @tap="contactService">
+                  <image class="btn-icon" src="/static/customer-service.png" mode="aspectFit"></image>
+                  <text class="btn-text">咨询客服</text>
                 </view>
               </view>
             </view>
@@ -116,6 +122,7 @@
 </template>
 
 <script>
+import { getOrders } from '@/utils/api.js'
 export default {
   name: 'OrderContent',
   data() {
@@ -127,41 +134,10 @@ export default {
         { label: '全部', value: 'all' },
         { label: '待付款', value: 'pending_payment' },
         { label: '制作中', value: 'processing' },
+        { label: '已驳回', value: 'rejected' },
         { label: '已完成', value: 'completed' }
       ],
-      // 模拟订单数据
-      mockOrders: [
-        {
-          orderNo: '432507230000272',
-          documentName: '广东身份证',
-          location: '广东省广州市',
-          amount: '¥18',
-          checkTime: '2025-07-23 11:54:07',
-          status: 'completed',
-          hasReceipt: true,
-          photo: '/static/default-license.png'
-        },
-        {
-          orderNo: '432507230000273',
-          documentName: '护照',
-          location: '广东省深圳市',
-          amount: '¥25',
-          checkTime: '2025-07-22 15:30:20',
-          status: 'pending',
-          hasReceipt: true,
-          photo: '/static/default-license.png'
-        },
-        {
-          orderNo: '432507230000274',
-          documentName: '驾驶证',
-          location: '广东省广州市',
-          amount: '¥15',
-          checkTime: '2025-07-21 09:15:33',
-          status: 'processing',
-          hasReceipt: false,
-          photo: '/static/default-license.png'
-        }
-      ]
+      orders: []
     }
   },
   computed: {
@@ -171,13 +147,18 @@ export default {
     currentOrders() {
       const tabValue = this.orderTabs[this.activeTabIndex].value
       if (tabValue === 'all') {
-        return this.mockOrders
+        return this.orders
       }
-      return this.mockOrders.filter(order => order.status === tabValue)
+      return this.orders.filter(order => order.status === tabValue)
     }
   },
   created() {
     this.getSystemInfo()
+    this.loadOrders()
+    uni.$on('order-updated', this.loadOrders)
+  },
+  beforeDestroy() {
+    uni.$off('order-updated', this.loadOrders)
   },
   methods: {
     switchTab(index) {
@@ -187,6 +168,19 @@ export default {
       // 通过事件通知父组件切换到首页
       this.$emit('switch-tab', 0)
     },
+    loadOrders() {
+      getOrders()().then(res => {
+        this.orders = res.data.map(o => ({
+          ...o,
+          amount: `¥${o.amount}`,
+          photo: o.originalPhoto,
+          hasReceipt: !!o.receiptPhoto,
+          status: this.mapStatus(o.status)
+        }))
+      }).catch(() => {
+        this.orders = []
+      })
+    },
     contactService() {
       // 联系客服
       uni.showToast({
@@ -195,24 +189,33 @@ export default {
       })
     },
     downloadStandard(order) {
-      // 下载标准照
-      uni.showToast({
-        title: '正在生成标准照...',
-        icon: 'none'
+      uni.downloadFile({
+        url: order.standardPhoto,
+        success: () => {
+          uni.showToast({ title: '下载成功', icon: 'success' })
+        }
       })
     },
     downloadLayout(order) {
-      // 下载排版照
-      uni.showToast({
-        title: '正在生成排版照...',
-        icon: 'none'
+      uni.downloadFile({
+        url: order.layoutPhoto,
+        success: () => {
+          uni.showToast({ title: '下载成功', icon: 'success' })
+        }
       })
     },
     downloadReceipt(order) {
-      // 下载回执照
-      uni.showToast({
-        title: '正在生成回执照...',
-        icon: 'none'
+      uni.downloadFile({
+        url: order.receiptPhoto,
+        success: () => {
+          uni.showToast({ title: '下载成功', icon: 'success' })
+        }
+      })
+    },
+    reupload(order) {
+      const data = encodeURIComponent(JSON.stringify({ name: order.documentName, specs: { requirements: '' } }))
+      uni.navigateTo({
+        url: `/pages/custom-camera/custom-camera?orderId=${order.id}&data=${data}`
       })
     },
     formatTime(timeString) {
@@ -232,8 +235,8 @@ export default {
     getStatusText(status) {
       const statusMap = {
         'pending_payment': '待付款',
-        'processing': '制作中', 
-        'pending': '已提交',
+        'processing': '制作中',
+        'rejected': '已驳回',
         'completed': '已完成'
       }
       return statusMap[status] || '未知状态'
@@ -242,10 +245,19 @@ export default {
       const resultMap = {
         'pending_payment': '等待付款',
         'processing': '制作中',
-        'pending': '待审核',
+        'rejected': '审核未通过',
         'completed': '办理完成'
       }
       return resultMap[status] || '未知结果'
+    },
+    mapStatus(value) {
+      const map = {
+        0: 'pending_payment',
+        1: 'processing',
+        2: 'rejected',
+        3: 'completed'
+      }
+      return map[value] || 'pending_payment'
     },
     // 获取系统信息，适配刘海屏
     getSystemInfo() {
