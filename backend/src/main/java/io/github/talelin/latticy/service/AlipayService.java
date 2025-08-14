@@ -4,7 +4,9 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradeCreateRequest;
+import com.alipay.api.request.AlipaySystemOauthTokenRequest;
 import com.alipay.api.response.AlipayTradeCreateResponse;
+import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.alipay.api.internal.util.AlipaySignature;
 import io.github.talelin.latticy.common.configuration.AlipayProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ public class AlipayService {
     @Autowired
     private AlipayProperties properties;
 
-    public String createTrade(String outTradeNo, BigDecimal amount, String subject) throws AlipayApiException {
-        AlipayClient client = new DefaultAlipayClient(
+    private AlipayClient buildClient() {
+        return new DefaultAlipayClient(
                 properties.getGateway(),
                 properties.getAppId(),
                 properties.getAppPrivateKey(),
@@ -28,6 +30,10 @@ public class AlipayService {
                 "UTF-8",
                 properties.getAlipayPublicKey(),
                 "RSA2");
+    }
+
+    public String createTrade(String outTradeNo, BigDecimal amount, String subject) throws AlipayApiException {
+        AlipayClient client = buildClient();
 
         AlipayTradeCreateRequest request = new AlipayTradeCreateRequest();
         request.setNotifyUrl(properties.getNotifyUrl());
@@ -43,6 +49,21 @@ public class AlipayService {
 
     public boolean verifyNotify(Map<String, String> params) throws AlipayApiException {
         return AlipaySignature.rsaCheckV1(params, properties.getAlipayPublicKey(), "UTF-8", "RSA2");
+    }
+
+    /**
+     * 根据小程序 authCode 换取支付宝用户 id
+     */
+    public String getUserId(String authCode) throws AlipayApiException {
+        AlipayClient client = buildClient();
+        AlipaySystemOauthTokenRequest request = new AlipaySystemOauthTokenRequest();
+        request.setCode(authCode);
+        request.setGrantType("authorization_code");
+        AlipaySystemOauthTokenResponse response = client.execute(request);
+        if (response.isSuccess()) {
+            return response.getUserId();
+        }
+        throw new AlipayApiException("exchange authCode failed:" + response.getSubMsg());
     }
 }
 

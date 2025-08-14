@@ -1,18 +1,30 @@
 const API_BASE = 'http://localhost:5000/v1/mini'
+const TOKEN_KEY = 'token'
 
 // 通用请求封装函数
 function request(url, method = 'GET', data = null, options = {}) {
   return new Promise((resolve, reject) => {
+    const token = uni.getStorageSync(TOKEN_KEY)
+    const header = {
+      'Content-Type': 'application/json',
+      ...options.header
+    }
+    if (token) {
+      header['Authorization'] = `Bearer ${token}`
+    }
+
     uni.request({
       url: `${API_BASE}${url}`,
       method,
       data,
-      header: {
-        'Content-Type': 'application/json',
-        ...options.header
-      },
+      header,
       ...options,
       success: (res) => {
+        if (res.statusCode === 401 || (res.data && res.data.code === 10002)) {
+          uni.removeStorageSync(TOKEN_KEY)
+          reject(new Error('未登录'))
+          return
+        }
         if (res.statusCode >= 200 && res.statusCode < 300) {
           resolve(res.data)
         } else {
@@ -70,3 +82,5 @@ export const getOrders = Get('/order/mine')
 export function resubmitOrder(id, data) {
   return request(`/order/${id}/resubmit`, 'POST', data)
 }
+
+export const alipayLogin = Post('/auth/alipay')
