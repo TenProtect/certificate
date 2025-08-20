@@ -51,12 +51,10 @@ public class AlipayController {
     public UnifyResponseVO<String> notifyTest(@RequestBody @Validated AlipayNotifyTestDTO dto) {
         String[] profiles = environment.getActiveProfiles();
         boolean dev = false;
-        if (profiles != null) {
-            for (String p : profiles) {
-                if ("dev".equals(p)) {
-                    dev = true;
-                    break;
-                }
+        for (String p : profiles) {
+            if ("dev".equals(p)) {
+                dev = true;
+                break;
             }
         }
         if (!dev) {
