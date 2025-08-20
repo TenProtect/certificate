@@ -88,11 +88,13 @@
 
     <!-- 悬浮按钮 -->
     <view class="floating-button-wrapper">
-      <contact-button 
+      <contact-button
         class="floating-contact-button"
         size="46"
         color="#565DF4"
         icon="/static/customer-service.png"
+        :tnt-inst-id="contactConfig.tntInstId"
+        :scene="contactConfig.scene"
       >
       </contact-button>
     </view>
@@ -103,6 +105,7 @@
 import ScrollBanner from '@/components/scroll-banner.vue'
 import { getCertificates } from '@/utils/api.js'
 import mockCertificates from '@/mock/certificates.js'
+import contactConfig from '@/config.js'
 
 export default {
   name: 'HomeContent',
@@ -135,7 +138,8 @@ export default {
           src: '/static/banner/banner3.png',
           alt: '演示图片3'
         }
-      ]
+      ],
+      contactConfig
     }
   },
   computed: {
