@@ -58,7 +58,7 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         if (status != null) {
             wrapper.eq(PhotoOrderDO::getStatus, status);
         }
-        wrapper.orderByDesc(PhotoOrderDO::getCreateTime);
+        wrapper.orderByDesc(PhotoOrderDO::getId);
         return this.list(wrapper);
     }
 
@@ -67,7 +67,7 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         if (status != null) {
             wrapper.eq(PhotoOrderDO::getStatus, status);
         }
-        wrapper.orderByDesc(PhotoOrderDO::getCreateTime);
+        wrapper.orderByDesc(PhotoOrderDO::getId);
         return this.list(wrapper);
     }
 
