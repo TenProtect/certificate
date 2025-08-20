@@ -89,23 +89,34 @@
 				"navigationBarTextStyle": "white"
 			}
 		},
-		{
-			"path": "pages/photo-preview/photo-preview",
-			"style": {
-				"navigationBarTitleText": "照片预览",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false,
-				"allowsBounceVertical": "NO",
-				"navigationBarBackgroundColor": "#ffffff",
-				"navigationBarTextStyle": "black"
-			}
-		},
-		{
-			"path": "pages/order-submit/order-submit",
-			"style": {
-				"navigationBarTitleText": "提交订单",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": false,
+                {
+                        "path": "pages/photo-preview/photo-preview",
+                        "style": {
+                                "navigationBarTitleText": "照片预览",
+                                "navigationStyle": "custom",
+                                "enablePullDownRefresh": false,
+                                "allowsBounceVertical": "NO",
+                                "navigationBarBackgroundColor": "#ffffff",
+                                "navigationBarTextStyle": "black"
+                        }
+                },
+                {
+                        "path": "pages/photo-preview-choose/photo-preview-choose",
+                        "style": {
+                                "navigationBarTitleText": "照片预览",
+                                "navigationStyle": "custom",
+                                "enablePullDownRefresh": false,
+                                "allowsBounceVertical": "NO",
+                                "navigationBarBackgroundColor": "#ffffff",
+                                "navigationBarTextStyle": "black"
+                        }
+                },
+                {
+                        "path": "pages/order-submit/order-submit",
+                        "style": {
+                                "navigationBarTitleText": "提交订单",
+                                "navigationStyle": "custom",
+                                "enablePullDownRefresh": false,
 				"allowsBounceVertical": "NO",
 				"navigationBarBackgroundColor": "#ffffff",
 				"navigationBarTextStyle": "black"
