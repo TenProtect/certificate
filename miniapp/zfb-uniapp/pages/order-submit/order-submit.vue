@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { createOrder } from '@/utils/api.js'
+import { createOrder, alipayNotifyTest } from '@/utils/api.js'
 
 export default {
   name: 'OrderSubmit',
@@ -172,20 +172,32 @@ export default {
         .then(res => {
           uni.hideLoading()
           const tradeNo = res.data.tradeNo
-          my.tradePay({
-            tradeNO: tradeNo,
-            success: result => {
-              if (result.resultCode === '9000') {
+          const orderNo = res.data.orderNo
+          if (res.__isDev__) {
+            alipayNotifyTest({ out_trade_no: orderNo, trade_status: 'TRADE_SUCCESS' })
+              .then(() => {
                 uni.showToast({ title: '支付成功', icon: 'success' })
                 uni.navigateBack({ delta: 1 })
-              } else {
+              })
+              .catch(() => {
                 uni.showToast({ title: '支付失败', icon: 'none' })
+              })
+          } else {
+            my.tradePay({
+              tradeNO: tradeNo,
+              success: result => {
+                if (result.resultCode === '9000') {
+                  uni.showToast({ title: '支付成功', icon: 'success' })
+                  uni.navigateBack({ delta: 1 })
+                } else {
+                  uni.showToast({ title: '支付失败', icon: 'none' })
+                }
+              },
+              fail: () => {
+                uni.showToast({ title: '支付取消', icon: 'none' })
               }
-            },
-            fail: () => {
-              uni.showToast({ title: '支付取消', icon: 'none' })
-            }
-          })
+            })
+          }
         })
         .catch(() => {
           uni.hideLoading()

@@ -47,6 +47,7 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         Map<String, Object> res = new HashMap<>();
         res.put("orderId", order.getId());
         res.put("tradeNo", tradeNo);
+        res.put("orderNo", order.getOrderNo());
         return res;
     }
 
