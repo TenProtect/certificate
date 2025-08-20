@@ -12,9 +12,17 @@
       @handleReject="handleReject"
     />
     <el-dialog title="完成订单" :visible.sync="dialogVisible">
-      <el-input v-model="form.standardPhoto" placeholder="标准照URL" />
-      <el-input v-model="form.layoutPhoto" placeholder="排版照URL" style="margin-top:10px" />
-      <el-input v-model="form.receiptPhoto" placeholder="回执照URL" style="margin-top:10px" />
+      <el-form label-width="80px">
+        <el-form-item label="标准照">
+          <upload-imgs ref="standardUpload" :max-num="1" />
+        </el-form-item>
+        <el-form-item label="排版照">
+          <upload-imgs ref="layoutUpload" :max-num="1" />
+        </el-form-item>
+        <el-form-item label="回执照">
+          <upload-imgs ref="receiptUpload" :max-num="1" />
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible=false">取 消</el-button>
         <el-button type="primary" @click="submitReview">确 定</el-button>
@@ -25,10 +33,11 @@
 
 <script>
 import LinTable from '@/component/base/table/lin-table'
+import UploadImgs from '@/component/base/upload-image'
 import photoOrder from '@/model/photo-order'
 
 export default {
-  components: { LinTable },
+  components: { LinTable, UploadImgs },
   data() {
     return {
       tableColumn: [
@@ -80,8 +89,19 @@ export default {
       this.currentId = val.row.id
       this.form = { standardPhoto: '', layoutPhoto: '', receiptPhoto: '' }
       this.dialogVisible = true
+      this.$nextTick(() => {
+        if (this.$refs.standardUpload) this.$refs.standardUpload.clear()
+        if (this.$refs.layoutUpload) this.$refs.layoutUpload.clear()
+        if (this.$refs.receiptUpload) this.$refs.receiptUpload.clear()
+      })
     },
     async submitReview() {
+      const standard = await this.$refs.standardUpload.getValue()
+      const layout = await this.$refs.layoutUpload.getValue()
+      const receipt = await this.$refs.receiptUpload.getValue()
+      this.form.standardPhoto = standard && standard.length > 0 ? standard[0].display : ''
+      this.form.layoutPhoto = layout && layout.length > 0 ? layout[0].display : ''
+      this.form.receiptPhoto = receipt && receipt.length > 0 ? receipt[0].display : ''
       await photoOrder.review(this.currentId, this.form)
       this.dialogVisible = false
       this.fetch()
