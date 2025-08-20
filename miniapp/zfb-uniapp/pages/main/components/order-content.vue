@@ -103,11 +103,13 @@
                   <text class="btn-text">重新上传</text>
                 </view>
                 <view class="action-btn group-btn last consultation-wrapper">
-                  <contact-button 
+                  <contact-button
                     class="contact-button-native"
                     size="default"
                     color="#3d45e6"
                     icon="/static/customer-service.png"
+                    :tnt-inst-id="contactConfig.tntInstId"
+                    :scene="contactConfig.scene"
                   >
                   </contact-button>
                   <text class="btn-text">咨询客服</text>
@@ -116,11 +118,13 @@
               <view v-else class="action-buttons single">
                 <view class="consultation-wrapper-single">
                   <text class="btn-text">咨询客服</text>
-                  <contact-button 
+                  <contact-button
                     class="contact-button-native-single"
                     size="default"
                     color="#3d45e6"
                     icon="/static/customer-service.png"
+                    :tnt-inst-id="contactConfig.tntInstId"
+                    :scene="contactConfig.scene"
                   >
                   </contact-button>
                 </view>
@@ -135,6 +139,7 @@
 
 <script>
 import { getOrders } from '@/utils/api.js'
+import contactConfig from '@/config.js'
 export default {
   name: 'OrderContent',
   data() {
@@ -149,7 +154,8 @@ export default {
         { label: '已驳回', value: 'rejected' },
         { label: '已完成', value: 'completed' }
       ],
-      orders: []
+      orders: [],
+      contactConfig
     }
   },
   computed: {

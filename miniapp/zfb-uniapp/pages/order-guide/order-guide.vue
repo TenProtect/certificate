@@ -141,11 +141,13 @@
                     </view>
                     <view class="service-btn online-btn consultation-wrapper">
                         <text class="btn-text">在线咨询</text>
-                        <contact-button 
+                        <contact-button
                             class="contact-button-native"
                             size="default"
                             color="#1677ff"
                             icon="/static/customer-service.png"
+                            :tnt-inst-id="contactConfig.tntInstId"
+                            :scene="contactConfig.scene"
                         >
                         </contact-button>
                     </view>
@@ -156,11 +158,13 @@
 </template>
 
 <script>
+import contactConfig from '@/config.js'
 export default {
     name: 'OrderGuide',
     data() {
         return {
-            customerServicePhone: '18565104903' // 客服热线号码，请替换为实际号码
+            customerServicePhone: '18565104903', // 客服热线号码，请替换为实际号码
+            contactConfig
         }
     },
     methods: {
