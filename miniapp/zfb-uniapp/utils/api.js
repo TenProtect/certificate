@@ -1,10 +1,12 @@
 const API_BASE = 'http://192.168.31.179:5000/v1/mini'
 const TOKEN_KEY = 'token'
+const REFRESH_TOKEN_KEY = 'refreshToken'
 
 // 通用请求封装函数
-function request(url, method = 'GET', data = null, options = {}) {
+function request(url, method = 'GET', data = null, options = {}, retry = true) {
   return new Promise((resolve, reject) => {
-    const token = uni.getStorageSync(TOKEN_KEY)
+    const tokenKey = options.useRefreshToken ? REFRESH_TOKEN_KEY : TOKEN_KEY
+    const token = uni.getStorageSync(tokenKey)
     const header = {
       'Content-Type': 'application/json',
       ...options.header
@@ -12,16 +14,35 @@ function request(url, method = 'GET', data = null, options = {}) {
     if (token) {
       header['Authorization'] = `Bearer ${token}`
     }
+    const { useRefreshToken, ...restOptions } = options
 
     uni.request({
       url: `${API_BASE}${url}`,
       method,
       data,
       header,
-      ...options,
-      success: (res) => {
+      ...restOptions,
+      success: async (res) => {
         if (res.statusCode === 401 || (res.data && res.data.code === 10002)) {
-          uni.removeStorageSync(TOKEN_KEY)
+          if (!useRefreshToken) {
+            const refreshToken = uni.getStorageSync(REFRESH_TOKEN_KEY)
+            if (refreshToken && retry) {
+              try {
+                const refreshRes = await refreshTokenRequest()
+                if (refreshRes && refreshRes.code === 0) {
+                  uni.setStorageSync(TOKEN_KEY, refreshRes.data.token)
+                  uni.setStorageSync(REFRESH_TOKEN_KEY, refreshRes.data.refreshToken)
+                  const retryRes = await request(url, method, data, options, false)
+                  resolve(retryRes)
+                  return
+                }
+              } catch (e) {
+                // ignore
+              }
+            }
+            uni.removeStorageSync(TOKEN_KEY)
+            uni.removeStorageSync(REFRESH_TOKEN_KEY)
+          }
           reject(new Error('未登录'))
           return
         }
@@ -36,6 +57,10 @@ function request(url, method = 'GET', data = null, options = {}) {
       }
     })
   })
+}
+
+function refreshTokenRequest() {
+  return request('/auth/refresh', 'GET', null, { useRefreshToken: true }, false)
 }
 
 // GET 请求封装
@@ -84,3 +109,4 @@ export function resubmitOrder(id, data) {
 }
 
 export const alipayLogin = Post('/auth/alipay')
+export const refreshToken = () => refreshTokenRequest()

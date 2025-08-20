@@ -2,9 +2,11 @@ package io.github.talelin.latticy.controller.v1;
 
 import com.alipay.api.AlipayApiException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.github.talelin.core.annotation.RefreshRequired;
 import io.github.talelin.core.token.DoubleJWT;
 import io.github.talelin.core.token.Tokens;
 import io.github.talelin.latticy.common.constant.IdentityConstant;
+import io.github.talelin.latticy.common.LocalUser;
 import io.github.talelin.latticy.dto.auth.AlipayLoginDTO;
 import io.github.talelin.latticy.model.UserDO;
 import io.github.talelin.latticy.model.UserIdentityDO;
@@ -64,6 +66,21 @@ public class AuthController {
         identityWrapper.lambda().eq(UserIdentityDO::getUserId, user.getId());
         user.setIdentities(userIdentityService.list(identityWrapper));
 
+        Tokens tokens = jwt.generateTokens(user.getId());
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", tokens.getAccessToken());
+        data.put("refreshToken", tokens.getRefreshToken());
+        Map<String, Object> res = new HashMap<>();
+        res.put("code", 0);
+        res.put("message", "ok");
+        res.put("data", data);
+        return res;
+    }
+
+    @GetMapping("/refresh")
+    @RefreshRequired
+    public Map<String, Object> refresh() {
+        UserDO user = LocalUser.getLocalUser();
         Tokens tokens = jwt.generateTokens(user.getId());
         Map<String, Object> data = new HashMap<>();
         data.put("token", tokens.getAccessToken());
