@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="!showDetail">
     <div class="header">
       <div class="title">订单列表</div>
     </div>
@@ -10,6 +10,7 @@
       :operate="operate"
       @handleReview="handleReview"
       @handleReject="handleReject"
+      @handleView="handleView"
     />
     <el-dialog title="完成订单" :visible.sync="dialogVisible">
       <el-form label-width="80px">
@@ -29,15 +30,17 @@
       </span>
     </el-dialog>
   </div>
+  <photo-order-detail v-else :order-id="detailId" @viewClose="detailClose" />
 </template>
 
 <script>
 import LinTable from '@/component/base/table/lin-table'
 import UploadImgs from '@/component/base/upload-image'
+import PhotoOrderDetail from './photo-order-detail'
 import photoOrder from '@/model/photo-order'
 
 export default {
-  components: { LinTable, UploadImgs },
+  components: { LinTable, UploadImgs, PhotoOrderDetail },
   data() {
     return {
       tableColumn: [
@@ -52,6 +55,8 @@ export default {
       loading: false,
       dialogVisible: false,
       currentId: null,
+      detailId: null,
+      showDetail: false,
       form: {
         standardPhoto: '',
         layoutPhoto: '',
@@ -63,8 +68,9 @@ export default {
     this.loading = true
     await this.fetch()
     this.operate = [
-      { name: '完成', func: 'handleReview', type: 'primary' },
-      { name: '驳回', func: 'handleReject', type: 'danger' }
+      { name: '完成', func: 'handleReview', type: 'primary', show: row => row.status === 1 },
+      { name: '驳回', func: 'handleReject', type: 'danger', show: row => row.status === 1 },
+      { name: '查看', func: 'handleView', type: 'primary', show: row => row.status === 3 }
     ]
     this.loading = false
   },
@@ -114,6 +120,14 @@ export default {
         await photoOrder.reject(val.row.id, value)
         this.fetch()
       })
+    },
+    handleView(val) {
+      this.detailId = val.row.id
+      this.showDetail = true
+    },
+    detailClose() {
+      this.showDetail = false
+      this.fetch()
     }
   }
 }

@@ -51,16 +51,18 @@
       </el-table-column>
       <el-table-column v-if="operate.length > 0" label="操作" fixed="right" width="275">
         <template slot-scope="scope">
-          <el-button
-            v-for="(item, index) in operate"
-            :type="item.type"
-            plain
-            :key="index"
-            size="mini"
-            v-permission="{ permission: item.permission ? item.permission : '', type: 'disabled' }"
-            @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
-            >{{ item.name }}</el-button
-          >
+          <template v-for="(item, index) in operate">
+            <el-button
+              v-if="!item.show || item.show(scope.row)"
+              :type="item.type"
+              plain
+              :key="index"
+              size="mini"
+              v-permission="{ permission: item.permission ? item.permission : '', type: 'disabled' }"
+              @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
+              >{{ item.name }}</el-button
+            >
+          </template>
         </template>
       </el-table-column>
     </el-table>
