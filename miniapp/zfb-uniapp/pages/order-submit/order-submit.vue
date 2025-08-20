@@ -171,8 +171,8 @@ export default {
       createOrder(orderData)
         .then(res => {
           uni.hideLoading()
-          const tradeNo = res.data.tradeNo
-          const orderNo = res.data.orderNo
+          const tradeNo = res.message.tradeNo
+          const orderNo = res.message.orderNo
           if (res.__isDev__) {
             alipayNotifyTest({ out_trade_no: orderNo, trade_status: 'TRADE_SUCCESS' })
               .then(() => {
