@@ -102,15 +102,27 @@
                 <view class="action-btn group-btn first" @tap="reupload(order)">
                   <text class="btn-text">重新上传</text>
                 </view>
-                <view class="action-btn group-btn last consultation" @tap="contactService">
-                  <image class="btn-icon" src="/static/customer-service.png" mode="aspectFit"></image>
+                <view class="action-btn group-btn last consultation-wrapper">
+                  <contact-button 
+                    class="contact-button-native"
+                    size="default"
+                    color="#3d45e6"
+                    icon="/static/customer-service.png"
+                  >
+                  </contact-button>
                   <text class="btn-text">咨询客服</text>
                 </view>
               </view>
               <view v-else class="action-buttons single">
-                <view class="action-btn consultation" @tap="contactService">
-                  <image class="btn-icon" src="/static/customer-service.png" mode="aspectFit"></image>
+                <view class="consultation-wrapper-single">
                   <text class="btn-text">咨询客服</text>
+                  <contact-button 
+                    class="contact-button-native-single"
+                    size="default"
+                    color="#3d45e6"
+                    icon="/static/customer-service.png"
+                  >
+                  </contact-button>
                 </view>
               </view>
             </view>
@@ -208,7 +220,8 @@ export default {
       })
     },
     contactService() {
-      // 联系客服
+      // 注意：使用原生 contact-button 组件时，此方法不再需要
+      // 原生组件会自动处理联系客服的逻辑
       uni.showToast({
         title: '正在为您联系客服...',
         icon: 'none'
@@ -733,14 +746,19 @@ export default {
 
 .order-actions {
   margin-top: 20rpx;
+  height: 80rpx;
+  overflow: hidden;
 }
 
 .action-buttons {
   display: flex;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .action-buttons.single {
   justify-content: center;
+  height: 100%;
 }
 
 .action-buttons.button-group {
@@ -749,6 +767,7 @@ export default {
   border: 1rpx solid #dcdfe6;
   display: inline-flex;
   width: 100%;
+  height: 100%;
 }
 
 .action-btn {
@@ -761,10 +780,58 @@ export default {
   background: white;
   color: #606266;
   position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .action-btn:active {
   transform: scale(0.98);
+}
+
+
+
+.consultation-wrapper-single {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 300rpx;
+  height: 80rpx;
+  min-height: 80rpx;
+  max-height: 80rpx;
+  border-radius: 50rpx;
+  overflow: hidden;
+  border: 1px solid #dcdfe6;
+  box-sizing: border-box;
+}
+
+/* 原生联系客服按钮样式覆盖 */
+.contact-button-native,
+.contact-button-native-single {
+  position: absolute;
+  z-index: -1;
+}
+
+.contact-button-native-single {
+  box-shadow: 0 6rpx 20rpx rgba(61, 69, 230, 0.3) !important;
+  max-width: 300rpx !important;
+  margin: 0 auto !important;
+}
+
+/* hover效果模拟 */
+.consultation-wrapper:active .contact-button-native {
+  background: linear-gradient(135deg, #2f38d9 0%, #4a52e8 100%) !important;
+  transform: scale(0.98) !important;
+}
+
+.consultation-wrapper-single:active .contact-button-native-single {
+  background: linear-gradient(135deg, #2f38d9 0%, #4a52e8 100%) !important;
+  transform: scale(0.98) !important;
+  box-shadow: 0 4rpx 16rpx rgba(61, 69, 230, 0.4) !important;
 }
 
 .action-btn.consultation {
@@ -794,6 +861,8 @@ export default {
   border-right: 1rpx solid #dcdfe6;
   border-radius: 0;
   position: relative;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .action-btn.group-btn:last-child,
@@ -832,6 +901,8 @@ export default {
 
 .btn-text {
   color: inherit;
+  position: absolute;
+  z-index: 999;
 }
 
 .empty-state {

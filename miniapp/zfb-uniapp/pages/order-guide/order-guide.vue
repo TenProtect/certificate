@@ -139,8 +139,15 @@
                     <view class="service-btn hotline-btn" @tap="callCustomerService">
                         <text class="btn-text">客服热线</text>
                     </view>
-                    <view class="service-btn online-btn" @tap="showOnlineService">
+                    <view class="service-btn online-btn consultation-wrapper">
                         <text class="btn-text">在线咨询</text>
+                        <contact-button 
+                            class="contact-button-native"
+                            size="default"
+                            color="#1677ff"
+                            icon="/static/customer-service.png"
+                        >
+                        </contact-button>
                     </view>
                 </view>
             </view>
@@ -182,9 +189,11 @@ export default {
 
         // 在线咨询
         showOnlineService() {
-            my.showToast({
-                content: '在线咨询功能开发中',
-                type: 'none'
+            // 注意：使用原生 contact-button 组件时，此方法不再需要
+            // 原生组件会自动处理联系客服的逻辑
+            uni.showToast({
+                title: '正在为您联系客服...',
+                icon: 'none'
             })
         }
     }
@@ -320,6 +329,8 @@ export default {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .hotline-btn {
@@ -339,9 +350,37 @@ export default {
     background: #0958d9;
 }
 
+.consultation-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+/* 原生联系客服按钮样式覆盖 */
+.contact-button-native {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 40rpx !important;
+    background: #1677ff !important;
+    opacity: 0;
+}
+
+/* hover效果模拟 */
+.consultation-wrapper:active .contact-button-native {
+    background: #0958d9 !important;
+    transform: scale(0.98) !important;
+}
+
 .btn-text {
     font-size: 28rpx;
     font-weight: 500;
+    position: absolute;
+    z-index: 999;
 }
 
 .hotline-btn .btn-text {

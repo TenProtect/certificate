@@ -87,11 +87,14 @@
     </view>
 
     <!-- 悬浮按钮 -->
-    <view 
-      class="floating-button" 
-      @tap="onFloatingButtonClick"
-    >
-      <image src="/static/customer-service.png" class="floating-button-icon" />
+    <view class="floating-button-wrapper">
+      <contact-button 
+        class="floating-contact-button"
+        size="46"
+        color="#565DF4"
+        icon="/static/customer-service.png"
+      >
+      </contact-button>
     </view>
   </view>
 </template>
@@ -568,6 +571,39 @@ export default {
 }
 
 /* 悬浮按钮样式 */
+.floating-button-wrapper {
+  position: fixed;
+  right: 20rpx;
+  bottom: 140rpx; /* 调整位置避免与TabBar重叠 */
+  width: 90rpx;
+  height: 90rpx;
+  z-index: 999;
+  border-radius: 50%;
+  box-shadow: 0 8rpx 24rpx rgba(86, 93, 244, 0.3);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10rpx);
+}
+
+.floating-button-wrapper:active {
+  transform: scale(0.95);
+  box-shadow: 0 4rpx 16rpx rgba(86, 93, 244, 0.4);
+}
+
+.floating-contact-button {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #565DF4 0%, #4A52E8 100%) !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: white !important;
+  font-size: 0 !important; /* 隐藏文字，只显示图标 */
+  overflow: hidden !important;
+}
+
 .floating-button {
   position: fixed;
   right: 20rpx;
