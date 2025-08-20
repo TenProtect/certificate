@@ -158,10 +158,10 @@ export default {
       }
       
       const orderData = {
-        documentName: this.documentInfo.name,
+        document_name: this.documentInfo.name,
         location: this.selectedCity,
         amount: this.documentInfo.price,
-        originalPhoto: this.imagePath
+        original_photo: this.imagePath
       }
 
       uni.showLoading({

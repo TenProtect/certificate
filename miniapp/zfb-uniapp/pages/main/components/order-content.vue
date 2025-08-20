@@ -196,7 +196,7 @@ export default {
     },
     loadOrders() {
       getOrders().then(res => {
-        this.orders = res.data.map(o => ({
+        this.orders = res.map(o => ({
           ...o,
           amount: `¥${o.amount}`,
           photo: o.originalPhoto,
