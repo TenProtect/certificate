@@ -1,2 +1,17 @@
 /miniapp/zfb-uniapp/unpackage/ 
 backend/.idea/
+.git/logs/
+.git/logs/logs/
+backend/logs/
+backend/target/
+backend/.idea/.idea/
+backend/logs/logs/
+backend/target/target/
+cms-vue/.idea/
+cms-vue/.idea/.idea/
+cms-vue/node_modules/tmp/
+cms-vue/node_modules/.cache/terser-webpack-plugin/tmp/
+cms-vue/node_modules/.cache/terser-webpack-plugin/tmp/tmp/
+cms-vue/node_modules/serialize-javascript/.vscode/
+cms-vue/node_modules/serialize-javascript/.vscode/.vscode/
+cms-vue/node_modules/tmp/tmp/
