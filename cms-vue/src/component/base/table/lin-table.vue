@@ -180,9 +180,7 @@ export default {
   methods: {
     // 开发者自定义的函数
     buttonMethods(func, index, row) {
-      const _this = this
-      const { methods } = this.$options
-      methods[func](_this, index, row)
+      this.$emit(func, { index, row })
     },
     // 行内编辑
     handleEdit(_this, index, row) {
