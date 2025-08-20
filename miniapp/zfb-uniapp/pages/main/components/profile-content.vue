@@ -91,7 +91,11 @@ export default {
               uni.setStorageSync('avatar', user.avatar)
               uni.setStorageSync('nickName', user.nickName)
               try {
-                await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
+                const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
+                if (resp && resp.data) {
+                  uni.setStorageSync('token', resp.data.token)
+                  uni.setStorageSync('refreshToken', resp.data.refreshToken)
+                }
               } catch (e) {
                 // ignore
               }
@@ -119,6 +123,7 @@ export default {
                 const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
                 if (resp && resp.data && resp.data.token) {
                   uni.setStorageSync('token', resp.data.token)
+                  uni.setStorageSync('refreshToken', resp.data.refreshToken)
                   this.hasToken = true
                   this.avatarUrl = user.avatar
                   this.userName = user.nickName
