@@ -49,6 +49,12 @@ public class PhotoOrderController {
         return photoOrderService.listAll(status);
     }
 
+    @GetMapping("/{id}")
+    @LoginRequired
+    public PhotoOrderDO get(@PathVariable("id") @Positive Long id) {
+        return photoOrderService.getMineById(id);
+    }
+
     @PostMapping("/{id}/resubmit")
     @LoginRequired
     public UpdatedVO resubmit(@PathVariable("id") @Positive Long id, @RequestBody @Validated ResubmitPhotoDTO dto) {

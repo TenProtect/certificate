@@ -35,6 +35,8 @@ public class PhotoOrderDO {
 
     private String receiptPhoto;
 
+    private String certificateSnapshot;
+
     private String rejectReason;
 
     private Integer status;

@@ -161,7 +161,8 @@ export default {
         document_name: this.documentInfo.name,
         location: this.selectedCity,
         amount: this.documentInfo.price,
-        original_photo: this.imagePath
+        original_photo: this.imagePath,
+        certificate_snapshot: JSON.stringify(this.documentInfo)
       }
 
       uni.showLoading({

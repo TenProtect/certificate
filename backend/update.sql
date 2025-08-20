@@ -31,6 +31,7 @@ CREATE TABLE photo_order (
   standard_photo VARCHAR(255),
   layout_photo VARCHAR(255),
   receipt_photo VARCHAR(255),
+  certificate_snapshot TEXT,
   reject_reason VARCHAR(255),
   status TINYINT DEFAULT 0,
   create_time DATETIME,

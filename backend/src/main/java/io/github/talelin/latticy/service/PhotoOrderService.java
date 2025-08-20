@@ -71,6 +71,14 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         return this.list(wrapper);
     }
 
+    public PhotoOrderDO getMineById(Long id) {
+        PhotoOrderDO order = this.getById(id);
+        if (order == null || !order.getUserId().equals(LocalUser.getLocalUser().getId())) {
+            throw new NotFoundException(110000);
+        }
+        return order;
+    }
+
     public void resubmit(Long id, ResubmitPhotoDTO dto) {
         PhotoOrderDO order = this.getById(id);
         if (order == null) {
