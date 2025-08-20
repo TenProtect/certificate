@@ -56,7 +56,7 @@ public class OrderService extends ServiceImpl<OrderMapper, OrderDO> {
     public IPage<OrderDO> getOrderByPage(Integer count, Integer page) {
         Page<OrderDO> pager = new Page<>(page, count);
         QueryWrapper<OrderDO> wrapper = new QueryWrapper<>();
-        wrapper.lambda().orderByDesc(OrderDO::getId);
+        wrapper.lambda().orderByDesc(OrderDO::getCreateTime);
         IPage<OrderDO> paging = this.getBaseMapper().selectPage(pager, wrapper);
         return paging;
     }
