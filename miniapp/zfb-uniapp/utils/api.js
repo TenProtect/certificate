@@ -2,6 +2,18 @@ const API_BASE = 'http://192.168.31.179:5000/v1/mini'
 const TOKEN_KEY = 'token'
 const REFRESH_TOKEN_KEY = 'refreshToken'
 
+function isLanHost(hostname) {
+  return /^127\.|^localhost$|^10\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^192\.168\./.test(hostname)
+}
+
+let IS_DEV = false
+try {
+  const host = new URL(API_BASE).hostname
+  IS_DEV = isLanHost(host)
+} catch (e) {
+  IS_DEV = false
+}
+
 // 通用请求封装函数
 function request(url, method = 'GET', data = null, options = {}, retry = true) {
   return new Promise((resolve, reject) => {
@@ -47,6 +59,9 @@ function request(url, method = 'GET', data = null, options = {}, retry = true) {
           return
         }
         if (res.statusCode >= 200 && res.statusCode < 300) {
+          if (IS_DEV && res.data && typeof res.data === 'object') {
+            res.data.__isDev__ = true
+          }
           resolve(res.data)
         } else {
           reject(new Error(`请求失败: ${res.statusCode}`))
@@ -110,3 +125,4 @@ export function resubmitOrder(id, data) {
 
 export const alipayLogin = Post('/auth/alipay')
 export const refreshToken = () => refreshTokenRequest()
+export const alipayNotifyTest = Post('/../alipay/notify/test')
