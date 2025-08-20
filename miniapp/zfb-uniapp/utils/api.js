@@ -145,6 +145,9 @@ export const getOrders = Get('/order/mine')
 export function resubmitOrder(id, data) {
   return request(`/order/${id}/resubmit`, 'POST', data)
 }
+export function getOrderDetail(id) {
+  return request(`/order/${id}`, 'GET')
+}
 
 export const alipayLogin = Post('/auth/alipay')
 export const refreshToken = () => refreshTokenRequest()

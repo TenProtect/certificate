@@ -65,6 +65,10 @@
                   <text class="result-label">检测结果：</text>
                   <text class="result-value" :class="order.status">{{ getResultText(order.status) }}</text>
                 </view>
+                <view v-if="order.status === 'rejected' && order.rejectReason" class="reject-reason">
+                  <text class="reason-label">驳回原因：</text>
+                  <text class="reason-value">{{ order.rejectReason }}</text>
+                </view>
                 <view v-if="order.status === 'processing'" class="status-description">
                   <text class="status-desc">状态说明：</text>
                   <text class="status-detail">证件照回执正在审核中，审核结果将短信通知您，请稍等。</text>
@@ -219,7 +223,9 @@ export default {
           amount: `¥${o.amount}`,
           photo: o.originalPhoto,
           hasReceipt: !!o.receiptPhoto,
-          status: this.mapStatus(o.status)
+          status: this.mapStatus(o.status),
+          rejectReason: o.rejectReason,
+          certificateSnapshot: o.certificateSnapshot
         }))
       }).catch(() => {
         this.orders = []
@@ -345,9 +351,8 @@ export default {
     }
   },
     reupload(order) {
-      const data = encodeURIComponent(JSON.stringify({ name: order.documentName, specs: { requirements: '' } }))
       uni.navigateTo({
-        url: `/pages/custom-camera/custom-camera?orderId=${order.id}&data=${data}`
+        url: `/pages/photo-reupload-detail/photo-reupload-detail?orderId=${order.id}`
       })
     },
     formatTime(timeString) {
@@ -748,6 +753,20 @@ export default {
   font-size: 24rpx;
   color: #333;
   line-height: 1.5;
+}
+
+.reject-reason {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #f5222d;
+}
+
+.reason-label {
+  color: #666;
+}
+
+.reason-value {
+  margin-left: 8rpx;
 }
 
 .order-actions {

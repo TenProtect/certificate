@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import { resubmitOrder } from '@/utils/api.js'
+
 export default {
   name: 'PhotoPreviewChoose',
   data() {
@@ -62,6 +64,7 @@ export default {
       statusBarHeight: 0,
       imagePath: '',
       currentCity: '',
+      orderId: '',
        documentInfo: {
         name: '身份证',
         price: 20,
@@ -97,6 +100,10 @@ export default {
         console.error('解析文档数据失败:', e)
       }
     }
+
+    if (options.orderId) {
+      this.orderId = options.orderId
+    }
   },
   
   methods: {
@@ -129,13 +136,22 @@ export default {
     },
     
     submitOrder() {
-      // 跳转到提交订单页面
-      const imageData = encodeURIComponent(this.imagePath)
-      const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
-      const cityData = encodeURIComponent(this.currentCity)
-      uni.navigateTo({
-        url: `/pages/order-submit/order-submit?image=${imageData}&document=${documentData}&city=${cityData}`
-      })
+      if (this.orderId) {
+        resubmitOrder(this.orderId, { original_photo: this.imagePath }).then(() => {
+          uni.showToast({ title: '提交成功', icon: 'success' })
+          uni.$emit('order-updated')
+          uni.navigateBack({ delta: 2 })
+        }).catch(() => {
+          uni.showToast({ title: '提交失败', icon: 'none' })
+        })
+      } else {
+        const imageData = encodeURIComponent(this.imagePath)
+        const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
+        const cityData = encodeURIComponent(this.currentCity)
+        uni.navigateTo({
+          url: `/pages/order-submit/order-submit?image=${imageData}&document=${documentData}&city=${cityData}`
+        })
+      }
     }
   }
 }

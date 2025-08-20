@@ -112,6 +112,17 @@
                         }
                 },
                 {
+                        "path": "pages/photo-reupload-detail/photo-reupload-detail",
+                        "style": {
+                                "navigationBarTitleText": "重新上传",
+                                "navigationStyle": "custom",
+                                "enablePullDownRefresh": false,
+                                "allowsBounceVertical": "NO",
+                                "navigationBarBackgroundColor": "#ffffff",
+                                "navigationBarTextStyle": "black"
+                        }
+                },
+                {
                         "path": "pages/order-submit/order-submit",
                         "style": {
                                 "navigationBarTitleText": "提交订单",
