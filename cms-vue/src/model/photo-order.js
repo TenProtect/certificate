@@ -1,10 +1,14 @@
 /* eslint-disable class-methods-use-this */
-import _axios, { get, post } from '@/lin/plugin/axios'
+import { get, post } from '@/lin/plugin/axios'
 
 class PhotoOrder {
   async getOrders() {
     const res = await get('v1/mini/order')
     return res
+  }
+
+  async getPhotos(id) {
+    return get(`v1/mini/order/${id}/photos`)
   }
 
   async reject(id, reason) {

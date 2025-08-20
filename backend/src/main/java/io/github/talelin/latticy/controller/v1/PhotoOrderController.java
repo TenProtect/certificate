@@ -71,7 +71,7 @@ public class PhotoOrderController {
     }
 
     @GetMapping("/{id}/photos")
-    @LoginRequired
+    @GroupRequired
     public Map<String, String> photos(@PathVariable("id") @Positive Long id) {
         return photoOrderService.getPhotos(id);
     }

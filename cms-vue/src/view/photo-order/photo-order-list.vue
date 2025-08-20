@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="!showDetail">
     <div class="header">
       <div class="title">订单列表</div>
     </div>
@@ -10,25 +10,37 @@
       :operate="operate"
       @handleReview="handleReview"
       @handleReject="handleReject"
+      @handleView="handleView"
     />
     <el-dialog title="完成订单" :visible.sync="dialogVisible">
-      <el-input v-model="form.standardPhoto" placeholder="标准照URL" />
-      <el-input v-model="form.layoutPhoto" placeholder="排版照URL" style="margin-top:10px" />
-      <el-input v-model="form.receiptPhoto" placeholder="回执照URL" style="margin-top:10px" />
+      <el-form label-width="80px">
+        <el-form-item label="标准照">
+          <upload-imgs ref="standardUpload" :max-num="1" />
+        </el-form-item>
+        <el-form-item label="排版照">
+          <upload-imgs ref="layoutUpload" :max-num="1" />
+        </el-form-item>
+        <el-form-item label="回执照">
+          <upload-imgs ref="receiptUpload" :max-num="1" />
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible=false">取 消</el-button>
         <el-button type="primary" @click="submitReview">确 定</el-button>
       </span>
     </el-dialog>
   </div>
+  <photo-order-detail v-else :order-id="detailId" @viewClose="detailClose" />
 </template>
 
 <script>
 import LinTable from '@/component/base/table/lin-table'
+import UploadImgs from '@/component/base/upload-image'
+import PhotoOrderDetail from './photo-order-detail'
 import photoOrder from '@/model/photo-order'
 
 export default {
-  components: { LinTable },
+  components: { LinTable, UploadImgs, PhotoOrderDetail },
   data() {
     return {
       tableColumn: [
@@ -43,6 +55,8 @@ export default {
       loading: false,
       dialogVisible: false,
       currentId: null,
+      detailId: null,
+      showDetail: false,
       form: {
         standardPhoto: '',
         layoutPhoto: '',
@@ -54,8 +68,9 @@ export default {
     this.loading = true
     await this.fetch()
     this.operate = [
-      { name: '完成', func: 'handleReview', type: 'primary' },
-      { name: '驳回', func: 'handleReject', type: 'danger' }
+      { name: '完成', func: 'handleReview', type: 'primary', show: row => row.status === 1 },
+      { name: '驳回', func: 'handleReject', type: 'danger', show: row => row.status === 1 },
+      { name: '查看', func: 'handleView', type: 'primary', show: row => row.status === 3 }
     ]
     this.loading = false
   },
@@ -80,8 +95,19 @@ export default {
       this.currentId = val.row.id
       this.form = { standardPhoto: '', layoutPhoto: '', receiptPhoto: '' }
       this.dialogVisible = true
+      this.$nextTick(() => {
+        if (this.$refs.standardUpload) this.$refs.standardUpload.clear()
+        if (this.$refs.layoutUpload) this.$refs.layoutUpload.clear()
+        if (this.$refs.receiptUpload) this.$refs.receiptUpload.clear()
+      })
     },
     async submitReview() {
+      const standard = await this.$refs.standardUpload.getValue()
+      const layout = await this.$refs.layoutUpload.getValue()
+      const receipt = await this.$refs.receiptUpload.getValue()
+      this.form.standardPhoto = standard && standard.length > 0 ? standard[0].display : ''
+      this.form.layoutPhoto = layout && layout.length > 0 ? layout[0].display : ''
+      this.form.receiptPhoto = receipt && receipt.length > 0 ? receipt[0].display : ''
       await photoOrder.review(this.currentId, this.form)
       this.dialogVisible = false
       this.fetch()
@@ -94,6 +120,14 @@ export default {
         await photoOrder.reject(val.row.id, value)
         this.fetch()
       })
+    },
+    handleView(val) {
+      this.detailId = val.row.id
+      this.showDetail = true
+    },
+    detailClose() {
+      this.showDetail = false
+      this.fetch()
     }
   }
 }
