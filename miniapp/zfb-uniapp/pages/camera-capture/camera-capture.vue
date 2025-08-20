@@ -51,6 +51,7 @@
 
 <script>
 import UCameraOverlay from '@/components/ucamera-overlay/ucamera-overlay.vue'
+import { uploadImage } from '@/utils/api.js'
 
 export default {
   name: 'CameraCapture',
@@ -223,23 +224,23 @@ export default {
     
     processPhoto(imagePath, source) {
       this.isProcessing = true
-      
-      console.log('处理图片:', imagePath, '来源:', source)
-      
-      // 简单的处理过程，直接跳转到预览页面
-      setTimeout(() => {
-        this.isProcessing = false
-        
-        // 跳转到预览页面
-        const imageData = encodeURIComponent(imagePath)
-        const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
-        const cityData = encodeURIComponent(this.currentCity)
-        let url = `/pages/photo-preview/photo-preview?image=${imageData}&document=${documentData}&city=${cityData}`
-        if (this.orderId) {
-          url += `&orderId=${this.orderId}`
-        }
-        uni.navigateTo({ url })
-      }, 1000)
+      uploadImage(imagePath)
+        .then(res => {
+          const imageData = encodeURIComponent(res.url)
+          const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
+          const cityData = encodeURIComponent(this.currentCity)
+          let url = `/pages/photo-preview/photo-preview?image=${imageData}&document=${documentData}&city=${cityData}`
+          if (this.orderId) {
+            url += `&orderId=${this.orderId}`
+          }
+          uni.navigateTo({ url })
+        })
+        .catch(() => {
+          uni.showToast({ title: '上传失败', icon: 'none' })
+        })
+        .finally(() => {
+          this.isProcessing = false
+        })
     }
   }
 }

@@ -133,6 +133,7 @@
 
 <script>
 import ScrollBanner from '@/components/scroll-banner.vue'
+import { uploadImage } from '@/utils/api.js'
 
 export default {
   name: 'PhotoDetail',
@@ -213,13 +214,23 @@ export default {
         sizeType: ['original'],
         sourceType: ['album'],
         success: (res) => {
-          const imagePath = res.tempFilePaths[0]
-          const imageData = encodeURIComponent(imagePath)
-          const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
-          const cityData = encodeURIComponent(this.currentCity)
-          uni.navigateTo({
-            url: `/pages/photo-preview-choose/photo-preview-choose?image=${imageData}&document=${documentData}&city=${cityData}`
-          })
+          const localPath = res.tempFilePaths[0]
+          uni.showLoading({ title: '上传中...' })
+          uploadImage(localPath)
+            .then(file => {
+              const imageData = encodeURIComponent(file.url)
+              const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
+              const cityData = encodeURIComponent(this.currentCity)
+              uni.navigateTo({
+                url: `/pages/photo-preview-choose/photo-preview-choose?image=${imageData}&document=${documentData}&city=${cityData}`
+              })
+            })
+            .catch(() => {
+              uni.showToast({ title: '上传失败', icon: 'none' })
+            })
+            .finally(() => {
+              uni.hideLoading()
+            })
         }
       })
     },

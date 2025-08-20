@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import { resubmitOrder } from '@/utils/api.js'
+import { resubmitOrder, uploadImage } from '@/utils/api.js'
 export default {
   name: 'CustomCamera',
   data() {
@@ -256,27 +256,38 @@ export default {
     
     confirmPhoto() {
       if (!this.capturedImage) return
-      if (this.orderId) {
-        uni.showLoading({ title: '上传中...' })
-        resubmitOrder(this.orderId, { originalPhoto: this.capturedImage })
-          .then(() => {
-            uni.hideLoading()
-            uni.showToast({ title: '上传成功', icon: 'success' })
-            uni.$emit('order-updated')
-            uni.navigateBack()
-          })
+      const handle = url => {
+        if (this.orderId) {
+          resubmitOrder(this.orderId, { originalPhoto: url })
+            .then(() => {
+              uni.hideLoading()
+              uni.showToast({ title: '上传成功', icon: 'success' })
+              uni.$emit('order-updated')
+              uni.navigateBack()
+            })
+            .catch(() => {
+              uni.hideLoading()
+              uni.showToast({ title: '上传失败', icon: 'none' })
+            })
+        } else {
+          const pages = getCurrentPages()
+          const prevPage = pages[pages.length - 2]
+          if (prevPage) {
+            prevPage.$vm.handlePhotoResult(url)
+          }
+          uni.navigateBack()
+        }
+      }
+      uni.showLoading({ title: '上传中...' })
+      if (this.capturedImage.startsWith('https://resource/')) {
+        uploadImage(this.capturedImage)
+          .then(file => handle(file.url))
           .catch(() => {
             uni.hideLoading()
             uni.showToast({ title: '上传失败', icon: 'none' })
           })
       } else {
-        // 返回上一页并传递图片路径
-        const pages = getCurrentPages()
-        const prevPage = pages[pages.length - 2]
-        if (prevPage) {
-          prevPage.$vm.handlePhotoResult(this.capturedImage)
-        }
-        uni.navigateBack()
+        handle(this.capturedImage)
       }
     },
     

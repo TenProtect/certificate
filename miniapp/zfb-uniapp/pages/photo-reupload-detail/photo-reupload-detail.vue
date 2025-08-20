@@ -133,7 +133,7 @@
 
 <script>
 import ScrollBanner from '@/components/scroll-banner.vue'
-import { getOrderDetail } from '@/utils/api.js'
+import { getOrderDetail, uploadImage } from '@/utils/api.js'
 
 export default {
   name: 'PhotoReuploadDetail',
@@ -215,13 +215,23 @@ export default {
         sizeType: ['original'],
         sourceType: ['album'],
         success: (res) => {
-          const imagePath = res.tempFilePaths[0]
-          const imageData = encodeURIComponent(imagePath)
-          const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
-          const cityData = encodeURIComponent(this.currentCity)
-          uni.navigateTo({
-            url: `/pages/photo-preview-choose/photo-preview-choose?image=${imageData}&document=${documentData}&city=${cityData}&orderId=${this.orderId}`
-          })
+          const localPath = res.tempFilePaths[0]
+          uni.showLoading({ title: '上传中...' })
+          uploadImage(localPath)
+            .then(file => {
+              const imageData = encodeURIComponent(file.url)
+              const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
+              const cityData = encodeURIComponent(this.currentCity)
+              uni.navigateTo({
+                url: `/pages/photo-preview-choose/photo-preview-choose?image=${imageData}&document=${documentData}&city=${cityData}&orderId=${this.orderId}`
+              })
+            })
+            .catch(() => {
+              uni.showToast({ title: '上传失败', icon: 'none' })
+            })
+            .finally(() => {
+              uni.hideLoading()
+            })
         }
       })
     },

@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { createOrder, alipayNotifyTest } from '@/utils/api.js'
+import { createOrder, alipayNotifyTest, uploadImage } from '@/utils/api.js'
 
 export default {
   name: 'OrderSubmit',
@@ -156,54 +156,67 @@ export default {
         })
         return
       }
-      
-      const orderData = {
-        document_name: this.documentInfo.name,
-        location: this.selectedCity,
-        amount: this.documentInfo.price,
-        original_photo: this.imagePath,
-        certificate_snapshot: JSON.stringify(this.documentInfo)
+
+      const proceed = photoUrl => {
+        const orderData = {
+          document_name: this.documentInfo.name,
+          location: this.selectedCity,
+          amount: this.documentInfo.price,
+          original_photo: photoUrl,
+          certificate_snapshot: JSON.stringify(this.documentInfo)
+        }
+
+        createOrder(orderData)
+          .then(res => {
+            uni.hideLoading()
+            const tradeNo = res.message.tradeNo
+            const orderNo = res.message.orderNo
+            if (res.__isDev__) {
+              alipayNotifyTest({ out_trade_no: orderNo, trade_status: 'TRADE_SUCCESS' })
+                .then(() => {
+                  uni.showToast({ title: '支付成功', icon: 'success' })
+                  uni.navigateBack({ delta: 1 })
+                })
+                .catch(() => {
+                  uni.showToast({ title: '支付失败', icon: 'none' })
+                })
+            } else {
+              my.tradePay({
+                tradeNO: tradeNo,
+                success: result => {
+                  if (result.resultCode === '9000') {
+                    uni.showToast({ title: '支付成功', icon: 'success' })
+                    uni.navigateBack({ delta: 1 })
+                  } else {
+                    uni.showToast({ title: '支付失败', icon: 'none' })
+                  }
+                },
+                fail: () => {
+                  uni.showToast({ title: '支付失败', icon: 'none' })
+                }
+              })
+            }
+          })
+          .catch(() => {
+            uni.hideLoading()
+            uni.showToast({ title: '订单创建失败', icon: 'none' })
+          })
       }
 
       uni.showLoading({
         title: '提交中...'
       })
 
-      createOrder(orderData)
-        .then(res => {
-          uni.hideLoading()
-          const tradeNo = res.message.tradeNo
-          const orderNo = res.message.orderNo
-          if (res.__isDev__) {
-            alipayNotifyTest({ out_trade_no: orderNo, trade_status: 'TRADE_SUCCESS' })
-              .then(() => {
-                uni.showToast({ title: '支付成功', icon: 'success' })
-                uni.navigateBack({ delta: 1 })
-              })
-              .catch(() => {
-                uni.showToast({ title: '支付失败', icon: 'none' })
-              })
-          } else {
-            my.tradePay({
-              tradeNO: tradeNo,
-              success: result => {
-                if (result.resultCode === '9000') {
-                  uni.showToast({ title: '支付成功', icon: 'success' })
-                  uni.navigateBack({ delta: 1 })
-                } else {
-                  uni.showToast({ title: '支付失败', icon: 'none' })
-                }
-              },
-              fail: () => {
-                uni.showToast({ title: '支付取消', icon: 'none' })
-              }
-            })
-          }
-        })
-        .catch(() => {
-          uni.hideLoading()
-          uni.showToast({ title: '订单创建失败', icon: 'none' })
-        })
+      if (this.imagePath.startsWith('https://resource/')) {
+        uploadImage(this.imagePath)
+          .then(file => proceed(file.url))
+          .catch(() => {
+            uni.hideLoading()
+            uni.showToast({ title: '上传失败', icon: 'none' })
+          })
+      } else {
+        proceed(this.imagePath)
+      }
     }
   }
 }
