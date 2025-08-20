@@ -1,4 +1,302 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PropertiesComponent">{}</component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7878a65e-30c2-46c2-9632-564dd8bb0836" name="更改" comment="订单测试">
+      <change afterPath="$PROJECT_DIR$/.idea/.cache/.Apifox_Helper/.toolWindow.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/ApifoxUploaderProjectSetting.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/3a849bc5-3f2d-424f-88e0-98a2ff776f70.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/3a849bc5-3f2d-424f-88e0-98a2ff776f70/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/3a849bc5-3f2d-424f-88e0-98a2ff776f70/storage_v2/_src_/schema/mysql.osA4Bg.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/3a849bc5-3f2d-424f-88e0-98a2ff776f70/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/3a849bc5-3f2d-424f-88e0-98a2ff776f70/storage_v2/_src_/schema/sys.zb4BAA.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/talelin/latticy/controller/v1/AlipayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/talelin/latticy/controller/v1/AlipayController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/mock/certificates.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/mock/certificates.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay-devtools/index.worker.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay-devtools/index.worker.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/common/assets.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/common/assets.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/camera-capture/camera-capture.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/camera-capture/camera-capture.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/main/components/home-content.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/main/components/home-content.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/main/components/order-content.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/main/components/order-content.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/main/components/profile-content.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/main/components/profile-content.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/main/main.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/main/main.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/order-submit/order-submit.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/order-submit/order-submit.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/photo-detail/photo-detail.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/photo-detail/photo-detail.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/photo-guide/photo-guide.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/photo-guide/photo-guide.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/photo-preview/photo-preview.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/photo-preview/photo-preview.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/search/search.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/.sourcemap/mp-alipay/pages/search/search.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/common/assets.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/common/assets.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/common/vendor.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/common/vendor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/custom-tabbar/custom-tabbar.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/custom-tabbar/custom-tabbar.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/custom-tabbar/custom-tabbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/custom-tabbar/custom-tabbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/custom-tabbar/custom-tabbar.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/custom-tabbar/custom-tabbar.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/scroll-banner.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/scroll-banner.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/scroll-banner.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/scroll-banner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/scroll-banner.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/scroll-banner.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/ucamera-overlay/ucamera-overlay.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/ucamera-overlay/ucamera-overlay.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/ucamera-overlay/ucamera-overlay.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/ucamera-overlay/ucamera-overlay.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/ucamera-overlay/ucamera-overlay.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/components/ucamera-overlay/ucamera-overlay.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/mini.project.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/mini.project.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/camera-capture/camera-capture.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/camera-capture/camera-capture.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/camera-capture/camera-capture.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/camera-capture/camera-capture.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/camera-capture/camera-capture.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/camera-capture/camera-capture.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/city-selector/city-selector.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/city-selector/city-selector.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/city-selector/city-selector.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/city-selector/city-selector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/city-selector/city-selector.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/city-selector/city-selector.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/demo/demo.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/demo/demo.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/demo/demo.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/demo/demo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/demo/demo.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/demo/demo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/index/index.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/index/index.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/index/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/index/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/index/index.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/index/index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/home-content.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/home-content.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/home-content.axml" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/home-content.axml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/home-content.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/home-content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/home-content.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/home-content.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/order-content.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/order-content.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/order-content.axml" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/order-content.axml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/order-content.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/order-content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/order-content.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/order-content.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/profile-content.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/profile-content.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/profile-content.axml" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/profile-content.axml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/profile-content.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/profile-content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/profile-content.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/components/profile-content.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/main.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/main.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/main.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/main/main.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-guide/order-guide.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-guide/order-guide.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-guide/order-guide.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-guide/order-guide.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-guide/order-guide.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-guide/order-guide.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-submit/order-submit.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-submit/order-submit.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-submit/order-submit.axml" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-submit/order-submit.axml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-submit/order-submit.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-submit/order-submit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-submit/order-submit.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/order-submit/order-submit.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-detail/photo-detail.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-detail/photo-detail.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-detail/photo-detail.axml" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-detail/photo-detail.axml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-detail/photo-detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-detail/photo-detail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-detail/photo-detail.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-detail/photo-detail.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-guide/photo-guide.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-guide/photo-guide.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-guide/photo-guide.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-guide/photo-guide.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-guide/photo-guide.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-guide/photo-guide.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-preview/photo-preview.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-preview/photo-preview.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-preview/photo-preview.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-preview/photo-preview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-preview/photo-preview.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/photo-preview/photo-preview.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/search/search.acss" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/search/search.acss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/search/search.axml" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/search/search.axml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/search/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/search/search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/search/search.json" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/pages/search/search.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/utils/cities-data.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/utils/cities-data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/utils/tabbar-manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/unpackage/dist/dev/mp-alipay/utils/tabbar-manager.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "TenProtect"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/TenProtect/certificate.git",
+    "accountId": "126834bd-0f51-48ad-bd29-cc9ac35bee5c"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="31XO2dPVwHrMz3iskdzVRlpePRH" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.LatticyApplication.executor": "Debug",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "项目",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="LatticyApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="backend" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="io.github.talelin.latticy.LatticyApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.27812.49" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.27812.49" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task id="LOCAL-00001" summary="修改提交的字段为snake">
+      <option name="closed" value="true" />
+      <created>1755089909050</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1755089909050</updated>
+    </task>
+    <task id="LOCAL-00002" summary="详情样式">
+      <option name="closed" value="true" />
+      <created>1755097557816</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1755097557816</updated>
+    </task>
+    <task id="LOCAL-00003" summary="更改pom.xml">
+      <option name="closed" value="true" />
+      <created>1755141709970</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1755141709970</updated>
+    </task>
+    <task id="LOCAL-00004" summary="支付宝登录调整">
+      <option name="closed" value="true" />
+      <created>1755147405452</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1755147405452</updated>
+    </task>
+    <task id="LOCAL-00005" summary="更新支付宝信息">
+      <option name="closed" value="true" />
+      <created>1755155308889</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1755155308889</updated>
+    </task>
+    <task id="LOCAL-00006" summary="更新支付宝信息">
+      <option name="closed" value="true" />
+      <created>1755160516719</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1755160516719</updated>
+    </task>
+    <task id="LOCAL-00007" summary="修改notifyUrl">
+      <option name="closed" value="true" />
+      <created>1755165700489</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1755165700489</updated>
+    </task>
+    <task id="LOCAL-00008" summary="修改notifyUrl">
+      <option name="closed" value="true" />
+      <created>1755165722066</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1755165722066</updated>
+    </task>
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="7878a65e-30c2-46c2-9632-564dd8bb0836" name="更改" comment="修改notifyUrl" />
+      <created>1755666748707</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1755666748707</updated>
+      <workItem from="1755666750417" duration="8092000" />
+    </task>
+    <task id="LOCAL-00009" summary="Enhance Alipay integration by adding buyer_open_id to trade creation and loading user identities">
+      <option name="closed" value="true" />
+      <created>1755676955898</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1755676955898</updated>
+    </task>
+    <task id="LOCAL-00010" summary="订单测试">
+      <option name="closed" value="true" />
+      <created>1755694574183</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1755694574183</updated>
+    </task>
+    <task id="LOCAL-00011" summary="订单测试">
+      <option name="closed" value="true" />
+      <created>1755694652755</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1755694652755</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="修改提交的字段为snake" />
+    <MESSAGE value="字段描述修改" />
+    <MESSAGE value="详情样式" />
+    <MESSAGE value="更改pom.xml" />
+    <MESSAGE value="支付宝登录调整" />
+    <MESSAGE value="更新支付宝信息" />
+    <MESSAGE value="修改notifyUrl" />
+    <MESSAGE value="Enhance Alipay integration by adding buyer_open_id to trade creation and loading user identities" />
+    <MESSAGE value="订单测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="订单测试" />
+  </component>
 </project>

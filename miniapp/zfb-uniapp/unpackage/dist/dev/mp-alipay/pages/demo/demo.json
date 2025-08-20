@@ -1,6 +1,0 @@
-{
-  "defaultTitle": "高级演示",
-  "usingComponents": {
-    "scroll-banner": "../../components/scroll-banner"
-  }
-}
