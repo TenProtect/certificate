@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:5000/v1/mini'
+const API_BASE = 'http://192.168.31.179:5000/v1/mini'
 const TOKEN_KEY = 'token'
 
 // 通用请求封装函数

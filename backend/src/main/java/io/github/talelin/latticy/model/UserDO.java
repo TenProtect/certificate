@@ -1,5 +1,6 @@
 package io.github.talelin.latticy.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author pedro@TaleLin
@@ -43,4 +45,23 @@ public class UserDO extends BaseModel implements Serializable {
      */
     private String email;
 
+    /**
+     * 用户身份信息列表
+     */
+    @TableField(exist = false)
+    private List<UserIdentityDO> identities;
+
+    /**
+     * 获取支付宝用户ID
+     */
+    public String getAlipayUserId() {
+        if (identities == null) {
+            return null;
+        }
+        return identities.stream()
+                .filter(identity -> "ALIPAY".equals(identity.getIdentityType()))
+                .map(UserIdentityDO::getIdentifier)
+                .findFirst()
+                .orElse(null);
+    }
 }

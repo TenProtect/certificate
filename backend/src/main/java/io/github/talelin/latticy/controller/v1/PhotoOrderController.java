@@ -76,4 +76,3 @@ public class PhotoOrderController {
         return photoOrderService.getPhotos(id);
     }
 }
-

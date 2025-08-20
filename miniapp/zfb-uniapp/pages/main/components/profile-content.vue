@@ -84,14 +84,14 @@ export default {
       my.getAuthCode({
         scopes: 'auth_user',
         success: (auth) => {
-          my.getUserInfo({
+          my.getOpenUserInfo({
             success: async (user) => {
               this.avatarUrl = user.avatar
-              this.userName = user.userName
+              this.userName = user.nickName
               uni.setStorageSync('avatar', user.avatar)
-              uni.setStorageSync('nickName', user.userName)
+              uni.setStorageSync('nickName', user.nickName)
               try {
-                await alipayLogin({ authCode: auth.authCode, nickName: user.userName, avatar: user.avatar })
+                await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
               } catch (e) {
                 // ignore
               }
@@ -110,17 +110,20 @@ export default {
       my.getAuthCode({
         scopes: 'auth_user',
         success: (auth) => {
-          my.getUserInfo({
+          my.getOpenUserInfo({
             success: async (user) => {
+              user = JSON.parse(user.response)
+              user = user.response
+              console.log('获取用户信息成功:', user)
               try {
-                const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.userName, avatar: user.avatar })
+                const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
                 if (resp && resp.data && resp.data.token) {
                   uni.setStorageSync('token', resp.data.token)
                   this.hasToken = true
                   this.avatarUrl = user.avatar
-                  this.userName = user.userName
+                  this.userName = user.nickName
                   uni.setStorageSync('avatar', user.avatar)
-                  uni.setStorageSync('nickName', user.userName)
+                  uni.setStorageSync('nickName', user.nickName)
                   
                   // 登录成功提示
                   uni.showToast({ 
@@ -135,8 +138,9 @@ export default {
                 uni.showToast({ title: '登录失败', icon: 'none' })
               }
             },
-            fail: () => {
+            fail: (error) => {
               uni.showToast({ title: '授权失败', icon: 'none' })
+              console.log('获取用户信息失败:', error)
             }
           })
         },

@@ -11,6 +11,7 @@ import io.github.talelin.latticy.dto.RejectPhotoOrderDTO;
 import io.github.talelin.latticy.dto.ReviewPhotoOrderDTO;
 import io.github.talelin.latticy.mapper.PhotoOrderMapper;
 import io.github.talelin.latticy.model.PhotoOrderDO;
+import io.github.talelin.latticy.model.UserDO;
 import io.github.talelin.latticy.common.LocalUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,16 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         order.setStatus(PhotoOrderStatus.UNPAID.getValue());
         order.setUserId(LocalUser.getLocalUser().getId());
         this.save(order);
-        String tradeNo = alipayService.createTrade(order.getOrderNo(), dto.getAmount(), dto.getDocumentName());
+
+        // 从当前登录用户直接获取支付宝用户ID
+        UserDO currentUser = LocalUser.getLocalUser();
+        String buyerId = currentUser.getAlipayUserId();
+        if (buyerId == null) {
+            throw new AlipayApiException("当前用户没有绑定支付宝账号");
+        }
+
+        String tradeNo = alipayService.createTrade(order.getOrderNo(), dto.getAmount(), dto.getDocumentName(), buyerId);
+
         Map<String, Object> res = new HashMap<>();
         res.put("orderId", order.getId());
         res.put("tradeNo", tradeNo);
@@ -115,4 +125,3 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         }
     }
 }
-

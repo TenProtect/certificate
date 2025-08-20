@@ -32,14 +32,19 @@ public class AlipayService {
                 "RSA2");
     }
 
-    public String createTrade(String outTradeNo, BigDecimal amount, String subject) throws AlipayApiException {
+    public String createTrade(String outTradeNo, BigDecimal amount, String subject, String buyerOpenId) throws AlipayApiException {
         AlipayClient client = buildClient();
 
         AlipayTradeCreateRequest request = new AlipayTradeCreateRequest();
         request.setNotifyUrl(properties.getNotifyUrl());
-        String bizContent = String.format("{\"out_trade_no\":\"%s\",\"total_amount\":\"%s\",\"subject\":\"%s\"}",
-                outTradeNo, amount.toPlainString(), subject);
+
+        // 关键：使用 buyer_open_id，而不是 buyer_id
+        String bizContent = String.format(
+                "{\"out_trade_no\":\"%s\",\"total_amount\":\"%s\",\"subject\":\"%s\",\"buyer_open_id\":\"%s\"}",
+                outTradeNo, amount.toPlainString(), subject, buyerOpenId
+        );
         request.setBizContent(bizContent);
+
         AlipayTradeCreateResponse response = client.execute(request);
         if (response.isSuccess()) {
             return response.getTradeNo();

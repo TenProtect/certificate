@@ -16,8 +16,10 @@ import io.github.talelin.core.token.DoubleJWT;
 import io.github.talelin.latticy.common.LocalUser;
 import io.github.talelin.latticy.model.PermissionDO;
 import io.github.talelin.latticy.model.UserDO;
+import io.github.talelin.latticy.model.UserIdentityDO;
 import io.github.talelin.latticy.service.GroupService;
 import io.github.talelin.latticy.service.UserService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +50,9 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private io.github.talelin.latticy.service.UserIdentityService userIdentityService;
 
     @Value("${lin.file.domain}")
     private String domain;
@@ -133,6 +138,12 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
         if (user == null) {
             throw new NotFoundException("user is not found", 10021);
         }
+
+        // 加载用户的身份信息
+        QueryWrapper<UserIdentityDO> identityWrapper = new QueryWrapper<>();
+        identityWrapper.lambda().eq(UserIdentityDO::getUserId, user.getId());
+        user.setIdentities(userIdentityService.list(identityWrapper));
+
         String avatarUrl;
         if (user.getAvatar() == null) {
             avatarUrl = null;

@@ -32,8 +32,14 @@ public class ResultAspect {
             UnifyResponseVO result = (UnifyResponseVO) ret;
             int code = result.getCode();
             String message = CodeMessageConfiguration.getMessage(code);
-            if (StrUtil.isNotBlank(message) && StrUtil.isBlank((CharSequence) result.getMessage())) {
-                result.setMessage(message);
+            // 检查是否需要设置消息，避免类型转换异常
+            if (StrUtil.isNotBlank(message)) {
+                Object currentMessage = result.getMessage();
+                // 只有当前消息为null、空字符串或者是字符串类型且为空时才设置新消息
+                if (currentMessage == null ||
+                    (currentMessage instanceof String && StrUtil.isBlank((String) currentMessage))) {
+                    result.setMessage(message);
+                }
             }
         }
     }

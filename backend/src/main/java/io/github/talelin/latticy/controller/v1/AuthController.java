@@ -58,6 +58,12 @@ public class AuthController {
             user.setAvatar(dto.getAvatar());
             userService.updateById(user);
         }
+
+        // 加载用户的身份信息
+        QueryWrapper<UserIdentityDO> identityWrapper = new QueryWrapper<>();
+        identityWrapper.lambda().eq(UserIdentityDO::getUserId, user.getId());
+        user.setIdentities(userIdentityService.list(identityWrapper));
+
         Tokens tokens = jwt.generateTokens(user.getId());
         Map<String, Object> data = new HashMap<>();
         data.put("token", tokens.getAccessToken());
