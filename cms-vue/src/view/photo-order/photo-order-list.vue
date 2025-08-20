@@ -11,6 +11,7 @@
       @handleReview="handleReview"
       @handleReject="handleReject"
       @handleView="handleView"
+      @handlePhoto="handlePhoto"
     />
     <el-dialog title="完成订单" :visible.sync="dialogVisible">
       <el-form label-width="80px">
@@ -27,6 +28,14 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible=false">取 消</el-button>
         <el-button type="primary" @click="submitReview">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="用户上传照片" :visible.sync="photoDialogVisible">
+      <el-image v-if="previewPhoto" :src="previewPhoto" :preview-src-list="[previewPhoto]" style="max-width: 100%" />
+      <span slot="footer" class="dialog-footer">
+        <a :href="previewPhoto" :download="true" target="_blank">
+          <el-button type="primary">下载</el-button>
+        </a>
       </span>
     </el-dialog>
   </div>
@@ -54,6 +63,8 @@ export default {
       operate: [],
       loading: false,
       dialogVisible: false,
+      photoDialogVisible: false,
+      previewPhoto: '',
       currentId: null,
       detailId: null,
       showDetail: false,
@@ -70,7 +81,8 @@ export default {
     this.operate = [
       { name: '完成', func: 'handleReview', type: 'primary', show: row => row.status === 1 },
       { name: '驳回', func: 'handleReject', type: 'danger', show: row => row.status === 1 },
-      { name: '查看', func: 'handleView', type: 'primary', show: row => row.status === 3 }
+      { name: '查看', func: 'handleView', type: 'primary', show: row => row.status === 3 },
+      { name: '用户照片', func: 'handlePhoto', type: 'primary', show: row => !!row.originalPhoto }
     ]
     this.loading = false
   },
@@ -124,6 +136,10 @@ export default {
     handleView(val) {
       this.detailId = val.row.id
       this.showDetail = true
+    },
+    handlePhoto(val) {
+      this.previewPhoto = val.row.originalPhoto
+      this.photoDialogVisible = true
     },
     detailClose() {
       this.showDetail = false
