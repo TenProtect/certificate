@@ -207,17 +207,18 @@ export default {
       if (!this.checkLogin()) {
         return
       }
-      
+
       uni.chooseImage({
         count: 1,
         sizeType: ['original'],
         sourceType: ['album'],
         success: (res) => {
-          console.log('选择的图片:', res.tempFilePaths[0])
-          // 这里可以进行图片处理
-          uni.showToast({
-            title: '图片选择成功',
-            icon: 'success'
+          const imagePath = res.tempFilePaths[0]
+          const imageData = encodeURIComponent(imagePath)
+          const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
+          const cityData = encodeURIComponent(this.currentCity)
+          uni.navigateTo({
+            url: `/pages/photo-preview-choose/photo-preview-choose?image=${imageData}&document=${documentData}&city=${cityData}`
           })
         }
       })
