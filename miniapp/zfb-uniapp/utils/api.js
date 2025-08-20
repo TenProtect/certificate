@@ -101,6 +101,32 @@ function refreshTokenRequest() {
   return request('/auth/refresh', 'GET', null, { useRefreshToken: true }, false)
 }
 
+export function uploadImage(filePath) {
+  const token = uni.getStorageSync(TOKEN_KEY)
+  const baseUrl = API_BASE.replace(/\/v1\/mini$/, '')
+  return new Promise((resolve, reject) => {
+    uni.uploadFile({
+      url: `${baseUrl}/cms/file`,
+      filePath,
+      name: 'file',
+      header: token ? { Authorization: `Bearer ${token}` } : {},
+      success: res => {
+        try {
+          const data = JSON.parse(res.data)
+          if (Array.isArray(data) && data.length > 0) {
+            resolve(data[0])
+          } else {
+            reject(new Error('上传失败'))
+          }
+        } catch (e) {
+          reject(e)
+        }
+      },
+      fail: err => reject(err)
+    })
+  })
+}
+
 // GET 请求封装
 export function Get(url, params = null, options = {}) {
   return (additionalParams = {}) => {

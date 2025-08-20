@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { resubmitOrder } from '@/utils/api.js'
+import { resubmitOrder, uploadImage } from '@/utils/api.js'
 
 export default {
   name: 'PhotoPreview',
@@ -127,21 +127,42 @@ export default {
     },
     
     submitOrder() {
-      if (this.orderId) {
-        resubmitOrder(this.orderId, { original_photo: this.imagePath }).then(() => {
+      const goCreate = url => {
+        const imageData = encodeURIComponent(url)
+        const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
+        const cityData = encodeURIComponent(this.currentCity)
+        uni.navigateTo({
+          url: `/pages/order-submit/order-submit?image=${imageData}&document=${documentData}&city=${cityData}`
+        })
+      }
+      const doResubmit = url => {
+        resubmitOrder(this.orderId, { original_photo: url }).then(() => {
           uni.showToast({ title: '提交成功', icon: 'success' })
           uni.$emit('order-updated')
           uni.navigateBack({ delta: 2 })
         }).catch(() => {
           uni.showToast({ title: '提交失败', icon: 'none' })
         })
+      }
+      const next = url => {
+        if (this.orderId) {
+          doResubmit(url)
+        } else {
+          goCreate(url)
+        }
+      }
+      if (this.imagePath.startsWith('https://resource/')) {
+        uni.showLoading({ title: '上传中...' })
+        uploadImage(this.imagePath)
+          .then(file => next(file.url))
+          .catch(() => {
+            uni.showToast({ title: '上传失败', icon: 'none' })
+          })
+          .finally(() => {
+            uni.hideLoading()
+          })
       } else {
-        const imageData = encodeURIComponent(this.imagePath)
-        const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
-        const cityData = encodeURIComponent(this.currentCity)
-        uni.navigateTo({
-          url: `/pages/order-submit/order-submit?image=${imageData}&document=${documentData}&city=${cityData}`
-        })
+        next(this.imagePath)
       }
     }
   }
