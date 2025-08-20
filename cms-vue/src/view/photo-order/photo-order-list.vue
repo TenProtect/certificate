@@ -45,8 +45,8 @@
 <script>
 import LinTable from '@/component/base/table/lin-table'
 import UploadImgs from '@/component/base/upload-image'
-import PhotoOrderDetail from './photo-order-detail'
 import photoOrder from '@/model/photo-order'
+import PhotoOrderDetail from './photo-order-detail'
 
 export default {
   components: { LinTable, UploadImgs, PhotoOrderDetail },
