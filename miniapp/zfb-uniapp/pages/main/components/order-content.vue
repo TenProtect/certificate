@@ -214,30 +214,117 @@ export default {
         icon: 'none'
       })
     },
-    downloadStandard(order) {
-      uni.downloadFile({
-        url: order.standardPhoto,
-        success: () => {
-          uni.showToast({ title: '下载成功', icon: 'success' })
-        }
-      })
-    },
-    downloadLayout(order) {
-      uni.downloadFile({
-        url: order.layoutPhoto,
-        success: () => {
-          uni.showToast({ title: '下载成功', icon: 'success' })
-        }
-      })
-    },
-    downloadReceipt(order) {
-      uni.downloadFile({
-        url: order.receiptPhoto,
-        success: () => {
-          uni.showToast({ title: '下载成功', icon: 'success' })
-        }
-      })
-    },
+ // 通用：保存网络图片到系统相册（优先使用 my.saveImage，失败则回退到下载后保存）
+  async saveImageToAlbum(url) {
+    // #ifdef MP-ALIPAY
+    try {
+      // 方案A：直接用 my.saveImage 保存网络图到相册（最简）
+      await my.saveImage({ url }); // 基础库支持直接传网络URL
+      uni.showToast({ title: '已保存到相册', icon: 'success' });
+      return;
+    } catch (e) {
+      // 方案B回退：先下载 -> 再保存到相册
+      const dlRes = await new Promise((resolve, reject) => {
+        my.downloadFile({
+          url,
+          success: resolve,
+          fail: reject
+        })
+      });
+      const tempPath = dlRes.apFilePath || dlRes.tempFilePath;
+      await new Promise((resolve, reject) => {
+        my.saveImageToPhotosAlbum
+          ? my.saveImageToPhotosAlbum({ filePath: tempPath, success: resolve, fail: reject })
+          : my.saveImage({ url, success: resolve, fail: reject }); // 兜底
+      });
+      uni.showToast({ title: '已保存到相册', icon: 'success' });
+    }
+    // #endif
+
+    // #ifndef MP-ALIPAY
+    // 其他小程序/APP/H5 的逻辑：下载 -> saveImageToPhotosAlbum（注意仅支持本地路径）
+    const dl = await new Promise((resolve, reject) => {
+      uni.downloadFile({ url, success: resolve, fail: reject });
+    });
+    await new Promise((resolve, reject) => {
+      uni.saveImageToPhotosAlbum({
+        filePath: dl.tempFilePath,
+        success: resolve,
+        fail: reject
+      });
+    });
+    uni.showToast({ title: '已保存到相册', icon: 'success' });
+    // #endif
+  },
+
+  // 辅助：把下载的文件“持久化”，安卓可在文件管理里看到（iOS 仅小程序内部可见）
+  async persistFile(url) {
+    // #ifdef MP-ALIPAY
+    const dlRes = await new Promise((resolve, reject) => {
+      my.downloadFile({ url, success: resolve, fail: reject });
+    });
+    const tempPath = dlRes.apFilePath || dlRes.tempFilePath;
+    const saveRes = await new Promise((resolve, reject) => {
+      my.saveFile({ apFilePath: tempPath, success: resolve, fail: reject });
+    });
+    // saveRes.apFilePath 即持久化后的路径（iOS 不在文件管理器展示）
+    return saveRes.apFilePath || saveRes.filePath;
+    // #endif
+
+    // #ifndef MP-ALIPAY
+    const dl = await new Promise((resolve, reject) => {
+      uni.downloadFile({ url, success: resolve, fail: reject });
+    });
+    const saved = await new Promise((resolve, reject) => {
+      uni.saveFile({ tempFilePath: dl.tempFilePath, success: resolve, fail: reject });
+    });
+    return saved.savedFilePath;
+    // #endif
+  },
+
+  async downloadStandard(order) {
+    try {
+      await this.saveImageToAlbum(order.standardPhoto);
+    } catch (e) {
+      // 相册失败则尝试持久化保存
+      try {
+        const p = await this.persistFile(order.standardPhoto);
+        uni.showToast({ title: '已保存文件', icon: 'success' });
+        console.log('持久化路径：', p);
+      } catch (err) {
+        uni.showToast({ title: '保存失败', icon: 'none' });
+        console.error(err);
+      }
+    }
+  },
+  async downloadLayout(order) {
+    try {
+      await this.saveImageToAlbum(order.layoutPhoto);
+    } catch (e) {
+      try {
+        const p = await this.persistFile(order.layoutPhoto);
+        uni.showToast({ title: '已保存文件', icon: 'success' });
+        console.log('持久化路径：', p);
+      } catch (err) {
+        uni.showToast({ title: '保存失败', icon: 'none' });
+        console.error(err);
+      }
+    }
+  },
+  async downloadReceipt(order) {
+    try {
+      await this.saveImageToAlbum(order.receiptPhoto);
+    } catch (e) {
+      try {
+        const p = await this.persistFile(order.receiptPhoto);
+        uni.showToast({ title: '已保存文件', icon: 'success' });
+        console.log('持久化路径：', p);
+      } catch (err) {
+        uni.showToast({ title: '保存失败', icon: 'none' });
+        console.error(err);
+      }
+    }
+  },
     reupload(order) {
       const data = encodeURIComponent(JSON.stringify({ name: order.documentName, specs: { requirements: '' } }))
       uni.navigateTo({
