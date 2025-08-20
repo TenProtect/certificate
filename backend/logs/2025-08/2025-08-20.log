@@ -6251,3 +6251,67 @@ io.github.talelin.autoconfigure.exception.TokenExpiredException: The Token has e
 2025-08-20 21:27:11.627 [http-nio-5000-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{code=0, data={token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6NCwic2NvcGUiOiJsaW4iLCJ0eX (truncated)...]
 2025-08-20 21:27:11.628 [http-nio-5000-exec-8] INFO  i.g.t.l.common.interceptor.RequestLogInterceptor - [GET] -> [/v1/mini/auth/refresh] from: 192.168.31.118 costs: 17ms
 2025-08-20 21:27:11.628 [http-nio-5000-exec-8] DEBUG org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2025-08-20 23:32:44.614 [http-nio-5000-exec-1] DEBUG org.springframework.web.servlet.DispatcherServlet - OPTIONS "/cms/user/login", parameters={}
+2025-08-20 23:32:44.623 [http-nio-5000-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to io.github.talelin.latticy.controller.cms.UserController#login(LoginDTO)
+2025-08-20 23:32:44.630 [http-nio-5000-exec-1] INFO  i.g.t.l.common.interceptor.RequestLogInterceptor - [OPTIONS] -> [/cms/user/login] from: 192.168.31.179 costs: 5ms
+2025-08-20 23:32:44.630 [http-nio-5000-exec-1] DEBUG org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2025-08-20 23:32:44.640 [http-nio-5000-exec-2] DEBUG org.springframework.web.servlet.DispatcherServlet - POST "/cms/user/login", parameters={}
+2025-08-20 23:32:44.640 [http-nio-5000-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to io.github.talelin.latticy.controller.cms.UserController#login(LoginDTO)
+2025-08-20 23:32:44.752 [http-nio-5000-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [LoginDTO(username=root, password=123456)]
+2025-08-20 23:32:44.884 [http-nio-5000-exec-2] DEBUG i.g.talelin.latticy.mapper.UserMapper.selectOne - ==>  Preparing: SELECT id,username,nickname,avatar,email,create_time,update_time,delete_time FROM lin_user WHERE delete_time IS NULL AND (username = ?) 
+2025-08-20 23:32:44.887 [http-nio-5000-exec-2] DEBUG i.g.talelin.latticy.mapper.UserMapper.selectOne - ==> Parameters: root(String)
+2025-08-20 23:32:44.890 [http-nio-5000-exec-2] DEBUG i.g.talelin.latticy.mapper.UserMapper.selectOne - <==      Total: 1
+2025-08-20 23:32:44.902 [http-nio-5000-exec-2] DEBUG i.g.t.latticy.mapper.UserIdentityMapper.selectOne - ==>  Preparing: SELECT id,user_id,identity_type,identifier,credential,create_time,update_time,delete_time FROM lin_user_identity WHERE delete_time IS NULL AND (user_id = ? AND identity_type = ? AND identifier = ?) 
+2025-08-20 23:32:44.902 [http-nio-5000-exec-2] DEBUG i.g.t.latticy.mapper.UserIdentityMapper.selectOne - ==> Parameters: 1(Integer), USERNAME_PASSWORD(String), root(String)
+2025-08-20 23:32:44.903 [http-nio-5000-exec-2] DEBUG i.g.t.latticy.mapper.UserIdentityMapper.selectOne - <==      Total: 1
+2025-08-20 23:32:45.073 [http-nio-5000-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-08-20 23:32:45.074 [http-nio-5000-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6MSwic2NvcGUiOiJsaW4iLCJ0eXBlIjoiY (truncated)...]
+2025-08-20 23:32:45.076 [http-nio-5000-exec-2] INFO  i.g.t.l.common.interceptor.RequestLogInterceptor - [POST] -> [/cms/user/login] from: 192.168.31.179 costs: 431ms
+2025-08-20 23:32:45.076 [http-nio-5000-exec-2] DEBUG org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2025-08-20 23:32:45.080 [http-nio-5000-exec-3] DEBUG org.springframework.web.servlet.DispatcherServlet - OPTIONS "/cms/user/permissions", parameters={}
+2025-08-20 23:32:45.080 [http-nio-5000-exec-3] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to io.github.talelin.latticy.controller.cms.UserController#getPermissions()
+2025-08-20 23:32:45.081 [http-nio-5000-exec-3] INFO  i.g.t.l.common.interceptor.RequestLogInterceptor - [OPTIONS] -> [/cms/user/permissions] from: 192.168.31.179 costs: 1ms
+2025-08-20 23:32:45.081 [http-nio-5000-exec-3] DEBUG org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2025-08-20 23:32:45.083 [http-nio-5000-exec-4] DEBUG org.springframework.web.servlet.DispatcherServlet - GET "/cms/user/permissions", parameters={}
+2025-08-20 23:32:45.083 [http-nio-5000-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to io.github.talelin.latticy.controller.cms.UserController#getPermissions()
+2025-08-20 23:32:45.085 [http-nio-5000-exec-4] DEBUG i.g.talelin.latticy.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,username,nickname,avatar,email,create_time,update_time,delete_time FROM lin_user WHERE id=? AND delete_time IS NULL 
+2025-08-20 23:32:45.085 [http-nio-5000-exec-4] DEBUG i.g.talelin.latticy.mapper.UserMapper.selectById - ==> Parameters: 1(Integer)
+2025-08-20 23:32:45.085 [http-nio-5000-exec-4] DEBUG i.g.talelin.latticy.mapper.UserMapper.selectById - <==      Total: 1
+2025-08-20 23:32:45.086 [http-nio-5000-exec-4] DEBUG i.g.t.latticy.mapper.UserIdentityMapper.selectList - ==>  Preparing: SELECT id,user_id,identity_type,identifier,credential,create_time,update_time,delete_time FROM lin_user_identity WHERE delete_time IS NULL AND (user_id = ?) 
+2025-08-20 23:32:45.086 [http-nio-5000-exec-4] DEBUG i.g.t.latticy.mapper.UserIdentityMapper.selectList - ==> Parameters: 1(Integer)
+2025-08-20 23:32:45.087 [http-nio-5000-exec-4] DEBUG i.g.t.latticy.mapper.UserIdentityMapper.selectList - <==      Total: 1
+2025-08-20 23:32:45.179 [http-nio-5000-exec-4] DEBUG i.g.talelin.latticy.mapper.GroupMapper.selectOne - ==>  Preparing: SELECT id,name,info,`level`,create_time,update_time,delete_time FROM lin_group WHERE delete_time IS NULL AND (`level` = ?) 
+2025-08-20 23:32:45.181 [http-nio-5000-exec-4] DEBUG i.g.talelin.latticy.mapper.GroupMapper.selectOne - ==> Parameters: ROOT(String)
+2025-08-20 23:32:45.182 [http-nio-5000-exec-4] DEBUG i.g.talelin.latticy.mapper.GroupMapper.selectOne - <==      Total: 1
+2025-08-20 23:32:45.188 [http-nio-5000-exec-4] DEBUG i.g.t.latticy.mapper.UserGroupMapper.selectOne - ==>  Preparing: SELECT id,user_id,group_id FROM lin_user_group WHERE (user_id = ? AND group_id = ?) 
+2025-08-20 23:32:45.188 [http-nio-5000-exec-4] DEBUG i.g.t.latticy.mapper.UserGroupMapper.selectOne - ==> Parameters: 1(Integer), 1(Integer)
+2025-08-20 23:32:45.189 [http-nio-5000-exec-4] DEBUG i.g.t.latticy.mapper.UserGroupMapper.selectOne - <==      Total: 1
+2025-08-20 23:32:45.190 [http-nio-5000-exec-4] DEBUG i.g.t.l.mapper.GroupMapper.selectUserGroupIds - ==>  Preparing: SELECT g.id from lin_group AS g WHERE g.delete_time IS NULL AND g.id IN ( SELECT ug.group_id FROM lin_user AS u LEFT JOIN lin_user_group as ug ON ug.user_id = u.id WHERE u.id = ? AND u.delete_time IS NULL ) 
+2025-08-20 23:32:45.190 [http-nio-5000-exec-4] DEBUG i.g.t.l.mapper.GroupMapper.selectUserGroupIds - ==> Parameters: 1(Integer)
+2025-08-20 23:32:45.191 [http-nio-5000-exec-4] DEBUG i.g.t.l.mapper.GroupMapper.selectUserGroupIds - <==      Total: 1
+2025-08-20 23:32:45.199 [http-nio-5000-exec-4] DEBUG i.g.t.l.m.P.selectPermissionsByGroupIds - ==>  Preparing: SELECT p.id, p.name, p.module, p.mount, p.create_time, p.update_time, p.delete_time FROM lin_permission AS p WHERE p.delete_time IS NULL AND p.mount = true AND p.id IN ( SELECT gp.permission_id FROM lin_group_permission AS gp WHERE gp.group_id IN ( ? ) ) 
+2025-08-20 23:32:45.200 [http-nio-5000-exec-4] DEBUG i.g.t.l.m.P.selectPermissionsByGroupIds - ==> Parameters: 1(Integer)
+2025-08-20 23:32:45.201 [http-nio-5000-exec-4] DEBUG i.g.t.l.m.P.selectPermissionsByGroupIds - <==      Total: 0
+2025-08-20 23:32:45.215 [http-nio-5000-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-08-20 23:32:45.215 [http-nio-5000-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{id=null, nickname=root, avatar=null, admin=true, email=null, permissions=[]}]
+2025-08-20 23:32:45.216 [http-nio-5000-exec-4] INFO  i.g.t.l.common.interceptor.RequestLogInterceptor - [GET] -> [/cms/user/permissions] from: 192.168.31.179 costs: 129ms
+2025-08-20 23:32:45.216 [http-nio-5000-exec-4] DEBUG org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2025-08-20 23:32:47.715 [http-nio-5000-exec-5] DEBUG org.springframework.web.servlet.DispatcherServlet - OPTIONS "/v1/mini/order", parameters={}
+2025-08-20 23:32:47.715 [http-nio-5000-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to io.github.talelin.latticy.controller.v1.PhotoOrderController#listAll(Integer)
+2025-08-20 23:32:47.716 [http-nio-5000-exec-5] INFO  i.g.t.l.common.interceptor.RequestLogInterceptor - [OPTIONS] -> [/v1/mini/order] from: 192.168.31.179 costs: 1ms
+2025-08-20 23:32:47.716 [http-nio-5000-exec-5] DEBUG org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
+2025-08-20 23:32:47.719 [http-nio-5000-exec-6] DEBUG org.springframework.web.servlet.DispatcherServlet - GET "/v1/mini/order", parameters={}
+2025-08-20 23:32:47.719 [http-nio-5000-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to io.github.talelin.latticy.controller.v1.PhotoOrderController#listAll(Integer)
+2025-08-20 23:32:47.721 [http-nio-5000-exec-6] DEBUG i.g.talelin.latticy.mapper.UserMapper.selectById - ==>  Preparing: SELECT id,username,nickname,avatar,email,create_time,update_time,delete_time FROM lin_user WHERE id=? AND delete_time IS NULL 
+2025-08-20 23:32:47.721 [http-nio-5000-exec-6] DEBUG i.g.talelin.latticy.mapper.UserMapper.selectById - ==> Parameters: 1(Integer)
+2025-08-20 23:32:47.722 [http-nio-5000-exec-6] DEBUG i.g.talelin.latticy.mapper.UserMapper.selectById - <==      Total: 1
+2025-08-20 23:32:47.723 [http-nio-5000-exec-6] DEBUG i.g.t.latticy.mapper.UserIdentityMapper.selectList - ==>  Preparing: SELECT id,user_id,identity_type,identifier,credential,create_time,update_time,delete_time FROM lin_user_identity WHERE delete_time IS NULL AND (user_id = ?) 
+2025-08-20 23:32:47.724 [http-nio-5000-exec-6] DEBUG i.g.t.latticy.mapper.UserIdentityMapper.selectList - ==> Parameters: 1(Integer)
+2025-08-20 23:32:47.724 [http-nio-5000-exec-6] DEBUG i.g.t.latticy.mapper.UserIdentityMapper.selectList - <==      Total: 1
+2025-08-20 23:32:47.726 [http-nio-5000-exec-6] DEBUG i.g.t.latticy.mapper.PhotoOrderMapper.selectList - ==>  Preparing: SELECT id,order_no,user_id,document_name,location,amount,original_photo,standard_photo,layout_photo,receipt_photo,reject_reason,status,create_time,update_time,delete_time FROM photo_order WHERE delete_time IS NULL ORDER BY create_time DESC 
+2025-08-20 23:32:47.726 [http-nio-5000-exec-6] DEBUG i.g.t.latticy.mapper.PhotoOrderMapper.selectList - ==> Parameters: 
+2025-08-20 23:32:47.727 [http-nio-5000-exec-6] DEBUG i.g.t.latticy.mapper.PhotoOrderMapper.selectList - <==      Total: 9
+2025-08-20 23:32:47.728 [http-nio-5000-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json, application/json, application/*+json]
+2025-08-20 23:32:47.729 [http-nio-5000-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [[{id=1, order_no=1755672187957, orderNo=1755672187957, user_id=4, userId=4, document_name=身份证, docum (truncated)...]
+2025-08-20 23:32:47.730 [http-nio-5000-exec-6] INFO  i.g.t.l.common.interceptor.RequestLogInterceptor - [GET] -> [/v1/mini/order] from: 192.168.31.179 costs: 6ms
+2025-08-20 23:32:47.730 [http-nio-5000-exec-6] DEBUG org.springframework.web.servlet.DispatcherServlet - Completed 200 OK
