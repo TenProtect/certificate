@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7878a65e-30c2-46c2-9632-564dd8bb0836" name="更改" comment="订单测试">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/2025-08/2025-08-20.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-08/2025-08-20.log" afterDir="false" />
-    </list>
+    <list default="true" id="7878a65e-30c2-46c2-9632-564dd8bb0836" name="更改" comment="订单测试" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -152,7 +148,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1755666748707</updated>
-      <workItem from="1755666750417" duration="10901000" />
+      <workItem from="1755666750417" duration="11750000" />
     </task>
     <task id="LOCAL-00009" summary="Enhance Alipay integration by adding buyer_open_id to trade creation and loading user identities">
       <option name="closed" value="true" />
