@@ -20,5 +20,8 @@ public class CreatePhotoOrderDTO {
 
     @NotBlank
     private String originalPhoto;
+
+    @NotBlank
+    private String certificateSnapshot;
 }
 

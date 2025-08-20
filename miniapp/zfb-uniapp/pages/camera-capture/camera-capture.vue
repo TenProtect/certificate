@@ -61,6 +61,7 @@ export default {
     return {
       statusBarHeight: 0,
       currentCity: '',
+      orderId: '',
        documentInfo: {
         name: '身份证',
         price: 20,
@@ -126,6 +127,9 @@ export default {
       } catch (e) {
         console.error('解析文档数据失败:', e)
       }
+    }
+    if (options.orderId) {
+      this.orderId = options.orderId
     }
   },
   
@@ -230,9 +234,11 @@ export default {
         const imageData = encodeURIComponent(imagePath)
         const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
         const cityData = encodeURIComponent(this.currentCity)
-        uni.navigateTo({
-          url: `/pages/photo-preview/photo-preview?image=${imageData}&document=${documentData}&city=${cityData}`
-        })
+        let url = `/pages/photo-preview/photo-preview?image=${imageData}&document=${documentData}&city=${cityData}`
+        if (this.orderId) {
+          url += `&orderId=${this.orderId}`
+        }
+        uni.navigateTo({ url })
       }, 1000)
     }
   }
