@@ -1,0 +1,48 @@
+#开发环境配置
+
+server:
+  # 服务端口
+  port: 5000
+
+
+spring:
+  # 数据源配置，请修改为你项目的实际配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: FiretheLife6422
+    url: jdbc:mysql://localhost:3306/certificate?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&characterEncoding=UTF8
+    username: root
+  servlet:
+    multipart:
+      # 总体文件最大体积（只能从max-file-size设置总体文件的大小）
+      max-file-size: 2000MB
+
+
+# 开启权限拦截
+auth:
+  enabled: true
+
+lin:
+  file:
+    domain: http://192.168.31.179:5000/
+    serve-path: assets/**
+    store-dir: assets/
+    single-limit: 2000MB
+    nums: 10
+
+
+# 开启http请求日志记录
+request-log:
+  enabled: true
+
+
+logging:
+  level:
+    # web信息日志记录
+    web: debug
+    # SQL日志记录
+    io.github.talelin.latticy.mapper: debug
+
+
+
+

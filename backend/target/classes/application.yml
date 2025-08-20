@@ -1,0 +1,62 @@
+#主配置文件
+
+spring:
+  # 激活环境配置
+  profiles:
+    active: dev
+  # 文件编码 UTF8
+  mandatory-file-encoding: UTF-8
+  mvc:
+    # 404 交给异常处理器处理
+    throw-exception-if-no-handler-found: true
+  resources:
+    # 关闭静态资源的映射
+    add-mappings: false
+
+
+mybatis-plus:
+  configuration:
+    # 开启下划线转驼峰
+    map-underscore-to-camel-case: true
+  global-config:
+    # 开启/关闭 banner 打印
+    banner: false
+    db-config:
+      # 逻辑删除（软删除）
+      logic-delete-value: NOW()
+      logic-not-delete-value: 'NULL'
+  # mapper路径位置
+  mapper-locations: classpath:mapper/*.xml
+
+
+logging:
+  # 日志配置文件（logback配置文件）
+  config: classpath:logback-spring.xml
+
+
+lin:
+  cms:
+    # 开启行为日志记录（logger）
+    logger-enabled: true
+    # access token 过期时间，7200s 两个小时
+    token-access-expire: 7200
+    # refresh token 过期时间，5184000s 60天
+    token-refresh-expire: 5184000
+    # 令牌 secret
+    token-secret: x88Wf0991079889x8796a0Ac68f9ecJJU17c5Vbe8beod7d8d3e695*4
+  file:
+    domain: http://192.168.31.179:5000/
+    serve-path: assets/**
+    store-dir: assets/
+
+# sleeve 配置
+sleeve:
+  # 六宫格的最大数量
+  grid-category-maximum-quantity: 6
+
+alipay:
+  appId: 2021005182685554
+  appPrivateKey: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDoF5IgnVxNF9aETYV7Td9F69Xvz8DxMwPZUcYdYFHXPWE2F3c2N2kXsjE2ALvH5/lOZEUpEXCatO3Sn5G8JdeO4DSWPui7lO8eR7mLls4g7uBjbI7WNs+GhfMqS4vouZVnuA7EYlUeuk0unL8yURRO1ot2aQ/sZDeSxO5s7cKCXM3tTuTIhXc11qQieng98tMsCxF9NHEx1n1mrmjX3Gtk0WfFW8yGG2rXE0xa3hqa2EJNxp2SX/hCv/2dmZlSXU1kHon1P90PT0jWOgAM8YzXaCEr+zgQzA+9mldw788q7hW3xO34D620yzIc17LQL4rzTpewfonum+uEHBRaz29HAgMBAAECggEAJGCNZs9DSFIULWh5I3pxJGRyg8PsWeHFGKrYgoI2UaYtNm03IihNMImdbPlwdUTGrqLItEcnfxgcroaUMQk9YAeENohlsgEF+ZkEW/ynEkJeqTa6rJiqrksQcfClXTS5VihjKCTBcq+AqW2oChrrM/Asq8KL3GFY1IhJVoltk0DsD3DqEiqAkDsu5WYWg03Bz4DtIVMQmnMX0esyYADBY+Ulvt0A1JoPWn9u1oo75v/zVRSrMCG+gY+rfOb3jSHpBwg0onpjfb8vqPbAhj+BqH3Sg5ydny8+oPpaxMbWo2qR0kEjjwp3MsdSIC2iCX7FO2YaLW45MjlJqrHf+BlWAQKBgQD85h9iNTpD06OgsQffdgxWhGsGRsykj0ynBRkh5L84q0IV+078xiEXeJrKqlOwy85ToHldh0TcpK1iq3Z8XjleApfdU1Bih1D/Eh6MVhupirJO8TT8AZMx8hvdQrlb93hjoVRJRO+wP06gxv7Iau1CL/rAmfoxpbsDAdvCPeNyLwKBgQDq8CIdNxFQOaHjh0FA0ilZofly1RrKs/3ReKK6TyXvnkgZ3R8pbfY9Uu/mbOzYO5psKLdP37faI7NgahnUrVM7uAZiMrUcnw3neC8nOmxreWI1FbZA8v0bmKDgSH2K3uTRRQU70qz+UzsMwxymB+4tywUlje8LtnlVqwkG5g+GaQKBgQDXbOd67sBtGpEdxu9f6NzlrfLE6/ZSj0bKV0trVcGV8jxfIS3NoLB7n96rmJ+l0FY3YlE/3IRKN3UCwfAyTMktTaQzgk7NP1s9jB+9h3QU3fK50DpEGMtcFlKqDbZ7orhIlhqIN1K9nY/K4PgTnRHx+ZDuE7vOItDE5QZf1fwzPQKBgDqlx15TqNbGDEuoL/nmfLwLWyH3YMDJPctUugqYR3gRox4RvP2ynY2hbpGvD1DLUDk/0ML3rgWec+DVm60jt2to/O72iY+jhO0La3n3c6lAm+t0iBKeleCVsVNLxUstaSF0gWH1rYmvbUY6TqSDxklYLOi7Dbl2y8M+9vnp5GZBAoGBAPBuZySsk1KEH30Yyb9uozmS6BC1dfSsMW6/l/Xla+VQfhjUShgBqoAxkCniLhaHe0qQaI9WU5YxNuBijp7hyZgKnFQFdzqGowcHdyb/G+3GLkJvB8co93PsU0DiX8YoxJdOj1JMk+A/oxtp8TwsQxlm4KmzZdbgatCF8FEwlCpU
+  alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnaAG9QiKBgRZL3ysj+Zu5SqfDnUTWwAYeHN3sT5Jcg3d+b+RHlBByTxKeC1U3KiTsCVtdYRZ7Augxegxw48LFJNnCbDl6Egq8y70ZleDUi4JscUmk0sibQEuZ1EgkMQowNJaCPHZijQLRKMqjHTchMUiY7JB4JxC+xm+ShKOxGeJnlO4Cj/QDxhJNq6y4wXlUUObMr3/YM/KriAGQMi9t+giDHcqMu8IcvZkA/aIRk/j5AneHHA0rgtdnHryyDu/h6Q1onJxoy64tU6gav1EiWOL9adNK3r8LUiWF2c9g7vsywPghQ+H8pq1tVh7nk5wzHc0HqVVnFSVS7KgCxWQJwIDAQAB
+  gateway: https://openapi.alipay.com/gateway.do
+  notifyUrl: https://yihuizhi.com/v1/alipay/notify

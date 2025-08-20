@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.talelin.latticy.mapper.OrderMapper">
+
+    <update id="changeOrderStatus">
+        update `order` o set o.status = #{status} where o.id = #{id}
+    </update>
+
+    <select id="searchOrders" resultType="io.github.talelin.latticy.model.OrderDO">
+        SELECT o.* FROM `order` o
+        WHERE o.delete_time IS NULL
+        <if test="start != null and end != null">
+            AND o.create_time BETWEEN #{start} AND #{end}
+        </if>
+        <if test="keyword != null">
+            AND o.order_no LIKE #{keyword}
+        </if>
+        ORDER BY o.create_time DESC
+    </select>
+
+    <select id="getTotalStatistics" resultType="map">
+        SELECT COUNT(*) AS totalOrders, IFNULL(SUM(IF(status in (2, 3, 4), final_total_price, 0)),0) AS totalRevenue
+        FROM `order`
+        WHERE delete_time IS NULL AND status >= 2
+    </select>
+
+    <select id="getMonthlyStatistics" resultType="map">
+        SELECT DATE_FORMAT(create_time,'%Y-%m') AS `month`,
+               COUNT(*) AS orderCount,
+               IFNULL(SUM(IF(status in (2, 3, 4), final_total_price, 0)),0) AS orderRevenue
+        FROM `order`
+        WHERE delete_time IS NULL AND status >= 2
+        GROUP BY month
+        ORDER BY month DESC
+        LIMIT #{monthLimit}
+    </select>
+
+    <select id="getDailyStatistics" resultType="map">
+        SELECT DATE_FORMAT(create_time,'%Y-%m-%d') AS `date`,
+               COUNT(*) AS orderCount,
+               IFNULL(SUM(IF(status in (2, 3, 4), final_total_price, 0)),0) AS orderRevenue
+        FROM `order`
+        WHERE delete_time IS NULL AND status >= 2
+        GROUP BY date
+        ORDER BY date DESC
+        LIMIT #{dayLimit}
+    </select>
+
+    <select id="getTodayStatistics" resultType="map">
+        SELECT COUNT(*) AS todayOrders,
+               IFNULL(SUM(IF(status in (2, 3, 4), final_total_price, 0)),0) AS todayRevenue
+        FROM `order`
+        WHERE delete_time IS NULL
+          AND status >= 2
+          AND DATE(create_time) = CURDATE()
+    </select>
+
+</mapper>

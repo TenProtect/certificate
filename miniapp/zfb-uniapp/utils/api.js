@@ -6,11 +6,34 @@ function isLanHost(hostname) {
   return /^127\.|^localhost$|^10\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^192\.168\./.test(hostname)
 }
 
+function extractHostname(url) {
+  // 支付宝小程序兼容的URL解析方法
+  try {
+    // 移除协议部分
+    const withoutProtocol = url.replace(/^https?:\/\//, '')
+    // 提取主机名（端口号之前的部分）
+    const hostname = withoutProtocol.split(':')[0].split('/')[0]
+    return hostname
+  } catch (e) {
+    console.error('Error extracting hostname:', e)
+    return null
+  }
+}
+
 let IS_DEV = false
 try {
-  const host = new URL(API_BASE).hostname
-  IS_DEV = isLanHost(host)
+  const hostname = extractHostname(API_BASE)
+  if (hostname) {
+    IS_DEV = isLanHost(hostname)
+    console.log('API_BASE:', API_BASE)
+    console.log('Extracted hostname:', hostname)
+    console.log('IS_DEV:', IS_DEV)
+  } else {
+    console.warn('Failed to extract hostname from API_BASE')
+    IS_DEV = false
+  }
 } catch (e) {
+  console.error('Error determining environment:', e)
   IS_DEV = false
 }
 

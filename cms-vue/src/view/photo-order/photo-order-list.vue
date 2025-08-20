@@ -63,7 +63,7 @@ export default {
     async fetch() {
       try {
         const res = await photoOrder.getOrders()
-        this.tableData = res.data.map(o => ({
+        this.tableData = res.map(o => ({
           ...o,
           amount: o.amount,
           statusText: this.mapStatus(o.status)
