@@ -43,6 +43,18 @@
       "sourceType": "io.github.talelin.latticy.common.configuration.AlipayProperties"
     },
     {
+      "name": "alipay.risk-channel",
+      "type": "java.lang.String",
+      "description": "Channel identifier for content risk detection",
+      "sourceType": "io.github.talelin.latticy.common.configuration.AlipayProperties"
+    },
+    {
+      "name": "alipay.risk-products",
+      "type": "java.lang.String",
+      "description": "Products for content risk detection",
+      "sourceType": "io.github.talelin.latticy.common.configuration.AlipayProperties"
+    },
+    {
       "name": "code-message",
       "type": "java.util.Map<java.lang.Integer,java.lang.String>",
       "sourceType": "io.github.talelin.latticy.common.configuration.CodeMessageConfiguration"
