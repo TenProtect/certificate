@@ -148,7 +148,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1755666748707</updated>
-      <workItem from="1755666750417" duration="20384000" />
+      <workItem from="1755666750417" duration="20966000" />
     </task>
     <task id="LOCAL-00009" summary="Enhance Alipay integration by adding buyer_open_id to trade creation and loading user identities">
       <option name="closed" value="true" />

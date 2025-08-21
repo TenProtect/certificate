@@ -33,9 +33,7 @@
     <el-dialog title="用户上传照片" :visible.sync="photoDialogVisible">
       <el-image v-if="previewPhoto" :src="previewPhoto" :preview-src-list="[previewPhoto]" style="max-width: 100%" />
       <span slot="footer" class="dialog-footer">
-        <a :href="previewPhoto" :download="true" target="_blank">
-          <el-button type="primary">下载</el-button>
-        </a>
+        <el-button type="primary" @click="downloadPhoto">下载</el-button>
       </span>
     </el-dialog>
   </div>
@@ -140,6 +138,53 @@ export default {
     handlePhoto(val) {
       this.previewPhoto = val.row.originalPhoto
       this.photoDialogVisible = true
+    },
+    downloadPhoto() {
+      if (!this.previewPhoto) {
+        this.$message.warning('没有可下载的图片')
+        return
+      }
+
+      // 创建一个临时的 a 标签来下载文件
+      const link = document.createElement('a')
+      link.style.display = 'none'
+
+      // 如果是跨域图片，需要先获取blob再下载
+      if (this.previewPhoto.startsWith('http')) {
+        fetch(this.previewPhoto, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/octet-stream',
+          },
+        })
+        .then(response => response.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob)
+          link.href = url
+          link.download = `user_photo_${Date.now()}.jpg`
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          window.URL.revokeObjectURL(url)
+        })
+        .catch(error => {
+          console.error('下载失败:', error)
+          // 如果fetch失败，尝试直接下载
+          link.href = this.previewPhoto
+          link.download = `user_photo_${Date.now()}.jpg`
+          link.target = '_blank'
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        })
+      } else {
+        // 如果是同域图片，直接下载
+        link.href = this.previewPhoto
+        link.download = `user_photo_${Date.now()}.jpg`
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      }
     },
     detailClose() {
       this.showDetail = false
