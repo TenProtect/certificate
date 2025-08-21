@@ -178,3 +178,4 @@ export function getOrderDetail(id) {
 export const alipayLogin = Post('/auth/alipay')
 export const refreshToken = () => refreshTokenRequest()
 export const alipayNotifyTest = Post('/../alipay/notify/test')
+export const detectContent = Post('/risk/detect')

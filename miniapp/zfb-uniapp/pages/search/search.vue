@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { getCertificates } from '@/utils/api.js'
+import { getCertificates, detectContent } from '@/utils/api.js'
 import mockCertificates from '@/mock/certificates.js'
 export default {
     name: 'SearchPage',
@@ -122,6 +122,18 @@ export default {
 
             if (!keyword.trim()) {
                 this.searchResults = []
+                return
+            }
+
+            try {
+                const res = await detectContent({ content_type: 'TEXT', data: keyword })
+                if (!res.message.pass) {
+                    uni.showToast({ title: '您的输入不合规', icon: 'none' })
+                    this.searchResults = []
+                    return
+                }
+            } catch (e) {
+                uni.showToast({ title: '检测失败', icon: 'none' })
                 return
             }
 

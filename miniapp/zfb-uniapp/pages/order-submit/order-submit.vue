@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { createOrder, alipayNotifyTest, uploadImage } from '@/utils/api.js'
+import { createOrder, alipayNotifyTest, uploadImage, detectContent } from '@/utils/api.js'
 
 export default {
   name: 'OrderSubmit',
@@ -238,19 +238,42 @@ export default {
           })
       }
 
+      const checkAndProceed = async photoUrl => {
+        try {
+          if (this.orderRemark) {
+            const textRes = await detectContent({ content_type: 'TEXT', data: this.orderRemark })
+            if (!textRes.message.pass) {
+              uni.hideLoading()
+              uni.showToast({ title: '您的输入不合规', icon: 'none' })
+              return
+            }
+          }
+          const imgRes = await detectContent({ content_type: 'PICTURE', data: photoUrl })
+          if (!imgRes.message.pass) {
+            uni.hideLoading()
+            uni.showToast({ title: '您上传的图片不合规', icon: 'none' })
+            return
+          }
+          proceed(photoUrl)
+        } catch (e) {
+          uni.hideLoading()
+          uni.showToast({ title: '检测失败', icon: 'none' })
+        }
+      }
+
       uni.showLoading({
         title: '提交中...'
       })
 
       if (this.imagePath.startsWith('https://resource/')) {
         uploadImage(this.imagePath)
-          .then(file => proceed(file.url))
+          .then(file => checkAndProceed(file.url))
           .catch(() => {
             uni.hideLoading()
             uni.showToast({ title: '上传失败', icon: 'none' })
           })
       } else {
-        proceed(this.imagePath)
+        checkAndProceed(this.imagePath)
       }
     }
   }
