@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7878a65e-30c2-46c2-9632-564dd8bb0836" name="更改" comment="订单测试" />
+    <list default="true" id="7878a65e-30c2-46c2-9632-564dd8bb0836" name="更改" comment="订单测试">
+      <change beforePath="$PROJECT_DIR$/../cms-vue/src/view/photo-order/photo-order-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../cms-vue/src/view/photo-order/photo-order-list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../miniapp/zfb-uniapp/pages/main/components/order-content.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../miniapp/zfb-uniapp/pages/main/components/order-content.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

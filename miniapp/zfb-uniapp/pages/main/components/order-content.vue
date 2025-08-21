@@ -82,14 +82,14 @@
                 <view
                   class="action-btn group-btn first"
                   :class="{ 'only-two': !order.hasReceipt }"
-                  @tap="downloadStandard(order)"
+                  @tap="showPreview(order, 'standard')"
                 >
                   <text class="btn-text">下载标准照</text>
                 </view>
                 <view
                   class="action-btn group-btn"
                   :class="{ 'middle': order.hasReceipt, 'last': !order.hasReceipt }"
-                  @tap="downloadLayout(order)"
+                  @tap="showPreview(order, 'layout')"
                 >
                   <text class="btn-text">下载排版照</text>
                 </view>
@@ -97,7 +97,7 @@
                 <view
                   v-if="order.hasReceipt"
                   class="action-btn group-btn last"
-                  @tap="downloadReceipt(order)"
+                  @tap="showPreview(order, 'receipt')"
                 >
                   <text class="btn-text">下载回执照</text>
                 </view>
@@ -138,6 +138,67 @@
         </view>
       </view>
     </view>
+    
+    <!-- 预览对话框 -->
+    <view v-if="previewDialog.show" class="preview-overlay" :class="{ 'closing': previewDialog.closing }" @tap="closePreview">
+      <view class="preview-dialog" :class="{ 'closing': previewDialog.closing }" @tap.stop="">
+        <view class="preview-header">
+          <view class="preview-title">{{ previewDialog.title }}</view>
+          <view class="close-btn" @tap="closePreview">
+            <text class="close-icon">✕</text>
+          </view>
+        </view>
+        
+        <view class="preview-content">
+          <view class="preview-image-container">
+            <image 
+              class="preview-image" 
+              :src="previewDialog.imageUrl" 
+              mode="aspectFit"
+              @error="onImageError"
+              @load="onImageLoad"
+              @tap="previewFullscreen"
+              :style="{ 
+                width: '100%', 
+                height: '100%',
+                objectFit: 'contain',
+                objectPosition: 'center'
+              }"
+            ></image>
+            <!-- 加载状态 -->
+            <view v-if="previewDialog.loading" class="image-loading">
+              <view class="loading-spinner"></view>
+              <text class="loading-text">加载中...</text>
+            </view>
+            <!-- 点击提示 -->
+            <view v-if="!previewDialog.loading" class="zoom-tip">
+              <text class="zoom-text">点击查看大图</text>
+            </view>
+          </view>
+        </view>
+        
+        <view class="preview-footer">
+          <view 
+            class="download-btn" 
+            :class="{ 'downloading': previewDialog.title.includes('下载中'), 'success': previewDialog.title.includes('成功') }"
+            @tap="executeDownload"
+          >
+            <view class="download-icon" v-if="!previewDialog.title.includes('下载中')">
+              <view v-if="previewDialog.title.includes('成功')" class="success-icon">
+                <view class="check-mark"></view>
+              </view>
+              <view v-else class="download-arrow-icon">
+                <view class="arrow-line"></view>
+                <view class="arrow-head"></view>
+                <view class="arrow-base"></view>
+              </view>
+            </view>
+            <view v-else class="downloading-spinner"></view>
+            <text class="download-text">{{ previewDialog.title }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -159,7 +220,17 @@ export default {
         { label: '已完成', value: 'completed' }
       ],
       orders: [],
-      contactConfig
+      contactConfig,
+      // 预览对话框相关数据
+      previewDialog: {
+        show: false,
+        imageUrl: '',
+        title: '',
+        downloadAction: null,
+        loading: false,
+        closing: false,  // 添加关闭动画状态
+        originalImageUrl: '' // 保存原始图片URL用于下载
+      }
     }
   },
   computed: {
@@ -261,7 +332,15 @@ export default {
             hasReceipt: !!o.receiptPhoto,
             status: this.mapStatus(o.status),
             rejectReason: o.rejectReason,
-            certificateSnapshot: o.certificateSnapshot
+            certificateSnapshot: o.certificateSnapshot,
+            // 保存原始图片URL用于下载高质量图片
+            originalStandardPhoto: o.standardPhoto,
+            originalLayoutPhoto: o.layoutPhoto,
+            originalReceiptPhoto: o.receiptPhoto,
+            // 处理后的URL用于预览显示
+            standardPhoto: o.standardPhoto,
+            layoutPhoto: o.layoutPhoto,
+            receiptPhoto: o.receiptPhoto
           }
         }))
         
@@ -349,11 +428,14 @@ export default {
 
   async downloadStandard(order) {
     try {
-      await this.saveImageToAlbum(order.standardPhoto);
+      // 使用原始图片URL进行下载，确保下载高质量图片
+      const originalUrl = order.originalStandardPhoto || order.standardPhoto
+      await this.saveImageToAlbum(originalUrl);
     } catch (e) {
       // 相册失败则尝试持久化保存
       try {
-        const p = await this.persistFile(order.standardPhoto);
+        const originalUrl = order.originalStandardPhoto || order.standardPhoto
+        const p = await this.persistFile(originalUrl);
         uni.showToast({ title: '已保存文件', icon: 'success' });
         console.log('持久化路径：', p);
       } catch (err) {
@@ -364,10 +446,12 @@ export default {
   },
   async downloadLayout(order) {
     try {
-      await this.saveImageToAlbum(order.layoutPhoto);
+      const originalUrl = order.originalLayoutPhoto || order.layoutPhoto
+      await this.saveImageToAlbum(originalUrl);
     } catch (e) {
       try {
-        const p = await this.persistFile(order.layoutPhoto);
+        const originalUrl = order.originalLayoutPhoto || order.layoutPhoto
+        const p = await this.persistFile(originalUrl);
         uni.showToast({ title: '已保存文件', icon: 'success' });
         console.log('持久化路径：', p);
       } catch (err) {
@@ -378,10 +462,12 @@ export default {
   },
   async downloadReceipt(order) {
     try {
-      await this.saveImageToAlbum(order.receiptPhoto);
+      const originalUrl = order.originalReceiptPhoto || order.receiptPhoto
+      await this.saveImageToAlbum(originalUrl);
     } catch (e) {
       try {
-        const p = await this.persistFile(order.receiptPhoto);
+        const originalUrl = order.originalReceiptPhoto || order.receiptPhoto
+        const p = await this.persistFile(originalUrl);
         uni.showToast({ title: '已保存文件', icon: 'success' });
         console.log('持久化路径：', p);
       } catch (err) {
@@ -436,7 +522,139 @@ export default {
       }
       return map[value] || 'pending_payment'
     },
-    // 获取系统信息，适配刘海屏
+    
+    // 显示预览对话框
+    async showPreview(order, type) {
+      let originalImageUrl = ''  // 原始图片URL，用于下载
+      let previewImageUrl = ''   // 预览图片URL，经过处理的
+      let title = ''
+      let downloadAction = null
+      
+      switch(type) {
+        case 'standard':
+          originalImageUrl = order.originalStandardPhoto || order.standardPhoto
+          title = '下载标准照'
+          downloadAction = () => this.downloadStandard(order)
+          break
+        case 'layout':
+          originalImageUrl = order.originalLayoutPhoto || order.layoutPhoto
+          title = '下载排版照'
+          downloadAction = () => this.downloadLayout(order)
+          break
+        case 'receipt':
+          originalImageUrl = order.originalReceiptPhoto || order.receiptPhoto
+          title = '下载回执照'
+          downloadAction = () => this.downloadReceipt(order)
+          break
+      }
+      
+      // 先显示对话框和加载状态
+      this.previewDialog = {
+        show: true,
+        imageUrl: originalImageUrl, // 临时使用原始URL
+        title,
+        downloadAction,
+        loading: true,
+        closing: false,
+        originalImageUrl // 保存原始URL用于下载
+      }
+      
+      // 处理预览图片URL
+      try {
+        // #ifdef MP-ALIPAY
+        if (originalImageUrl) {
+          const imageInfo = await new Promise((resolve, reject) => {
+            my.getImageInfo({
+              src: originalImageUrl,
+              success: resolve,
+              fail: reject
+            })
+          })
+          // 使用处理后的路径用于预览
+          previewImageUrl = imageInfo.path || imageInfo.src || originalImageUrl
+        }
+        // #endif
+        
+        // #ifndef MP-ALIPAY
+        if (originalImageUrl) {
+          const imageInfo = await new Promise((resolve, reject) => {
+            uni.getImageInfo({
+              src: originalImageUrl,
+              success: resolve,
+              fail: reject
+            })
+          })
+          previewImageUrl = imageInfo.path || originalImageUrl
+        }
+        // #endif
+        
+        // 更新预览图片URL
+        this.previewDialog.imageUrl = previewImageUrl
+        
+      } catch (error) {
+        console.warn('获取预览图片信息失败，使用原始路径:', error)
+        this.previewDialog.imageUrl = originalImageUrl
+      }
+    },
+    
+    // 关闭预览对话框
+    closePreview() {
+      // 添加关闭动画状态
+      this.previewDialog.closing = true
+      
+      // 延迟关闭以显示动画效果
+      setTimeout(() => {
+        this.previewDialog = {
+          show: false,
+          imageUrl: '',
+          title: '',
+          downloadAction: null,
+          loading: false,
+          closing: false,
+          originalImageUrl: ''
+        }
+      }, 300)
+    },
+    
+    // 执行下载
+    async executeDownload() {
+      if (this.previewDialog.downloadAction) {
+        // 添加下载中状态
+        const originalTitle = this.previewDialog.title
+        this.previewDialog.title = '下载中...'
+        
+        try {
+          await this.previewDialog.downloadAction()
+          // 下载成功后短暂显示成功状态
+          this.previewDialog.title = '下载成功'
+          setTimeout(() => {
+            this.closePreview()
+          }, 1000)
+        } catch (error) {
+          // 下载失败，恢复原标题
+          this.previewDialog.title = originalTitle
+          console.error('下载失败:', error)
+        }
+      }
+    },
+    
+    // 预览全屏图片
+    previewFullscreen() {
+      if (this.previewDialog.imageUrl) {
+        uni.previewImage({
+          urls: [this.previewDialog.imageUrl],
+          current: this.previewDialog.imageUrl
+        })
+      }
+    },
+    onImageLoad() {
+      this.previewDialog.loading = false
+    },
+    
+    // 图片加载失败处理
+    onImageError() {
+      this.previewDialog.loading = false
+    },
     getSystemInfo() {
       try {
         const systemInfo = uni.getSystemInfoSync()
@@ -1028,5 +1246,473 @@ export default {
 .empty-state .action-btn:active {
   transform: translateY(2rpx);
   box-shadow: 0 4rpx 20rpx rgba(61, 69, 230, 0.4);
+}
+
+/* 预览对话框样式 */
+.preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+  box-sizing: border-box;
+  backdrop-filter: blur(10rpx);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.preview-overlay.closing {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.preview-dialog.closing {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.preview-dialog {
+  background: white;
+  border-radius: 24rpx;
+  width: 100%;
+  max-width: 600rpx;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+  position: relative;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(60rpx);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(60rpx);
+    opacity: 0;
+  }
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 30rpx 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+}
+
+.preview-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 1rpx;
+}
+
+.close-btn {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-btn:active {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(0.95);
+}
+
+.close-icon {
+  font-size: 28rpx;
+  color: #666;
+  font-weight: 300;
+}
+
+.preview-content {
+  padding: 30rpx;
+  background: #fafafa;
+}
+
+.preview-image-container {
+  width: 100%;
+  height: 600rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background: linear-gradient(45deg, #f8f9fa 25%, transparent 25%), 
+              linear-gradient(-45deg, #f8f9fa 25%, transparent 25%), 
+              linear-gradient(45deg, transparent 75%, #f8f9fa 75%), 
+              linear-gradient(-45deg, transparent 75%, #f8f9fa 75%);
+  background-size: 20rpx 20rpx;
+  background-position: 0 0, 0 10rpx, 10rpx -10rpx, -10rpx 0rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  background: white;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: block;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 小程序环境下的图片显示优化 */
+/* #ifdef MP-ALIPAY */
+.preview-image {
+  width: 100% !important;
+  height: 100% !important;
+}
+/* #endif */
+
+/* #ifdef MP-WEIXIN */
+.preview-image {
+  width: 100% !important;
+  height: 100% !important;
+}
+/* #endif */
+
+.image-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4rpx);
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #3d45e6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 24rpx;
+  color: #999;
+  font-weight: 500;
+}
+
+.zoom-tip {
+  position: absolute;
+  bottom: 20rpx;
+  right: 20rpx;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  backdrop-filter: blur(8rpx);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36rpx;
+}
+
+.zoom-text {
+  font-size: 20rpx;
+  color: white;
+  font-weight: 400;
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.preview-footer {
+  padding: 30rpx;
+  background: white;
+}
+
+.download-btn {
+  width: 100%;
+  height: 88rpx;
+  background: linear-gradient(135deg, #3d45e6 0%, #5b63f5 100%);
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  box-shadow: 0 12rpx 40rpx rgba(61, 69, 230, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.download-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.download-btn:active::before {
+  left: 100%;
+}
+
+.download-btn:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 8rpx 32rpx rgba(61, 69, 230, 0.4);
+}
+
+.download-icon {
+  font-size: 32rpx;
+  color: white;
+  font-weight: bold;
+  animation: bounce 2s infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+/* 下载箭头图标 */
+.download-arrow-icon {
+  position: relative;
+  width: 32rpx;
+  height: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2rpx 4rpx rgba(0, 0, 0, 0.3));
+}
+
+.arrow-line {
+  position: absolute;
+  width: 3rpx;
+  height: 20rpx;
+  background: white;
+  border-radius: 2rpx;
+  top: 2rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.arrow-head {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 6rpx solid transparent;
+  border-right: 6rpx solid transparent;
+  border-top: 8rpx solid white;
+  bottom: 2rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.arrow-base {
+  position: absolute;
+  width: 16rpx;
+  height: 3rpx;
+  background: white;
+  border-radius: 2rpx;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 成功图标 */
+.success-icon {
+  position: relative;
+  width: 32rpx;
+  height: 32rpx;
+  border: 3rpx solid white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: success-scale 0.3s ease-out;
+  filter: drop-shadow(0 2rpx 4rpx rgba(0, 0, 0, 0.3));
+  box-shadow: 0 0 0 2rpx rgba(255, 255, 255, 0.3);
+}
+
+@keyframes success-scale {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.check-mark {
+  position: relative;
+  width: 16rpx;
+  height: 8rpx;
+}
+
+.check-mark::before,
+.check-mark::after {
+  content: '';
+  position: absolute;
+  background: white;
+  border-radius: 2rpx;
+}
+
+.check-mark::before {
+  width: 3rpx;
+  height: 8rpx;
+  left: 6rpx;
+  top: 2rpx;
+  transform: rotate(45deg);
+}
+
+.check-mark::after {
+  width: 3rpx;
+  height: 4rpx;
+  left: 2rpx;
+  top: 4rpx;
+  transform: rotate(-45deg);
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4rpx);
+  }
+  60% {
+    transform: translateY(-2rpx);
+  }
+}
+
+/* 下载按钮激活时的图标动画 */
+.download-btn:active .download-arrow-icon {
+  animation: download-press 0.2s ease-out;
+}
+
+@keyframes download-press {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 下载箭头的脉冲动画 */
+.download-arrow-icon .arrow-head {
+  animation: arrow-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes arrow-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(-50%) translateY(2rpx);
+  }
+}
+
+.download-btn.downloading {
+  background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
+  pointer-events: none;
+}
+
+.download-btn.success {
+  background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
+  animation: success-pulse 0.6s ease-out;
+}
+
+@keyframes success-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.downloading-spinner {
+  width: 32rpx;
+  height: 32rpx;
+  border: 3rpx solid rgba(255, 255, 255, 0.3);
+  border-top: 3rpx solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.download-text {
+  font-size: 30rpx;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 1rpx;
 }
 </style>

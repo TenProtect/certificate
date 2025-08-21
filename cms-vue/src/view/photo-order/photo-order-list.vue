@@ -115,12 +115,12 @@ export default {
       const standard = await this.$refs.standardUpload.getValue()
       const layout = await this.$refs.layoutUpload.getValue()
       const receipt = await this.$refs.receiptUpload.getValue()
-      this.form.standardPhoto = standard && standard.length > 0 ? standard[0].display : ''
-      this.form.layoutPhoto = layout && layout.length > 0 ? layout[0].display : ''
-      this.form.receiptPhoto = receipt && receipt.length > 0 ? receipt[0].display : ''
+      this.form.standard_photo = standard && standard.length > 0 ? standard[0].display : ''
+      this.form.layout_photo = layout && layout.length > 0 ? layout[0].display : ''
+      this.form.receipt_photo = receipt && receipt.length > 0 ? receipt[0].display : ''
       await photoOrder.review(this.currentId, this.form)
       this.dialogVisible = false
-      this.fetch()
+      await this.fetch()
     },
     handleReject(val) {
       this.$prompt('请输入驳回原因', '提示', {
@@ -128,7 +128,7 @@ export default {
         cancelButtonText: '取消'
       }).then(async ({ value }) => {
         await photoOrder.reject(val.row.id, value)
-        this.fetch()
+        await this.fetch()
       })
     },
     handleView(val) {

@@ -38,14 +38,31 @@
             <!-- 搜索结果 -->
             <view v-if="searchKeyword" class="search-results">
                 <view v-if="searchResults.length === 0" class="no-results">
-                    <text class="no-results-text">未找到相关城市</text>
-                </view>
-                <view v-else class="search-result-list">
-                    <view v-for="city in searchResults" :key="city.code" class="city-item search-result-item"
-                        @tap="selectCity(city)">
-                        <text class="city-name">{{ city.name }}</text>
+                    <view class="no-results-icon">
+                        <text class="no-results-emoji">🔍</text>
                     </view>
+                    <text class="no-results-text">未找到相关城市</text>
+                    <text class="no-results-tip">试试输入其他城市名称</text>
                 </view>
+                <scroll-view v-else class="search-result-scroll" scroll-y>
+                    <view class="search-result-list">
+                        <view class="search-result-header">
+                            <text class="search-result-count">找到 {{ searchResults.length }} 个相关城市</text>
+                        </view>
+                        <view v-for="(city, index) in searchResults" :key="city.code" 
+                            class="city-item search-result-item"
+                            :class="{ 'is-last': index === searchResults.length - 1 }"
+                            @tap="selectCity(city)">
+                            <view class="city-info">
+                                <rich-text class="city-name" :nodes="highlightKeyword(city.name)"></rich-text>
+                                <text class="city-code">{{ city.code }}</text>
+                            </view>
+                            <view class="city-arrow">
+                                <text class="arrow-icon">›</text>
+                            </view>
+                        </view>
+                    </view>
+                </scroll-view>
             </view>
 
             <!-- 字母分组城市列表 -->
@@ -214,12 +231,55 @@ export default {
 
         onSearchInput() {
             if (this.searchKeyword.trim()) {
-                this.searchResults = this.cities.filter(city =>
-                    city.name.includes(this.searchKeyword.trim())
-                )
+                const keyword = this.searchKeyword.trim().toLowerCase()
+                
+                // 更智能的搜索：支持拼音、简称、全名匹配
+                this.searchResults = this.cities.filter(city => {
+                    const cityName = city.name.toLowerCase()
+                    const cityCode = city.code.toLowerCase()
+                    
+                    // 支持城市名称、拼音首字母、区号匹配
+                    return cityName.includes(keyword) || 
+                           cityCode.includes(keyword) ||
+                           this.getPinyinFirstLetters(city.name).includes(keyword.toUpperCase())
+                }).sort((a, b) => {
+                    // 搜索结果排序：精确匹配优先，然后按名称长度排序
+                    const aName = a.name.toLowerCase()
+                    const bName = b.name.toLowerCase()
+                    const keywordLower = keyword.toLowerCase()
+                    
+                    // 完全匹配优先
+                    if (aName === keywordLower) return -1
+                    if (bName === keywordLower) return 1
+                    
+                    // 开头匹配优先
+                    if (aName.startsWith(keywordLower) && !bName.startsWith(keywordLower)) return -1
+                    if (bName.startsWith(keywordLower) && !aName.startsWith(keywordLower)) return 1
+                    
+                    // 按名称长度排序
+                    return a.name.length - b.name.length
+                })
             } else {
                 this.searchResults = []
             }
+        },
+
+        // 获取城市名称的拼音首字母
+        getPinyinFirstLetters(cityName) {
+            let result = ''
+            for (let i = 0; i < cityName.length; i++) {
+                result += this.getFirstLetter(cityName.charAt(i))
+            }
+            return result
+        },
+
+        // 高亮搜索关键词（在模板中使用）
+        highlightKeyword(text) {
+            if (!this.searchKeyword.trim()) return text
+            
+            const keyword = this.searchKeyword.trim()
+            const regex = new RegExp(`(${keyword})`, 'gi')
+            return text.replace(regex, '<span class="highlight">$1</span>')
         },
 
         clearSearch() {
@@ -447,72 +507,106 @@ export default {
 
 /* 搜索框 */
 .search-container {
-    background-color: white;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     padding: 20rpx;
     border-bottom: 1rpx solid #e9ecef;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
 }
 
 .search-box {
     display: flex;
     align-items: center;
-    background: #f8f9fa;
-    border: 1rpx solid #e9ecef;
-    border-radius: 25rpx;
-    padding: 0 20rpx;
+    background: white;
+    border: 2rpx solid #e9ecef;
+    border-radius: 30rpx;
+    padding: 0 25rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+    border-color: #565DF4;
+    box-shadow: 0 4rpx 16rpx rgba(86, 93, 244, 0.2);
+    transform: translateY(-2rpx);
 }
 
 .search-icon {
-    margin-right: 15rpx;
+    margin-right: 20rpx;
+    transition: all 0.3s ease;
+}
+
+.search-box:focus-within .search-icon {
+    transform: scale(1.1);
 }
 
 .search-icon-svg {
     position: relative;
-    width: 32rpx;
-    height: 32rpx;
+    width: 36rpx;
+    height: 36rpx;
 }
 
 .search-circle {
-    width: 24rpx;
-    height: 24rpx;
-    border: 3rpx solid #999;
+    width: 26rpx;
+    height: 26rpx;
+    border: 3rpx solid #565DF4;
     border-radius: 50%;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 2rpx;
+    left: 2rpx;
+    transition: all 0.3s ease;
 }
 
 .search-handle {
-    width: 12rpx;
-    height: 3rpx;
-    background-color: #999;
-    border-radius: 2rpx;
+    width: 14rpx;
+    height: 4rpx;
+    background-color: #565DF4;
+    border-radius: 3rpx;
     position: absolute;
-    bottom: 7rpx;
-    right: -5rpx;
+    bottom: 8rpx;
+    right: -7rpx;
     transform: rotate(40deg);
     transform-origin: left center;
+    transition: all 0.3s ease;
 }
 
 .search-input {
     flex: 1;
-    padding: 25rpx 0;
-    font-size: 28rpx;
+    padding: 28rpx 0;
+    font-size: 30rpx;
     border: none;
     background: transparent;
+    color: #333;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.search-input::placeholder {
+    color: #999;
+    font-weight: 400;
 }
 
 .clear-btn {
-    width: 40rpx;
-    height: 40rpx;
+    width: 44rpx;
+    height: 44rpx;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border-radius: 50%;
+    background: rgba(153, 153, 153, 0.1);
+    transition: all 0.2s ease;
+    margin-left: 10rpx;
+}
+
+.clear-btn:active {
+    background: rgba(153, 153, 153, 0.2);
+    transform: scale(0.9);
 }
 
 .clear-icon {
-    font-size: 32rpx;
-    color: #999;
+    font-size: 28rpx;
+    color: #666;
+    font-weight: bold;
 }
 
 /* 热门城市 */
@@ -565,24 +659,182 @@ export default {
 .search-results {
     height: 100%;
     background-color: white;
+    display: flex;
+    flex-direction: column;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20rpx);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .no-results {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 100rpx 20rpx;
     text-align: center;
 }
 
+.no-results-icon {
+    margin-bottom: 30rpx;
+}
+
+.no-results-emoji {
+    font-size: 80rpx;
+    opacity: 0.5;
+}
+
 .no-results-text {
-    font-size: 28rpx;
+    font-size: 32rpx;
+    color: #666;
+    margin-bottom: 20rpx;
+    font-weight: 500;
+}
+
+.no-results-tip {
+    font-size: 24rpx;
     color: #999;
 }
 
+.search-result-scroll {
+    flex: 1;
+    height: 100%;
+}
+
 .search-result-list {
-    padding: 0 20rpx;
+    padding: 0;
+}
+
+.search-result-header {
+    padding: 20rpx;
+    background: #f8f9fa;
+    border-bottom: 1rpx solid #e9ecef;
+}
+
+.search-result-count {
+    font-size: 24rpx;
+    color: #666;
+    font-weight: 500;
 }
 
 .search-result-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25rpx 20rpx;
     border-bottom: 1rpx solid #f0f0f0;
+    background: white;
+    transition: all 0.3s ease;
+    position: relative;
+    animation: slideInRight 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30rpx);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 为每个搜索结果项添加递增的动画延迟 */
+.search-result-item:nth-child(1) { animation-delay: 0.1s; }
+.search-result-item:nth-child(2) { animation-delay: 0.15s; }
+.search-result-item:nth-child(3) { animation-delay: 0.2s; }
+.search-result-item:nth-child(4) { animation-delay: 0.25s; }
+.search-result-item:nth-child(5) { animation-delay: 0.3s; }
+.search-result-item:nth-child(n+6) { animation-delay: 0.35s; }
+
+.search-result-item:active {
+    background: #f8f9fa;
+    transform: scale(0.995);
+}
+
+.search-result-item.is-last {
+    border-bottom: none;
+}
+
+.search-result-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4rpx;
+    background: linear-gradient(135deg, #565DF4, #7B83F8);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.search-result-item:active::before {
+    transform: scaleX(1);
+}
+
+.city-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.city-name {
+    font-size: 32rpx;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 8rpx;
+    line-height: 1.4;
+}
+
+.city-code {
+    font-size: 24rpx;
+    color: #999;
+    font-family: 'SF Mono', Consolas, monospace;
+}
+
+.city-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+    background: rgba(86, 93, 244, 0.1);
+    transition: all 0.2s ease;
+}
+
+.search-result-item:active .city-arrow {
+    background: rgba(86, 93, 244, 0.2);
+    transform: scale(1.1);
+}
+
+.arrow-icon {
+    font-size: 28rpx;
+    color: #565DF4;
+    font-weight: bold;
+    transform: translateX(1rpx);
+}
+
+/* 搜索高亮样式 */
+.highlight {
+    background: linear-gradient(120deg, #565DF4, #7B83F8);
+    color: white;
+    padding: 2rpx 6rpx;
+    border-radius: 6rpx;
+    font-weight: 600;
+    box-shadow: 0 2rpx 4rpx rgba(86, 93, 244, 0.3);
 }
 
 /* 城市列表 */
@@ -691,5 +943,24 @@ export default {
     font-size: 48rpx;
     color: white;
     font-weight: bold;
+}
+
+/* 搜索高亮样式 */
+.highlight {
+    background: linear-gradient(120deg, #565DF4, #7B83F8);
+    color: white;
+    padding: 2rpx 6rpx;
+    border-radius: 6rpx;
+    font-weight: 600;
+    box-shadow: 0 2rpx 4rpx rgba(86, 93, 244, 0.3);
+}
+
+/* rich-text 组件样式重置 */
+.city-name {
+    font-size: 32rpx;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 8rpx;
+    line-height: 1.4;
 }
 </style>
