@@ -116,12 +116,12 @@
                     :scene="contactConfig.scene"
                   >
                   </contact-button>
-                  <text class="btn-text">咨询客服</text>
+                  <text class="btn-text btn-text-clickthrough">咨询客服</text>
                 </view>
               </view>
               <view v-else class="action-buttons single">
                 <view class="consultation-wrapper-single">
-                  <text class="btn-text">咨询客服</text>
+                  <text class="btn-text btn-text-clickthrough">咨询客服</text>
                   <contact-button
                     class="contact-button-native-single"
                     size="default"
@@ -1077,44 +1077,51 @@ export default {
 
 
 
+.consultation-wrapper,
 .consultation-wrapper-single {
+  position: relative;
+  background: linear-gradient(135deg, #3d45e6 0%, #5b63f5 100%);
+  color: white;
+  border-radius: 50rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
-  max-width: 300rpx;
-  height: 80rpx;
-  min-height: 80rpx;
-  max-height: 80rpx;
-  border-radius: 50rpx;
+  transition: all 0.2s ease;
   overflow: hidden;
-  border: 1px solid #dcdfe6;
-  box-sizing: border-box;
 }
 
 /* 原生联系客服按钮样式覆盖 */
 .contact-button-native,
 .contact-button-native-single {
   position: absolute;
-  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.01; /* 几乎透明但保持可点击 */
 }
 
-.contact-button-native-single {
-  box-shadow: 0 6rpx 20rpx rgba(61, 69, 230, 0.3) !important;
-  max-width: 300rpx !important;
-  margin: 0 auto !important;
+.consultation-wrapper-single {
+  margin: 0 auto;
+  max-width: 300rpx;
+  height: 80rpx;
+  min-height: 80rpx;
+  max-height: 80rpx;
+  box-sizing: border-box;
+  box-shadow: 0 6rpx 20rpx rgba(61, 69, 230, 0.3);
 }
 
 /* hover效果模拟 */
-.consultation-wrapper:active .contact-button-native {
-  background: linear-gradient(135deg, #2f38d9 0%, #4a52e8 100%) !important;
-  transform: scale(0.98) !important;
+.consultation-wrapper:active {
+  background: linear-gradient(135deg, #2f38d9 0%, #4a52e8 100%);
+  transform: scale(0.98);
 }
 
-.consultation-wrapper-single:active .contact-button-native-single {
-  background: linear-gradient(135deg, #2f38d9 0%, #4a52e8 100%) !important;
-  transform: scale(0.98) !important;
-  box-shadow: 0 4rpx 16rpx rgba(61, 69, 230, 0.4) !important;
+.consultation-wrapper-single:active {
+  background: linear-gradient(135deg, #2f38d9 0%, #4a52e8 100%);
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgba(61, 69, 230, 0.4);
 }
 
 .action-btn.consultation {
@@ -1186,6 +1193,12 @@ export default {
   color: inherit;
   position: absolute;
   z-index: 999;
+}
+
+/* 允许点击穿透的文本样式 */
+.btn-text-clickthrough {
+  pointer-events: none;
+  user-select: none;
 }
 
 .empty-state {
