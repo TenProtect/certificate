@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { resubmitOrder, uploadImage } from '@/utils/api.js'
+import { resubmitOrder, uploadImage, detectContent } from '@/utils/api.js'
 
 export default {
   name: 'PhotoPreview',
@@ -179,11 +179,21 @@ export default {
         })
       }
       const next = url => {
-        if (this.orderId) {
-          doResubmit(url)
-        } else {
-          goCreate(url)
-        }
+        detectContent({ content_type: 'PICTURE', data: url })
+          .then(res => {
+            if (res.message.pass) {
+              if (this.orderId) {
+                doResubmit(url)
+              } else {
+                goCreate(url)
+              }
+            } else {
+              uni.showToast({ title: '您上传的图片不合规', icon: 'none' })
+            }
+          })
+          .catch(() => {
+            uni.showToast({ title: '检测失败', icon: 'none' })
+          })
       }
       if (this.imagePath.startsWith('https://resource/')) {
         uni.showLoading({ title: '上传中...' })

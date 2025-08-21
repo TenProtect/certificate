@@ -18,5 +18,15 @@ public class AlipayProperties {
     private String gateway;
 
     private String notifyUrl;
+
+    /**
+     * Products for content risk detection
+     */
+    private String riskProducts;
+
+    /**
+     * Channel identifier for content risk detection
+     */
+    private String riskChannel;
 }
 
