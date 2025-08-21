@@ -221,6 +221,7 @@ export default {
               const imageData = encodeURIComponent(file.url)
               const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
               const cityData = encodeURIComponent(this.currentCity)
+              uni.hideLoading()
               uni.navigateTo({
                 url: `/pages/photo-preview-choose/photo-preview-choose?image=${imageData}&document=${documentData}&city=${cityData}`
               })

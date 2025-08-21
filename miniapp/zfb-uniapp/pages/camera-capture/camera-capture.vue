@@ -233,6 +233,7 @@ export default {
           if (this.orderId) {
             url += `&orderId=${this.orderId}`
           }
+          this.isProcessing = false
           uni.navigateTo({ url })
         })
         .catch(() => {
