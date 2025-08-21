@@ -5,6 +5,7 @@
       <span class="back" @click="back"> <i class="iconfont icon-fanhui"></i> 返回 </span>
     </div>
     <el-divider></el-divider>
+    <div class="remark">备注：{{ remark || '无' }}</div>
     <div class="img-list">
       <div class="img-item" v-if="photos.standardPhoto">
         <div class="label">标准照</div>
@@ -30,6 +31,10 @@ export default {
     orderId: {
       type: Number,
       required: true
+    },
+    remark: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -62,6 +67,9 @@ export default {
       margin-right: 40px;
       cursor: pointer;
     }
+  }
+  .remark {
+    margin: 10px 0;
   }
   .img-list {
     padding: 20px;
