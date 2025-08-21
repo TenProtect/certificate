@@ -1,4 +1,4 @@
 export default {
-  tntInstId: 'DEMO_TNT_INST_ID',
-  scene: 'DEMO_SCENE'
+  tntInstId: 'IcX_ud8l',
+  scene: 'SCE01358950'
 }
