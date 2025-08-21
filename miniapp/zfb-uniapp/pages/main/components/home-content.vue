@@ -130,15 +130,15 @@ export default {
       isLocationLoading: false,
       bannerImages: [
         {
-          src: '/static/banner/banner1.png',
+          src: '/static/banner/banner1.webp',
           alt: '演示图片1'
         },
         {
-          src: '/static/banner/banner2.png',
+          src: '/static/banner/banner2.webp',
           alt: '演示图片2'
         },
         {
-          src: '/static/banner/banner3.png',
+          src: '/static/banner/banner3.webp',
           alt: '演示图片3'
         }
       ],

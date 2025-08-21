@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7878a65e-30c2-46c2-9632-564dd8bb0836" name="更改" comment="订单测试" />
+    <list default="true" id="7878a65e-30c2-46c2-9632-564dd8bb0836" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3a849bc5-3f2d-424f-88e0-98a2ff776f70.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/3a849bc5-3f2d-424f-88e0-98a2ff776f70.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/backend-sleeve-0.3.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/backend-sleeve-0.3.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/backend-sleeve-0.3.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/backend-sleeve-0.3.0.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/dto/CreatePhotoOrderDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/dto/CreatePhotoOrderDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/dto/ReviewPhotoOrderDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/dto/ReviewPhotoOrderDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/model/PhotoOrderDO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/model/PhotoOrderDO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/service/PhotoOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/service/PhotoOrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -148,7 +161,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1755666748707</updated>
-      <workItem from="1755666750417" duration="21574000" />
+      <workItem from="1755666750417" duration="24011000" />
     </task>
     <task id="LOCAL-00009" summary="Enhance Alipay integration by adding buyer_open_id to trade creation and loading user identities">
       <option name="closed" value="true" />

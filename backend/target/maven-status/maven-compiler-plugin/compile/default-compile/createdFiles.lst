@@ -11,6 +11,7 @@ io\github\talelin\latticy\common\configuration\WebConfiguration.class
 io\github\talelin\latticy\mapper\SpuDetailImgMapper.class
 io\github\talelin\latticy\module\message\WsHandler.class
 io\github\talelin\latticy\service\FileService.class
+io\github\talelin\latticy\service\PhotoOrderService$1.class
 io\github\talelin\latticy\vo\OrderSimplifyVO.class
 io\github\talelin\latticy\dto\user\UpdateInfoDTO.class
 io\github\talelin\latticy\model\PermissionDO$PermissionDOBuilder.class
@@ -154,6 +155,7 @@ io\github\talelin\latticy\config\RequestWrapperConfig.class
 io\github\talelin\latticy\controller\v1\SkuController.class
 io\github\talelin\latticy\model\SpecKeyValueDO.class
 io\github\talelin\latticy\model\UserDO.class
+io\github\talelin\latticy\dto\AlipayNotifyTestDTO.class
 io\github\talelin\latticy\dto\auth\AlipayLoginDTO.class
 io\github\talelin\latticy\mapper\SkuSpecMapper.class
 io\github\talelin\latticy\dto\admin\ResetPasswordDTO.class

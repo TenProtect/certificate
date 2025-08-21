@@ -29,7 +29,7 @@ request-log:
 
 lin:
   file:
-    domain: /
+    domain: https://www.yihuizhi.com/
     serve-path: backend-assets/**
     store-dir: /opt/lin/assets/
     single-limit: 2000MB

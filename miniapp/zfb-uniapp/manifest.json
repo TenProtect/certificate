@@ -55,22 +55,22 @@
             "urlCheck" : false
         },
         "usingComponents" : true,
-        "permission": {
-            "scope.userLocation": {
-                "desc": "您的位置信息将用于获取当前城市，为您提供更准确的证件照服务"
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "您的位置信息将用于获取当前城市，为您提供更准确的证件照服务"
             }
         },
-        "requiredPrivateInfos": ["getLocation", "chooseLocation"]
+        "requiredPrivateInfos" : [ "getLocation", "chooseLocation" ]
     },
     "mp-alipay" : {
-        "appid": "2021005182685554",
+        "appid" : "2021005182685554",
         "usingComponents" : true,
-        "permission": {
-            "scope.userLocation": {
-                "desc": "您的位置信息将用于获取当前城市，为您提供更准确的证件照服务"
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "您的位置信息将用于获取当前城市，为您提供更准确的证件照服务"
             }
         },
-        "requiredPrivateInfos": ["getLocation", "chooseLocation"]
+        "requiredPrivateInfos" : [ "getLocation", "chooseLocation" ]
     },
     "mp-baidu" : {
         "usingComponents" : true

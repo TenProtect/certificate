@@ -37,6 +37,7 @@ D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\l
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\extension\file\UploaderConfiguration.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\service\CategoryService.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\model\SpuDO.java
+D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\dto\AlipayNotifyTestDTO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\bo\FileBO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\vo\UnifyResponseVO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\dto\auth\AlipayLoginDTO.java

@@ -1,4 +1,4 @@
-const API_BASE = 'http://192.168.31.179:5000/v1/mini'
+const API_BASE = 'https://www.yihuizhi.com/v1/mini'
 const TOKEN_KEY = 'token'
 const REFRESH_TOKEN_KEY = 'refreshToken'
 
