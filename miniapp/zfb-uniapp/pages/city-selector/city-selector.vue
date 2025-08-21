@@ -8,7 +8,7 @@
 
         <!-- 搜索框 -->
         <view class="search-container">
-            <view class="search-box">
+            <view class="search-box" :class="{ focused: searchFocus }">
                 <view class="search-icon">
                     <view class="search-icon-svg">
                         <view class="search-circle"></view>
@@ -16,7 +16,7 @@
                     </view>
                 </view>
                 <input class="search-input" placeholder="输入城市" v-model="searchKeyword" @input="onSearchInput"
-                    :focus="searchFocus" />
+                    @focus="onSearchFocus" @blur="onSearchBlur" />
                 <view v-if="searchKeyword" class="clear-btn" @tap="clearSearch">
                     <text class="clear-icon">×</text>
                 </view>
@@ -107,6 +107,7 @@ export default {
         return {
             searchKeyword: '',
             searchFocus: false,
+            hasEverFocused: false,  // 记录是否曾经聚焦过
             currentCity: '重庆',
             cities: [],
             groupedCities: {},
@@ -129,6 +130,13 @@ export default {
 
         // 获取系统信息，适配刘海屏
         this.getSystemInfo()
+
+        // 调试信息：检查运行环境
+        console.log('城市选择页面环境信息:', {
+            platform: uni.getSystemInfoSync().platform,
+            environment: process.env.NODE_ENV,
+            uniPlatform: process.env.UNI_PLATFORM
+        })
 
         await this.loadCities()
         this.setupHotCities()
@@ -285,6 +293,37 @@ export default {
         clearSearch() {
             this.searchKeyword = ''
             this.searchResults = []
+            this.searchFocus = false  // 清除搜索时也要重置聚焦状态
+        },
+
+        // 搜索框聚焦事件
+        onSearchFocus() {
+            this.searchFocus = true
+            
+            // 添加首次聚焦的特殊动画效果
+            if (!this.hasEverFocused) {
+                this.hasEverFocused = true
+                this.$nextTick(() => {
+                    const searchBox = uni.createSelectorQuery().in(this).select('.search-box')
+                    searchBox.boundingClientRect((rect) => {
+                        if (rect) {
+                            // 通过添加临时类来触发脉冲动画
+                            const searchBoxElement = document.querySelector('.search-box')
+                            if (searchBoxElement) {
+                                searchBoxElement.classList.add('first-focus')
+                                setTimeout(() => {
+                                    searchBoxElement.classList.remove('first-focus')
+                                }, 600)
+                            }
+                        }
+                    }).exec()
+                })
+            }
+        },
+
+        // 搜索框失焦事件
+        onSearchBlur() {
+            this.searchFocus = false
         },
 
         selectCity(city) {
@@ -510,6 +549,7 @@ export default {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     padding: 20rpx;
     border-bottom: 1rpx solid #e9ecef;
+    /* 简化阴影效果，提高兼容性 */
     box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
 }
 
@@ -520,21 +560,56 @@ export default {
     border: 2rpx solid #e9ecef;
     border-radius: 30rpx;
     padding: 0 25rpx;
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    /* 增强基础阴影效果 */
+    box-shadow: 0 4rpx 12rpx rgba(86, 93, 244, 0.08), 0 1rpx 3rpx rgba(0, 0, 0, 0.05);
+    /* 分离transition属性，提高兼容性 */
+    transition-property: border-color, box-shadow, transform, background-color;
+    transition-duration: 0.3s, 0.3s, 0.3s, 0.3s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1), cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 兼容性更好的聚焦样式 - 通过JS控制class */
+.search-box.focused {
+    border-color: #565DF4;
+    /* 多层阴影效果，更有层次感 */
+    box-shadow: 
+        0 8rpx 24rpx rgba(86, 93, 244, 0.15),
+        0 4rpx 12rpx rgba(86, 93, 244, 0.1),
+        0 2rpx 6rpx rgba(86, 93, 244, 0.05),
+        0 0 0 1rpx rgba(86, 93, 244, 0.1);
+    /* 轻微上移效果 */
+    transform: translateY(-2rpx);
+    /* 微妙的背景色变化 */
+    background-color: rgba(86, 93, 244, 0.02);
+}
+
+/* 保留原始的focus-within作为备用方案 */
 .search-box:focus-within {
     border-color: #565DF4;
-    box-shadow: 0 4rpx 16rpx rgba(86, 93, 244, 0.2);
+    box-shadow: 
+        0 8rpx 24rpx rgba(86, 93, 244, 0.15),
+        0 4rpx 12rpx rgba(86, 93, 244, 0.1),
+        0 2rpx 6rpx rgba(86, 93, 244, 0.05),
+        0 0 0 1rpx rgba(86, 93, 244, 0.1);
     transform: translateY(-2rpx);
+    background-color: rgba(86, 93, 244, 0.02);
 }
 
 .search-icon {
     margin-right: 20rpx;
-    transition: all 0.3s ease;
+    /* 分离transition属性，提高兼容性 */
+    transition-property: transform;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
 }
 
+/* 兼容性更好的聚焦样式 - 通过JS控制class */
+.search-box.focused .search-icon {
+    /* 恢复更明显的缩放效果 */
+    transform: scale(1.1);
+}
+
+/* 保留原始的focus-within作为备用方案 */
 .search-box:focus-within .search-icon {
     transform: scale(1.1);
 }
@@ -548,25 +623,45 @@ export default {
 .search-circle {
     width: 26rpx;
     height: 26rpx;
-    border: 3rpx solid #565DF4;
+    border: 3rpx solid #999;
     border-radius: 50%;
     position: absolute;
     top: 2rpx;
     left: 2rpx;
-    transition: all 0.3s ease;
+    /* 分离transition属性，提高兼容性 */
+    transition-property: border-color, box-shadow;
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease, ease;
+}
+
+/* 聚焦时的搜索圆圈效果 */
+.search-box.focused .search-circle,
+.search-box:focus-within .search-circle {
+    border-color: #565DF4;
+    box-shadow: 0 0 0 2rpx rgba(86, 93, 244, 0.2);
 }
 
 .search-handle {
     width: 14rpx;
     height: 4rpx;
-    background-color: #565DF4;
+    background-color: #999;
     border-radius: 3rpx;
     position: absolute;
     bottom: 8rpx;
     right: -7rpx;
     transform: rotate(40deg);
     transform-origin: left center;
-    transition: all 0.3s ease;
+    /* 分离transition属性，提高兼容性 */
+    transition-property: background-color, box-shadow;
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease, ease;
+}
+
+/* 聚焦时的搜索手柄效果 */
+.search-box.focused .search-handle,
+.search-box:focus-within .search-handle {
+    background-color: #565DF4;
+    box-shadow: 0 0 4rpx rgba(86, 93, 244, 0.3);
 }
 
 .search-input {
@@ -578,11 +673,24 @@ export default {
     color: #333;
     font-weight: 400;
     line-height: 1.4;
+    transition: color 0.3s ease;
 }
 
 .search-input::placeholder {
     color: #999;
     font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+/* 聚焦状态下的输入框效果 */
+.search-box.focused .search-input,
+.search-box:focus-within .search-input {
+    color: #2c3e50;
+}
+
+.search-box.focused .search-input::placeholder,
+.search-box:focus-within .search-input::placeholder {
+    color: #bbb;
 }
 
 .clear-btn {
@@ -594,13 +702,33 @@ export default {
     cursor: pointer;
     border-radius: 50%;
     background: rgba(153, 153, 153, 0.1);
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     margin-left: 10rpx;
+    position: relative;
+    overflow: hidden;
+}
+
+.clear-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
 }
 
 .clear-btn:active {
     background: rgba(153, 153, 153, 0.2);
     transform: scale(0.9);
+}
+
+.clear-btn:active::before {
+    width: 100%;
+    height: 100%;
 }
 
 .clear-icon {
@@ -962,5 +1090,88 @@ export default {
     font-weight: 500;
     margin-bottom: 8rpx;
     line-height: 1.4;
+}
+
+/* 支付宝小程序优化：渐进式降级 */
+/* #ifdef MP-ALIPAY */
+/* 如果性能较低，提供简化版本 */
+@media (max-device-width: 768px) and (max-device-height: 1024px) {
+    .search-box.focused {
+        /* 保留基本的视觉反馈，但简化复杂效果 */
+        border-color: #565DF4;
+        box-shadow: 0 4rpx 16rpx rgba(86, 93, 244, 0.15), 0 0 0 1rpx rgba(86, 93, 244, 0.1);
+        transform: translateY(-1rpx);
+        background-color: rgba(86, 93, 244, 0.01);
+    }
+}
+
+/* 对于支付宝小程序中的低端设备，进一步简化 */
+@media (max-device-width: 480px) {
+    .search-box.focused {
+        /* 只保留边框和轻微阴影 */
+        border-color: #565DF4;
+        box-shadow: 0 2rpx 8rpx rgba(86, 93, 244, 0.1);
+        transform: none;
+        background-color: white;
+    }
+    
+    .search-box.focused .search-icon {
+        transform: scale(1.02);
+    }
+}
+/* #endif */
+
+/* 为低性能设备提供简化动画 */
+@media (prefers-reduced-motion: reduce) {
+    .search-box,
+    .search-icon,
+    .search-circle,
+    .search-handle {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .search-box.focused {
+        transform: none !important;
+    }
+}
+
+/* 增强的动画效果和交互反馈 */
+.search-box:hover {
+    border-color: #7B83F8;
+    box-shadow: 
+        0 6rpx 18rpx rgba(86, 93, 244, 0.1),
+        0 2rpx 8rpx rgba(86, 93, 244, 0.05);
+    transform: translateY(-1rpx);
+}
+
+/* 搜索框激活时的脉冲效果 */
+@keyframes searchPulse {
+    0% {
+        box-shadow: 
+            0 8rpx 24rpx rgba(86, 93, 244, 0.15),
+            0 4rpx 12rpx rgba(86, 93, 244, 0.1),
+            0 2rpx 6rpx rgba(86, 93, 244, 0.05),
+            0 0 0 1rpx rgba(86, 93, 244, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 12rpx 32rpx rgba(86, 93, 244, 0.2),
+            0 6rpx 16rpx rgba(86, 93, 244, 0.15),
+            0 3rpx 8rpx rgba(86, 93, 244, 0.1),
+            0 0 0 2rpx rgba(86, 93, 244, 0.15);
+    }
+    100% {
+        box-shadow: 
+            0 8rpx 24rpx rgba(86, 93, 244, 0.15),
+            0 4rpx 12rpx rgba(86, 93, 244, 0.1),
+            0 2rpx 6rpx rgba(86, 93, 244, 0.05),
+            0 0 0 1rpx rgba(86, 93, 244, 0.1);
+    }
+}
+
+/* 搜索框首次聚焦时的脉冲动画 */
+.search-box.focused.first-focus {
+    animation: searchPulse 0.6s ease-out;
 }
 </style>
