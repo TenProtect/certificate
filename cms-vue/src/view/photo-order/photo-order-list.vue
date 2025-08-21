@@ -18,7 +18,7 @@
         <el-form-item label="标准照">
           <upload-imgs ref="standardUpload" :max-num="1" />
         </el-form-item>
-        <el-form-item label="排版照">
+        <el-form-item label="排版照" v-if="currentHasLayout">
           <upload-imgs ref="layoutUpload" :max-num="1" />
         </el-form-item>
         <el-form-item label="回执照">
@@ -70,6 +70,7 @@ export default {
       photoDialogVisible: false,
       previewPhoto: '',
       currentId: null,
+      currentHasLayout: false,
       detailId: null,
       detailRemark: '',
       showDetail: false,
@@ -110,6 +111,8 @@ export default {
     },
     handleReview(val) {
       this.currentId = val.row.id
+      const snapshot = JSON.parse(val.row.certificateSnapshot || '{}')
+      this.currentHasLayout = !!snapshot.printLayout
       this.form = { standardPhoto: '', layoutPhoto: '', receiptPhoto: '' }
       this.dialogVisible = true
       this.$nextTick(() => {
@@ -120,7 +123,7 @@ export default {
     },
     async submitReview() {
       const standard = await this.$refs.standardUpload.getValue()
-      const layout = await this.$refs.layoutUpload.getValue()
+      const layout = this.currentHasLayout && this.$refs.layoutUpload ? await this.$refs.layoutUpload.getValue() : []
       const receipt = await this.$refs.receiptUpload.getValue()
       this.form.standard_photo = standard && standard.length > 0 ? standard[0].display : ''
       this.form.layout_photo = layout && layout.length > 0 ? layout[0].display : ''
