@@ -62,7 +62,8 @@ export default {
   data() {
     return {
       statusBarHeight: 0,
-      imagePath: '',
+      imagePath: '', // 处理后的图片路径用于显示
+      originalImagePath: '', // 原始图片路径用于提交
       currentCity: '',
       orderId: '',
        documentInfo: {
@@ -84,9 +85,26 @@ export default {
     
     // 获取传递的图片路径
     if (options.image) {
-      const originalPath = decodeURIComponent(options.image)
-      // 使用 my.getImageInfo 获取图片信息，确保真机显示正常
-      this.imagePath = await this.processImagePath(originalPath)
+      uni.showLoading({
+        title: '处理图片中...',
+        mask: true
+      })
+      
+      try {
+        const originalPath = decodeURIComponent(options.image)
+        // 保存原始路径用于提交订单
+        this.originalImagePath = originalPath
+        // 使用 my.getImageInfo 获取图片信息，确保真机显示正常
+        this.imagePath = await this.processImagePath(originalPath)
+      } catch (error) {
+        console.error('处理图片失败:', error)
+        uni.showToast({
+          title: '图片处理失败',
+          icon: 'none'
+        })
+      } finally {
+        uni.hideLoading()
+      }
     }
     
     // 获取传递的城市信息
@@ -162,11 +180,12 @@ export default {
     
     submitOrder() {
       const goCreate = url => {
-        const imageData = encodeURIComponent(url)
+        const imageData = encodeURIComponent(this.imagePath) // 传递处理后的图片路径用于显示
+        const originalImageData = encodeURIComponent(url) // 传递原始图片路径用于提交
         const documentData = encodeURIComponent(JSON.stringify(this.documentInfo))
         const cityData = encodeURIComponent(this.currentCity)
         uni.navigateTo({
-          url: `/pages/order-submit/order-submit?image=${imageData}&document=${documentData}&city=${cityData}`
+          url: `/pages/order-submit/order-submit?image=${imageData}&originalImage=${originalImageData}&document=${documentData}&city=${cityData}`
         })
       }
       const doResubmit = url => {
@@ -179,6 +198,11 @@ export default {
         })
       }
       const next = url => {
+        uni.showLoading({
+          title: '检测图片合规性...',
+          mask: true
+        })
+        
         detectContent({ content_type: 'PICTURE', data: url })
           .then(res => {
             if (res.message.pass) {
@@ -194,10 +218,13 @@ export default {
           .catch(() => {
             uni.showToast({ title: '检测失败', icon: 'none' })
           })
+          .finally(() => {
+            uni.hideLoading()
+          })
       }
-      if (this.imagePath.startsWith('https://resource/')) {
+      if (this.originalImagePath.startsWith('https://resource/')) {
         uni.showLoading({ title: '上传中...' })
-        uploadImage(this.imagePath)
+        uploadImage(this.originalImagePath)
           .then(file => next(file.url))
           .catch(() => {
             uni.showToast({ title: '上传失败', icon: 'none' })
@@ -206,7 +233,7 @@ export default {
             uni.hideLoading()
           })
       } else {
-        next(this.imagePath)
+        next(this.originalImagePath)
       }
     }
   }
