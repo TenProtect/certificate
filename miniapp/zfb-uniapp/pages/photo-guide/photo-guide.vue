@@ -118,15 +118,14 @@ export default {
         return
       }
       
-      // 跳转到拍摄页面或启动相机
-      uni.showToast({
-        title: '准备开始拍摄',
-        icon: 'success'
+      // 跳转到main页面的首页
+      uni.switchTab({
+        url: '/pages/main/main'
       })
-      // 这里可以跳转到相机页面
-      // uni.navigateTo({
-      //   url: '/pages/camera/camera'
-      // })
+      // 发送事件通知切换到首页tab
+      setTimeout(() => {
+        uni.$emit('switch-to-home')
+      }, 100)
     },
     
     skipGuide() {

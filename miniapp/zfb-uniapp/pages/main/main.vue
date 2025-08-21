@@ -60,6 +60,11 @@ export default {
       this.handleTabChange(2)
     })
     
+    // 监听切换到首页的事件
+    uni.$on('switch-to-home', () => {
+      this.handleTabChange(0)
+    })
+    
     console.log('主容器加载完成，当前tab:', this.currentTab)
   },
   onShow() {
@@ -71,6 +76,7 @@ export default {
   onUnload() {
     // 页面卸载时移除事件监听
     uni.$off('switch-to-profile')
+    uni.$off('switch-to-home')
   },
   methods: {
     handleTabChange(tabIndex) {
