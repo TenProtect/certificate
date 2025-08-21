@@ -54,11 +54,23 @@
         "setting" : {
             "urlCheck" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission": {
+            "scope.userLocation": {
+                "desc": "您的位置信息将用于获取当前城市，为您提供更准确的证件照服务"
+            }
+        },
+        "requiredPrivateInfos": ["getLocation", "chooseLocation"]
     },
     "mp-alipay" : {
         "appid": "2021005182685554",
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission": {
+            "scope.userLocation": {
+                "desc": "您的位置信息将用于获取当前城市，为您提供更准确的证件照服务"
+            }
+        },
+        "requiredPrivateInfos": ["getLocation", "chooseLocation"]
     },
     "mp-baidu" : {
         "usingComponents" : true

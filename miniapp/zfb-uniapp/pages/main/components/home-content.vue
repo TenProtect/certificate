@@ -12,8 +12,9 @@
       <!-- 城市选择和搜索 -->
       <view class="search-section">
         <view class="city-selector" @tap="onCitySelect">
-          <text class="city-text">{{ currentCity }}</text>
-          <text class="dropdown-icon">▼</text>
+          <text class="city-text" :class="{ 'loading': isLocationLoading }">{{ currentCity }}</text>
+          <text class="dropdown-icon" v-if="!isLocationLoading">▼</text>
+          <view class="loading-icon" v-if="isLocationLoading">⟲</view>
         </view>
         <view class="search-box" @tap="goToSearch">
           <view class="search-input">
@@ -106,6 +107,7 @@ import ScrollBanner from '@/components/scroll-banner.vue'
 import { getCertificates } from '@/utils/api.js'
 import mockCertificates from '@/mock/certificates.js'
 import contactConfig from '@/config.js'
+import { getCityByCoordinates, simplifyCityName } from '@/utils/location.js'
 
 export default {
   name: 'HomeContent',
@@ -114,7 +116,7 @@ export default {
   },
   data() {
     return {
-      currentCity: '重庆',
+      currentCity: '定位中...',
       activeTab: 0, // 当前激活的选项卡索引
       categories: [
         { id: 0, name: '回执', icon: '📋' },
@@ -125,6 +127,7 @@ export default {
       ],
       documentsData: {},
       allDocuments: [],
+      isLocationLoading: false,
       bannerImages: [
         {
           src: '/static/banner/banner1.png',
@@ -150,6 +153,7 @@ export default {
   mounted() {
     // 监听城市选择事件
     uni.$on('citySelected', this.onCitySelected)
+    this.getCurrentLocation()
     this.loadCertificates()
   },
   beforeDestroy() {
@@ -157,6 +161,87 @@ export default {
     uni.$off('citySelected', this.onCitySelected)
   },
   methods: {
+    // 获取当前定位
+    async getCurrentLocation() {
+      this.isLocationLoading = true
+      try {
+        // 先尝试直接获取位置信息
+        const location = await new Promise((resolve, reject) => {
+          uni.getLocation({
+            type: 'gcj02',
+            success: resolve,
+            fail: (error) => {
+              console.log('getLocation失败:', error)
+              // 如果直接获取失败，尝试申请权限
+              uni.authorize({
+                scope: 'scope.userLocation',
+                success: () => {
+                  // 权限申请成功后再次尝试获取位置
+                  uni.getLocation({
+                    type: 'gcj02',
+                    success: resolve,
+                    fail: reject
+                  })
+                },
+                fail: () => {
+                  reject(new Error('用户拒绝定位权限'))
+                }
+              })
+            }
+          })
+        })
+
+        console.log('获取位置成功:', location)
+        
+        // 逆地理编码获取城市信息
+        const cityInfo = await this.getCityFromCoordinates(location.latitude, location.longitude)
+        this.currentCity = simplifyCityName(cityInfo)
+        
+        console.log('最终城市名:', this.currentCity)
+        
+      } catch (error) {
+        console.log('定位失败:', error)
+        // 定位失败时的处理
+        this.handleLocationError(error)
+      } finally {
+        this.isLocationLoading = false
+      }
+    },
+
+    // 通过坐标获取城市信息
+    async getCityFromCoordinates(latitude, longitude) {
+      // 使用简单的经纬度范围判断城市（离线方案）
+      const cityName = getCityByCoordinates(latitude, longitude)
+      if (cityName) {
+        return cityName
+      } else {
+        // 如果无法通过坐标判断，使用默认城市
+        console.log('无法通过坐标判断城市，使用默认城市')
+        return '重庆市'
+      }
+    },
+
+    // 定位失败时的处理
+    handleLocationError(error) {
+      // 可以设置默认城市或让用户手动选择
+      this.currentCity = '重庆' // 默认城市
+      
+      let message = '定位失败，已设为默认城市'
+      if (error && error.message) {
+        if (error.message.includes('权限')) {
+          message = '定位权限被拒绝，已设为默认城市'
+        } else if (error.message.includes('超时')) {
+          message = '定位超时，已设为默认城市'
+        }
+      }
+      
+      uni.showToast({
+        title: message,
+        icon: 'none',
+        duration: 2000
+      })
+    },
+
     async loadCertificates() {
       try {
         const list = await getCertificates()
@@ -283,10 +368,30 @@ export default {
   text-align: left;
 }
 
+.city-text.loading {
+  color: #999;
+}
+
 .dropdown-icon {
   color: #666;
   font-size: 20rpx;
   flex-shrink: 0;
+}
+
+.loading-icon {
+  color: #565DF4;
+  font-size: 24rpx;
+  flex-shrink: 0;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .search-box {
