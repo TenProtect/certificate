@@ -31,6 +31,7 @@ D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\l
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\common\aop\ResultAspect.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\dto\CouponTemplateDTO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\module\file\File.java
+D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\common\enumeration\AsyncNotifyType.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\dto\ReviewPhotoOrderDTO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\mapper\SpuDetailImgMapper.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\common\util\SensitiveDataUtil.java
@@ -92,6 +93,7 @@ D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\l
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\dto\ActivityDTO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\controller\v1\TestSleeveController.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\dto\admin\NewGroupDTO.java
+D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\dto\ContentDetectDTO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\common\util\DateDuration.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\mapper\CouponTemplateMapper.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\vo\UserPermissionVO.java
@@ -136,11 +138,13 @@ D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\l
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\service\impl\UserServiceImpl.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\model\ThemeDO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\common\enumeration\StandardOrNotEnum.java
+D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\controller\v1\AsyncNotifyController.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\mapper\SpecKeyMapper.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\service\SpecValueService.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\controller\v1\SkuController.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\model\SimplifySpuDO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\mapper\CertificateMapper.java
+D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\controller\v1\ContentRiskController.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\model\SpuDetailImgDO.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\service\PhotoOrderService.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\dto\user\ChangePasswordDTO.java
@@ -175,6 +179,7 @@ D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\l
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\mapper\CouponMapper.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\module\message\WsHandlerImpl.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\mapper\ThemeSpuMapper.java
+D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\service\ContentRiskService.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\common\interceptor\RequestLogInterceptor.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\common\configuration\CommonConfiguration.java
 D:\workspace\ClientWorkArea\证照小程序\backend\src\main\java\io\github\talelin\latticy\common\enumeration\CouponTypeEnum.java

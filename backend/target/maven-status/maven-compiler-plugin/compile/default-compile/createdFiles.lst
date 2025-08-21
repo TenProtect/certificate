@@ -1,3 +1,4 @@
+io\github\talelin\latticy\controller\v1\AsyncNotifyController$1.class
 io\github\talelin\latticy\common\util\SensitiveDataUtil.class
 io\github\talelin\latticy\dto\ReviewPhotoOrderDTO.class
 io\github\talelin\latticy\model\ActivityDetailDO.class
@@ -90,6 +91,7 @@ io\github\talelin\latticy\dto\SkuDTO.class
 io\github\talelin\latticy\module\file\File.class
 io\github\talelin\latticy\mapper\ThemeSpuMapper.class
 io\github\talelin\latticy\model\UserDO$UserDOBuilder.class
+io\github\talelin\latticy\controller\v1\AsyncNotifyController.class
 io\github\talelin\latticy\mapper\PhotoOrderMapper.class
 io\github\talelin\latticy\model\SpuDO.class
 io\github\talelin\latticy\dto\BannerDTO.class
@@ -108,6 +110,7 @@ io\github\talelin\latticy\controller\v1\SpecKeyController.class
 io\github\talelin\latticy\mapper\GroupPermissionMapper.class
 io\github\talelin\latticy\mapper\BannerMapper.class
 io\github\talelin\latticy\common\enumeration\GroupLevelEnum.class
+io\github\talelin\latticy\controller\v1\ContentRiskController.class
 io\github\talelin\latticy\service\SkuService.class
 io\github\talelin\latticy\controller\v1\CertificateController.class
 io\github\talelin\latticy\mapper\UserIdentityMapper.class
@@ -140,6 +143,7 @@ io\github\talelin\latticy\common\LocalUser.class
 io\github\talelin\latticy\controller\v1\PhotoOrderController.class
 io\github\talelin\latticy\common\interceptor\RequestLogInterceptor.class
 io\github\talelin\latticy\vo\UserPermissionVO.class
+io\github\talelin\latticy\common\enumeration\AsyncNotifyType.class
 io\github\talelin\latticy\module\message\WebSocketInterceptor.class
 io\github\talelin\latticy\vo\UnifyResponseVO.class
 io\github\talelin\latticy\controller\v1\BannerController.class
@@ -227,6 +231,7 @@ io\github\talelin\latticy\common\enumeration\CouponTypeEnum.class
 io\github\talelin\latticy\controller\v1\StatisticsController.class
 io\github\talelin\latticy\common\enumeration\SaleOrNotEnum.class
 io\github\talelin\latticy\dto\admin\UpdateGroupDTO.class
+io\github\talelin\latticy\service\ContentRiskService.class
 io\github\talelin\latticy\common\advice\SnakeToCamelResponseBodyAdvice.class
 io\github\talelin\latticy\service\impl\AdminServiceImpl.class
 io\github\talelin\latticy\service\OrderService.class
@@ -240,4 +245,5 @@ io\github\talelin\latticy\model\SkuDO.class
 io\github\talelin\latticy\dto\admin\DispatchPermissionDTO.class
 io\github\talelin\latticy\model\BaseModel.class
 io\github\talelin\latticy\vo\stat\DailyStatisticsVO.class
+io\github\talelin\latticy\dto\ContentDetectDTO.class
 io\github\talelin\latticy\model\SpecKeyDO.class
