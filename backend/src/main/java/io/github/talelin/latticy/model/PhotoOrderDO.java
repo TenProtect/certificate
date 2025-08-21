@@ -37,6 +37,8 @@ public class PhotoOrderDO {
 
     private String certificateSnapshot;
 
+    private String remark;
+
     private String rejectReason;
 
     private Integer status;

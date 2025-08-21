@@ -195,6 +195,7 @@ export default {
         const orderData = {
           document_name: this.documentInfo.name,
           location: this.selectedCity,
+          remark: this.orderRemark,
           amount: this.documentInfo.price,
           original_photo: photoUrl,
           certificate_snapshot: JSON.stringify(this.documentInfo)

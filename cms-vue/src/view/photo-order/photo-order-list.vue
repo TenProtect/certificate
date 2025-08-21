@@ -37,7 +37,12 @@
       </span>
     </el-dialog>
   </div>
-  <photo-order-detail v-else :order-id="detailId" @viewClose="detailClose" />
+  <photo-order-detail
+    v-else
+    :order-id="detailId"
+    :remark="detailRemark"
+    @viewClose="detailClose"
+  />
 </template>
 
 <script>
@@ -54,6 +59,7 @@ export default {
         { prop: 'orderNo', label: '订单号' },
         { prop: 'documentName', label: '证照' },
         { prop: 'location', label: '地区' },
+        { prop: 'remark', label: '备注' },
         { prop: 'amount', label: '金额' },
         { prop: 'statusText', label: '状态' }
       ],
@@ -65,6 +71,7 @@ export default {
       previewPhoto: '',
       currentId: null,
       detailId: null,
+      detailRemark: '',
       showDetail: false,
       form: {
         standardPhoto: '',
@@ -133,6 +140,7 @@ export default {
     },
     handleView(val) {
       this.detailId = val.row.id
+      this.detailRemark = val.row.remark || ''
       this.showDetail = true
     },
     handlePhoto(val) {
