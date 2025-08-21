@@ -81,12 +81,16 @@
               <view v-if="order.status === 'completed'" class="action-buttons button-group">
                 <view
                   class="action-btn group-btn first"
-                  :class="{ 'only-two': !order.hasReceipt }"
+                  :class="{
+                    'only-two': (order.hasLayout && !order.hasReceipt) || (!order.hasLayout && order.hasReceipt),
+                    'last': !order.hasLayout && !order.hasReceipt
+                  }"
                   @tap="showPreview(order, 'standard')"
                 >
                   <text class="btn-text">下载标准照</text>
                 </view>
                 <view
+                  v-if="order.hasLayout"
                   class="action-btn group-btn"
                   :class="{ 'middle': order.hasReceipt, 'last': !order.hasReceipt }"
                   @tap="showPreview(order, 'layout')"
@@ -325,11 +329,16 @@ export default {
             }
           }
           
+          const snapshot = JSON.parse(o.certificateSnapshot || '{}')
+          const hasLayout = snapshot.printLayout && !!o.layoutPhoto
+          const hasReceipt = snapshot.hasReceipt && !!o.receiptPhoto
+
           return {
             ...o,
             amount: `¥${o.amount}`,
             photo: processedPhoto,
-            hasReceipt: !!o.receiptPhoto,
+            hasReceipt,
+            hasLayout,
             status: this.mapStatus(o.status),
             rejectReason: o.rejectReason,
             certificateSnapshot: o.certificateSnapshot,

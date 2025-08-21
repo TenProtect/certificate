@@ -4,6 +4,7 @@ import com.alipay.api.AlipayApiException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.talelin.autoconfigure.exception.NotFoundException;
+import io.github.talelin.autoconfigure.exception.ParameterException;
 import io.github.talelin.latticy.common.enumeration.PhotoOrderStatus;
 import io.github.talelin.latticy.dto.CreatePhotoOrderDTO;
 import io.github.talelin.latticy.dto.ResubmitPhotoDTO;
@@ -17,9 +18,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import cn.hutool.core.util.StrUtil;
 
 @Service
 public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderDO> {
@@ -105,6 +111,25 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         if (order == null) {
             throw new NotFoundException(110000);
         }
+
+        boolean requireLayout = false;
+        if (StrUtil.isNotBlank(order.getCertificateSnapshot())) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                Map<String, Object> snapshot = mapper.readValue(order.getCertificateSnapshot(), new TypeReference<Map<String, Object>>() {
+                });
+                Object flag = snapshot.get("printLayout");
+                if (flag instanceof Boolean) {
+                    requireLayout = (Boolean) flag;
+                }
+            } catch (IOException ignored) {
+            }
+        }
+
+        if (requireLayout && StrUtil.isBlank(dto.getLayoutPhoto())) {
+            throw new ParameterException(10001);
+        }
+
         order.setStandardPhoto(dto.getStandardPhoto());
         order.setLayoutPhoto(dto.getLayoutPhoto());
         order.setReceiptPhoto(dto.getReceiptPhoto());

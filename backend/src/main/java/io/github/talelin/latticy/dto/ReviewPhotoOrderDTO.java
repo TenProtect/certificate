@@ -10,7 +10,6 @@ public class ReviewPhotoOrderDTO {
     @NotBlank
     private String standardPhoto;
 
-    @NotBlank
     private String layoutPhoto;
 
     private String receiptPhoto;
