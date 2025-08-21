@@ -216,20 +216,60 @@ export default {
       // 通过事件通知父组件切换到首页
       this.$emit('switch-tab', 0)
     },
-    loadOrders() {
-      getOrders().then(res => {
-        this.orders = res.map(o => ({
-          ...o,
-          amount: `¥${o.amount}`,
-          photo: o.originalPhoto,
-          hasReceipt: !!o.receiptPhoto,
-          status: this.mapStatus(o.status),
-          rejectReason: o.rejectReason,
-          certificateSnapshot: o.certificateSnapshot
+    async loadOrders() {
+      try {
+        const res = await getOrders()
+        // 处理每个订单的图片信息
+        const processedOrders = await Promise.all(res.map(async (o) => {
+          let processedPhoto = o.originalPhoto
+          
+          // 使用 my.getImageInfo 获取图片信息，确保真机显示正常
+          if (o.originalPhoto) {
+            try {
+              // #ifdef MP-ALIPAY
+              const imageInfo = await new Promise((resolve, reject) => {
+                my.getImageInfo({
+                  src: o.originalPhoto,
+                  success: resolve,
+                  fail: reject
+                })
+              })
+              // 使用 getImageInfo 返回的路径，确保图片能正常显示
+              processedPhoto = imageInfo.path || imageInfo.src || o.originalPhoto
+              // #endif
+              
+              // #ifndef MP-ALIPAY
+              const imageInfo = await new Promise((resolve, reject) => {
+                uni.getImageInfo({
+                  src: o.originalPhoto,
+                  success: resolve,
+                  fail: reject
+                })
+              })
+              processedPhoto = imageInfo.path || o.originalPhoto
+              // #endif
+            } catch (error) {
+              console.warn('获取图片信息失败，使用原始路径:', error)
+              processedPhoto = o.originalPhoto
+            }
+          }
+          
+          return {
+            ...o,
+            amount: `¥${o.amount}`,
+            photo: processedPhoto,
+            hasReceipt: !!o.receiptPhoto,
+            status: this.mapStatus(o.status),
+            rejectReason: o.rejectReason,
+            certificateSnapshot: o.certificateSnapshot
+          }
         }))
-      }).catch(() => {
+        
+        this.orders = processedOrders
+      } catch (error) {
+        console.error('加载订单失败:', error)
         this.orders = []
-      })
+      }
     },
     contactService() {
       // 注意：使用原生 contact-button 组件时，此方法不再需要

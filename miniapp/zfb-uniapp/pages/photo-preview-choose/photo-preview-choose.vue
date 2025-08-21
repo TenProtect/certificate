@@ -77,14 +77,16 @@ export default {
     }
   },
   
-  onLoad(options) {
+  async onLoad(options) {
     // 获取系统信息
     const systemInfo = uni.getSystemInfoSync()
     this.statusBarHeight = systemInfo.statusBarHeight || 0
     
     // 获取传递的图片路径
     if (options.image) {
-      this.imagePath = decodeURIComponent(options.image)
+      const originalPath = decodeURIComponent(options.image)
+      // 使用 my.getImageInfo 获取图片信息，确保真机显示正常
+      this.imagePath = await this.processImagePath(originalPath)
     }
     
     // 获取传递的城市信息
@@ -107,6 +109,38 @@ export default {
   },
   
   methods: {
+    async processImagePath(imagePath) {
+      if (!imagePath) return ''
+      
+      try {
+        // #ifdef MP-ALIPAY
+        const imageInfo = await new Promise((resolve, reject) => {
+          my.getImageInfo({
+            src: imagePath,
+            success: resolve,
+            fail: reject
+          })
+        })
+        // 使用 getImageInfo 返回的路径，确保图片能正常显示
+        return imageInfo.path || imageInfo.src || imagePath
+        // #endif
+        
+        // #ifndef MP-ALIPAY
+        const imageInfo = await new Promise((resolve, reject) => {
+          uni.getImageInfo({
+            src: imagePath,
+            success: resolve,
+            fail: reject
+          })
+        })
+        return imageInfo.path || imagePath
+        // #endif
+      } catch (error) {
+        console.warn('获取图片信息失败，使用原始路径:', error)
+        return imagePath
+      }
+    },
+
     goBack() {
       uni.navigateBack()
     },
@@ -116,19 +150,18 @@ export default {
         count: 1,
         sizeType: ['original'],
         sourceType: ['album'],
-        success: (res) => {
+        success: async (res) => {
           if (res.tempFilePaths && res.tempFilePaths.length > 0) {
             uni.showLoading({ title: '上传中...' })
-            uploadImage(res.tempFilePaths[0])
-              .then(file => {
-                this.imagePath = file.url
-              })
-              .catch(() => {
-                uni.showToast({ title: '上传失败', icon: 'none' })
-              })
-              .finally(() => {
-                uni.hideLoading()
-              })
+            try {
+              const file = await uploadImage(res.tempFilePaths[0])
+              // 使用 processImagePath 处理上传后的图片路径
+              this.imagePath = await this.processImagePath(file.url)
+            } catch (error) {
+              uni.showToast({ title: '上传失败', icon: 'none' })
+            } finally {
+              uni.hideLoading()
+            }
           }
         }
       })
