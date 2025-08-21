@@ -7,6 +7,8 @@ import com.alipay.api.domain.AlipaySecurityRiskContentSyncDetectModel;
 import com.alipay.api.request.AlipaySecurityRiskContentSyncDetectRequest;
 import com.alipay.api.response.AlipaySecurityRiskContentSyncDetectResponse;
 import io.github.talelin.latticy.common.configuration.AlipayProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import java.util.UUID;
  */
 @Service
 public class ContentRiskService {
+
+    private static final Logger log = LoggerFactory.getLogger(ContentRiskService.class);
 
     @Autowired
     private AlipayProperties properties;
@@ -35,9 +39,11 @@ public class ContentRiskService {
 
     public boolean detect(String contentType, String data) throws AlipayApiException {
         AlipayClient client = buildClient();
+        String requestId = UUID.randomUUID().toString();
+
         AlipaySecurityRiskContentSyncDetectRequest request = new AlipaySecurityRiskContentSyncDetectRequest();
         AlipaySecurityRiskContentSyncDetectModel model = new AlipaySecurityRiskContentSyncDetectModel();
-        model.setRequestId(UUID.randomUUID().toString());
+        model.setRequestId(requestId);
         model.setProducts(properties.getRiskProducts());
         model.setChannel(properties.getRiskChannel());
         model.setContentType(contentType);
@@ -50,4 +56,3 @@ public class ContentRiskService {
         return "pass".equalsIgnoreCase(response.getSuggestion());
     }
 }
-

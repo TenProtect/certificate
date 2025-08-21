@@ -60,5 +60,5 @@ alipay:
   alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnaAG9QiKBgRZL3ysj+Zu5SqfDnUTWwAYeHN3sT5Jcg3d+b+RHlBByTxKeC1U3KiTsCVtdYRZ7Augxegxw48LFJNnCbDl6Egq8y70ZleDUi4JscUmk0sibQEuZ1EgkMQowNJaCPHZijQLRKMqjHTchMUiY7JB4JxC+xm+ShKOxGeJnlO4Cj/QDxhJNq6y4wXlUUObMr3/YM/KriAGQMi9t+giDHcqMu8IcvZkA/aIRk/j5AneHHA0rgtdnHryyDu/h6Q1onJxoy64tU6gav1EiWOL9adNK3r8LUiWF2c9g7vsywPghQ+H8pq1tVh7nk5wzHc0HqVVnFSVS7KgCxWQJwIDAQAB
   gateway: https://openapi.alipay.com/gateway.do
   notifyUrl: https://yihuizhi.com/v1/alipay/notify
-  riskProducts: TJ_POLITICS_MC,TJ_PORN_MC,TJ_ILLEGAL_MC,TJ_TERRORISM_MC,TJ_ABUSE_MC
+  riskProducts: TJ_POLITICS_MC,TJ_PORN_MC,TJ_ILLEGAL_MC,TJ_TERRORISM_MC,TJ_ABUSES_MC
   riskChannel: tinyapp-eco-open
