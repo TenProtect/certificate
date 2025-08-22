@@ -47,7 +47,8 @@ export default {
     tips: { type: String, default: '请对齐人像轮廓' },
     guideColor: { type: String, default: 'rgba(0,200,255,0.9)' },
     crosshairColor: { type: String, default: 'rgba(255,255,255,0.6)' },
-    guideLineWidth: { type: Number, default: 4 }
+    guideLineWidth: { type: Number, default: 4 },
+    autoPreview: { type: Boolean, default: false } // 是否拍照后自动预览
   },
   data() {
     return {
@@ -144,7 +145,11 @@ export default {
         success: (res) => {
           // res.tempImagePath
           this.$emit('capture', res.tempImagePath)
-          uni.previewImage({ urls: [res.tempImagePath] })
+          
+          // 根据 autoPreview 属性决定是否自动预览
+          if (this.autoPreview) {
+            uni.previewImage({ urls: [res.tempImagePath] })
+          }
         },
         fail: () => { uni.showToast({ title: '拍照失败', icon: 'none' }) }
       })

@@ -7,7 +7,6 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ReviewPhotoOrderDTO {
 
-    @NotBlank
     private String standardPhoto;
 
     private String layoutPhoto;

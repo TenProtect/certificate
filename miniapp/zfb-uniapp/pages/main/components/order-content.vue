@@ -79,28 +79,29 @@
             <!-- 操作按钮区域 -->
             <view class="order-actions">
               <view v-if="order.status === 'completed'" class="action-buttons button-group">
+                <!-- 标准照按钮 -->
                 <view
-                  class="action-btn group-btn first"
-                  :class="{
-                    'only-two': (order.hasLayout && !order.hasReceipt) || (!order.hasLayout && order.hasReceipt),
-                    'last': !order.hasLayout && !order.hasReceipt
-                  }"
+                  v-if="order.hasStandard"
+                  class="action-btn group-btn"
+                  :class="getButtonClass(order, 'standard')"
                   @tap="showPreview(order, 'standard')"
                 >
                   <text class="btn-text">下载标准照</text>
                 </view>
+                <!-- 排版照按钮 -->
                 <view
                   v-if="order.hasLayout"
                   class="action-btn group-btn"
-                  :class="{ 'middle': order.hasReceipt, 'last': !order.hasReceipt }"
+                  :class="getButtonClass(order, 'layout')"
                   @tap="showPreview(order, 'layout')"
                 >
                   <text class="btn-text">下载排版照</text>
                 </view>
-                <!-- 如果支持回执，显示回执按钮 -->
+                <!-- 回执照按钮 -->
                 <view
                   v-if="order.hasReceipt"
-                  class="action-btn group-btn last"
+                  class="action-btn group-btn"
+                  :class="getButtonClass(order, 'receipt')"
                   @tap="showPreview(order, 'receipt')"
                 >
                   <text class="btn-text">下载回执照</text>
@@ -351,6 +352,7 @@ export default {
           const snapshot = JSON.parse(o.certificateSnapshot || '{}')
           const hasLayout = snapshot.printLayout && !!o.layoutPhoto
           const hasReceipt = snapshot.hasReceipt && !!o.receiptPhoto
+          const hasStandard = !!o.standardPhoto
 
           return {
             ...o,
@@ -358,6 +360,7 @@ export default {
             photo: processedPhoto,
             hasReceipt,
             hasLayout,
+            hasStandard,
             status: this.mapStatus(o.status),
             rejectReason: o.rejectReason,
             certificateSnapshot: o.certificateSnapshot,
@@ -761,6 +764,45 @@ export default {
           this.headerHeight = 48
         }
       }
+    },
+    
+    // 获取按钮样式类
+    getButtonClass(order, buttonType) {
+      // 获取所有可用的按钮类型
+      const availableButtons = []
+      if (order.hasStandard) availableButtons.push('standard')
+      if (order.hasLayout) availableButtons.push('layout')
+      if (order.hasReceipt) availableButtons.push('receipt')
+      
+      const totalButtons = availableButtons.length
+      const currentIndex = availableButtons.indexOf(buttonType)
+      
+      // 只有一个按钮时
+      if (totalButtons === 1) {
+        return 'first last'
+      }
+      
+      // 两个按钮时
+      if (totalButtons === 2) {
+        if (currentIndex === 0) {
+          return 'first only-two'
+        } else {
+          return 'last only-two'
+        }
+      }
+      
+      // 三个按钮时
+      if (totalButtons === 3) {
+        if (currentIndex === 0) {
+          return 'first'
+        } else if (currentIndex === 1) {
+          return 'middle'
+        } else {
+          return 'last'
+        }
+      }
+      
+      return ''
     }
   }
 }
