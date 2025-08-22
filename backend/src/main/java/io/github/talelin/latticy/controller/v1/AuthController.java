@@ -3,6 +3,7 @@ package io.github.talelin.latticy.controller.v1;
 import com.alipay.api.AlipayApiException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.talelin.core.annotation.RefreshRequired;
+import io.github.talelin.core.annotation.LoginRequired;
 import io.github.talelin.core.token.DoubleJWT;
 import io.github.talelin.core.token.Tokens;
 import io.github.talelin.latticy.common.constant.IdentityConstant;
@@ -89,6 +90,16 @@ public class AuthController {
         res.put("code", 0);
         res.put("message", "ok");
         res.put("data", data);
+        return res;
+    }
+
+    @GetMapping("/heartbeat")
+    @LoginRequired
+    public Map<String, Object> heartbeat() {
+        Map<String, Object> res = new HashMap<>();
+        res.put("code", 0);
+        res.put("message", "ok");
+        res.put("data", new HashMap<>());
         return res;
     }
 }
