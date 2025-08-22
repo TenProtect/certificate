@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS photo_order;
 CREATE TABLE photo_order (
   id INT AUTO_INCREMENT PRIMARY KEY,
   order_no VARCHAR(64) NOT NULL,
+  trade_no VARCHAR(64),
   user_id INT,
   document_name VARCHAR(100),
   location VARCHAR(100),
