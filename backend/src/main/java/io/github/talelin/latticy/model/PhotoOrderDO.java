@@ -19,6 +19,8 @@ public class PhotoOrderDO {
 
     private String orderNo;
 
+    private String tradeNo;
+
     private Integer userId;
 
     private String documentName;

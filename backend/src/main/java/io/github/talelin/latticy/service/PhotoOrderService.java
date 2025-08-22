@@ -50,6 +50,9 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
 
         String tradeNo = alipayService.createTrade(order.getOrderNo(), dto.getAmount(), dto.getDocumentName(), buyerId);
 
+        order.setTradeNo(tradeNo);
+        this.updateById(order);
+
         Map<String, Object> res = new HashMap<>();
         res.put("orderId", order.getId());
         res.put("tradeNo", tradeNo);

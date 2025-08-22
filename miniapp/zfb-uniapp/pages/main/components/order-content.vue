@@ -123,6 +123,23 @@
                   <text class="btn-text btn-text-clickthrough">咨询客服</text>
                 </view>
               </view>
+              <view v-else-if="order.status === 'pending_payment'" class="action-buttons button-group">
+                <view class="action-btn group-btn first" @tap="payOrder(order)">
+                  <text class="btn-text">立即支付</text>
+                </view>
+                <view class="action-btn group-btn last consultation-wrapper">
+                  <contact-button
+                    class="contact-button-native"
+                    size="default"
+                    color="#3d45e6"
+                    icon="/static/customer-service.png"
+                    :tnt-inst-id="contactConfig.tntInstId"
+                    :scene="contactConfig.scene"
+                  >
+                  </contact-button>
+                  <text class="btn-text btn-text-clickthrough">咨询客服</text>
+                </view>
+              </view>
               <view v-else class="action-buttons single">
                 <view class="consultation-wrapper-single">
                   <text class="btn-text btn-text-clickthrough">咨询客服</text>
@@ -207,7 +224,7 @@
 </template>
 
 <script>
-import { getOrders } from '@/utils/api.js'
+import { getOrders, alipayNotifyTest } from '@/utils/api.js'
 import contactConfig from '@/config.js'
 export default {
   name: 'OrderContent',
@@ -234,7 +251,8 @@ export default {
         loading: false,
         closing: false,  // 添加关闭动画状态
         originalImageUrl: '' // 保存原始图片URL用于下载
-      }
+      },
+      isDev: false
     }
   },
   computed: {
@@ -294,6 +312,7 @@ export default {
     async loadOrders() {
       try {
         const res = await getOrders()
+        this.isDev = res.__isDev__ || false
         // 处理每个订单的图片信息
         const processedOrders = await Promise.all(res.map(async (o) => {
           let processedPhoto = o.originalPhoto
@@ -489,6 +508,37 @@ export default {
       uni.navigateTo({
         url: `/pages/photo-reupload-detail/photo-reupload-detail?orderId=${order.id}`
       })
+    },
+    payOrder(order) {
+      if (this.isDev) {
+        alipayNotifyTest({ out_trade_no: order.orderNo, trade_status: 'TRADE_SUCCESS' })
+          .then(() => {
+            uni.showToast({ title: '支付成功', icon: 'success' })
+            this.loadOrders()
+          })
+          .catch(() => {
+            uni.showToast({ title: '支付失败', icon: 'none' })
+          })
+      } else {
+        if (!order.tradeNo) {
+          uni.showToast({ title: '无法获取支付信息', icon: 'none' })
+          return
+        }
+        my.tradePay({
+          tradeNO: order.tradeNo,
+          success: result => {
+            if (result.resultCode === '9000') {
+              uni.showToast({ title: '支付成功', icon: 'success' })
+              this.loadOrders()
+            } else {
+              uni.showToast({ title: '支付失败', icon: 'none' })
+            }
+          },
+          fail: () => {
+            uni.showToast({ title: '支付失败', icon: 'none' })
+          }
+        })
+      }
     },
     formatTime(timeString) {
       // 格式化时间显示
