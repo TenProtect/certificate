@@ -30,12 +30,15 @@
         </view>
       </view>
       
-      <!-- 切换摄像头按钮 -->
-      <view class="control-btn primary" @tap="toggleCamera">
-        <image src="/static/icons/refresh.svg" 
-               class="control-icon refresh-icon" 
-               :class="{ 'rotating': isRotating }"
-               mode="aspectFit" />
+      <!-- 右侧占位（保持拍照按钮居中） -->
+      <view class="control-placeholder">
+        <!-- 切换摄像头按钮 -->
+        <view class="control-btn primary" @tap="toggleCamera" v-show="false">
+          <image src="/static/icons/refresh.svg" 
+                 class="control-icon refresh-icon" 
+                 :class="{ 'rotating': isRotating }"
+                 mode="aspectFit" />
+        </view>
       </view>
     </view>
 
@@ -74,7 +77,7 @@ export default {
       },
       
       // 相机设置
-      cameraDevice: 'front',
+      cameraDevice: 'back',
       cameraTips: '请将脸部对准中央区域',
       
       // UI状态
@@ -403,6 +406,9 @@ export default {
 .control-placeholder {
   width: 120rpx;
   height: 120rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 控制按钮 */
@@ -603,6 +609,9 @@ export default {
   .control-placeholder {
     width: 100rpx;
     height: 100rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .control-icon {
