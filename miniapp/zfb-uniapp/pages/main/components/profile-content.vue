@@ -81,6 +81,9 @@ export default {
   mounted() {
     this.hasToken = !!uni.getStorageSync('token')
     if (this.hasToken) {
+      // 如果已经有token，通知App.vue启动心跳检测
+      uni.$emit('login-success')
+      
       my.getAuthCode({
         scopes: 'auth_user',
         success: (auth) => {
@@ -136,6 +139,9 @@ export default {
                     icon: 'success',
                     duration: 2000
                   })
+                  
+                  // 通知App.vue重启心跳检测
+                  uni.$emit('login-success')
                 } else {
                   uni.showToast({ title: '登录失败', icon: 'none' })
                 }

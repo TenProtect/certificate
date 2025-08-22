@@ -22,8 +22,18 @@
 
     <!-- 办理城市 -->
     <view class="city-section">
-      <text class="section-title">办理城市</text>
-      <text class="city-text">{{ selectedCity || '请输入办理城市' }}</text>
+      <view class="city-row">
+        <text class="section-title">办理城市</text>
+        <view class="city-input-container">
+          <input 
+            class="city-input" 
+            v-model="selectedCity"
+            placeholder="请输入办理城市"
+            type="text"
+            maxlength="20"
+          />
+        </view>
+      </view>
     </view>
 
     <!-- 订单备注 -->
@@ -33,7 +43,7 @@
         <textarea 
           class="remark-input" 
           v-model="orderRemark"
-          placeholder="请输入特殊要求或备注信息"
+          placeholder="请备注办理城市，云南地区港澳通行证及护照请备注身份证号码和姓名"
           maxlength="200"
           :auto-height="false"
           :show-count="false"
@@ -209,6 +219,14 @@ export default {
       if (!this.agreedToTerms) {
         uni.showToast({
           title: '请先同意服务协议',
+          icon: 'none'
+        })
+        return
+      }
+
+      if (!this.selectedCity || this.selectedCity.trim() === '') {
+        uni.showToast({
+          title: '请输入办理城市',
           icon: 'none'
         })
         return
@@ -411,21 +429,50 @@ export default {
   margin-bottom: 16rpx;
   border-radius: 16rpx;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.city-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.city-input-container {
+  flex: 1;
+  position: relative;
+}
+
+.city-input {
+  width: 100%;
+  height: 70rpx;
+  padding: 16rpx;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12rpx;
+  border: 2rpx solid transparent;
+  font-size: 26rpx;
+  color: #2c3e50;
+  line-height: 1.5;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.city-input:focus {
+  border-color: #3498db;
+  background: #ffffff;
+  box-shadow: 0 0 0 4rpx rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
+.city-input::placeholder {
+  color: #95a5a6;
+  font-size: 24rpx;
 }
 
 .section-title {
   font-size: 30rpx;
   color: #2c3e50;
   font-weight: 600;
-}
-
-.city-text {
-  font-size: 26rpx;
-  color: #3498db;
-  font-weight: 500;
+  min-width: 120rpx;
 }
 
 /* 订单备注 */
@@ -444,7 +491,7 @@ export default {
 
 .remark-input {
   width: 100%;
-  height: 80rpx;
+  height: 110rpx;
   padding: 16rpx 100rpx 16rpx 16rpx;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border-radius: 12rpx;
@@ -499,10 +546,7 @@ export default {
   display: flex;
   align-items: flex-start;
   gap: 16rpx;
-  margin-bottom: 10rpx;
-  padding: 12rpx;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 10rpx;
+  padding: 2rpx;
   transition: all 0.3s ease;
 }
 
@@ -516,14 +560,14 @@ export default {
 }
 
 .guarantee-icon {
-  font-size: 28rpx;
+  font-size: 24rpx;
   margin-top: 2rpx;
   filter: drop-shadow(0 2rpx 4rpx rgba(0, 0, 0, 0.1));
 }
 
 .guarantee-text {
   flex: 1;
-  font-size: 24rpx;
+  font-size: 20rpx;
   color: #34495e;
   line-height: 1.5;
   font-weight: 400;

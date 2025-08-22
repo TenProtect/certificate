@@ -60,7 +60,7 @@
                 <text class="doc-name">{{ order.documentName }}</text>
                 <text class="process-location">办理地区：{{ order.location }}</text>
                 <text class="payment-amount">支付金额：{{ order.amount }}</text>
-                <text class="check-time">检测时间：{{ order.checkTime }}</text>
+                <!-- <text class="check-time">检测时间：{{ order.checkTime }}</text> -->
                 <view class="check-result">
                   <text class="result-label">检测结果：</text>
                   <text class="result-value" :class="order.status">{{ getResultText(order.status) }}</text>
@@ -71,7 +71,7 @@
                 </view>
                 <view v-if="order.status === 'processing'" class="status-description">
                   <text class="status-desc">状态说明：</text>
-                  <text class="status-detail">证件照回执正在审核中，审核结果将短信通知您，请稍等。</text>
+                  <text class="status-detail">证件照回执正在审核中，请稍等。</text>
                 </view>
               </view>
             </view>
