@@ -65,7 +65,7 @@
                         <text class="question-text">客服上班时间？</text>
                     </view>
                     <view class="answer">
-                        <text class="answer-text">9：00-21：30</text>
+                        <text class="answer-text">8：00-23：00</text>
                     </view>
                 </view>
 
@@ -111,7 +111,7 @@
                         <text
                             class="answer-text">温馨提示3：出视频回执后，如因客服无法获取视频信息等原因，可以找到回执的官方客服电话，根据像素编号电话、或者联系客服发起客服的协助处理，换成视频回执。需要以此单在平台上提交后才能换取回执类型，未出具的不支持退款。</text>
                         <text
-                            class="answer-text">温馨提示4：客服下班时间（21：30-次日9：00）下的订单，若在官方系统未出具回执时间（21：30-次日00：00或次日8：00-9：00）联系客服更换类型，不支持退款。修改或更换申请，可在上班时间联系客服提供订单号登记退或更换类型。</text>
+                            class="answer-text">温馨提示4：客服下班时间（23：00-次日8：00）下的订单，若在官方系统未出具回执时间（23：00-次日8：00）联系客服更换类型，不支持退款。修改或更换申请，可在上班时间联系客服提供订单号登记退或更换类型。</text>
                     </view>
                 </view>
 
@@ -123,8 +123,7 @@
                     </view>
                     <view class="answer">
                         <text class="answer-text">
-                            不支持。寸照都有预览效果，以及相关的参数展示，一经生成，不
-                            支持退款。
+                            不支持。寸照都有预览效果，以及相关的参数展示，一经生成，不支持退款。
                         </text>
                     </view>
                 </view>
@@ -133,7 +132,7 @@
             <!-- 客服联系区域 -->
             <view class="customer-service">
                 <view class="service-time">
-                    <text class="service-text">客服服务时间：工作日9:00-21:30 非工作日10:00-21:00</text>
+                    <text class="service-text">客服服务时间 8：00-23：00</text>
                 </view>
                 <view class="service-buttons">
                     <view class="service-btn hotline-btn" @tap="callCustomerService">

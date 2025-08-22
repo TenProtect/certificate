@@ -129,10 +129,6 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
             }
         }
 
-        if (requireLayout && StrUtil.isBlank(dto.getLayoutPhoto())) {
-            throw new ParameterException(10001);
-        }
-
         order.setStandardPhoto(dto.getStandardPhoto());
         order.setLayoutPhoto(dto.getLayoutPhoto());
         order.setReceiptPhoto(dto.getReceiptPhoto());

@@ -20,7 +20,7 @@
       <!-- 全局温馨提示 - 在所有订单最顶部 -->
       <view v-if="currentOrders.length > 0" class="global-warm-tip">
         <view class="tip-icon">🔊</view>
-        <text class="tip-text">温馨提示：回执审核时间：早上 9:00 到晚上 20:30</text>
+        <text class="tip-text">温馨提示：回执审核时间：早上 8:00 到晚上 23:00</text>
       </view>
       
       <view v-if="currentOrders.length === 0" class="empty-state">
