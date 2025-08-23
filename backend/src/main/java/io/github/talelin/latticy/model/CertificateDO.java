@@ -16,6 +16,7 @@ public class CertificateDO extends BaseModel implements Serializable {
     private String name;
     private String category;
     private Boolean hasReceipt;
+    private Boolean needCardNo;
     private String printSize;
     private String pixelSize;
     private String resolution;

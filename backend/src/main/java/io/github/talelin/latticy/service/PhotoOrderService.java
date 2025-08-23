@@ -26,6 +26,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.IdcardUtil;
 
 @Service
 public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderDO> {
@@ -36,6 +37,21 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
     public Map<String, Object> createOrder(CreatePhotoOrderDTO dto) throws AlipayApiException {
         PhotoOrderDO order = new PhotoOrderDO();
         BeanUtils.copyProperties(dto, order);
+
+        if (StrUtil.isNotBlank(dto.getCertificateSnapshot())) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                Map<String, Object> snapshot = mapper.readValue(dto.getCertificateSnapshot(), new TypeReference<Map<String, Object>>(){});
+                if (Boolean.TRUE.equals(snapshot.get("needCardNo"))) {
+                    if (StrUtil.isBlank(dto.getCardNo()) || !IdcardUtil.isValidCard(dto.getCardNo())) {
+                        throw new ParameterException("身份证号码不正确");
+                    }
+                }
+            } catch (IOException e) {
+                throw new ParameterException("证照信息解析失败");
+            }
+        }
+
         order.setOrderNo(String.valueOf(System.currentTimeMillis()));
         order.setStatus(PhotoOrderStatus.UNPAID.getValue());
         order.setUserId(LocalUser.getLocalUser().getId());

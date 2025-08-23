@@ -27,6 +27,8 @@ public class PhotoOrderDO {
 
     private String location;
 
+    private String cardNo;
+
     private BigDecimal amount;
 
     private String originalPhoto;
