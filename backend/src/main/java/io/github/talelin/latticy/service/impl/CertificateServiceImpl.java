@@ -55,6 +55,7 @@ public class CertificateServiceImpl implements CertificateService {
         target.setName(dto.getName());
         target.setCategory(dto.getCategory());
         target.setHasReceipt(dto.getHasReceipt());
+        target.setNeedCardNo(dto.getNeedCardNo());
         target.setPrintSize(dto.getPrintSize());
         target.setPixelSize(dto.getPixelSize());
         target.setResolution(dto.getResolution());

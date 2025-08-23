@@ -29,6 +29,7 @@ export default {
         { prop: 'name', label: '名称' },
         { prop: 'category', label: '分类' },
         { prop: 'hasReceipt', label: '含回执' },
+        { prop: 'needCardNo', label: '需身份证号' },
         { prop: 'price', label: '价格（元）' },
         { prop: 'printSize', label: '打印尺寸' },
         { prop: 'pixelSize', label: '像素尺寸' },

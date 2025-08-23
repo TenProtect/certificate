@@ -59,6 +59,7 @@ export default {
         { prop: 'orderNo', label: '订单号' },
         { prop: 'documentName', label: '证照' },
         { prop: 'location', label: '地区' },
+        { prop: 'cardNo', label: '身份证号' },
         { prop: 'remark', label: '备注' },
         { prop: 'amount', label: '金额' },
         { prop: 'statusText', label: '状态' }

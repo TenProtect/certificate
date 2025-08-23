@@ -14,6 +14,9 @@
             <el-form-item label="含回执" prop="hasReceipt">
               <el-switch v-model="form.hasReceipt" />
             </el-form-item>
+            <el-form-item label="需身份证" prop="needCardNo">
+              <el-switch v-model="form.needCardNo" />
+            </el-form-item>
             <el-form-item label="分类" prop="category">
               <el-input v-model="form.category" placeholder="请输入分类" />
             </el-form-item>
@@ -76,6 +79,7 @@ export default {
       form: {
         name: '',
         hasReceipt: false,
+        needCardNo: false,
         category: '',
         price: 0,
         printSize: '',
@@ -105,6 +109,7 @@ export default {
         this.form = {
           name: info.name,
           hasReceipt: !!(info.has_receipt || info.hasReceipt),
+          needCardNo: !!(info.need_card_no || info.needCardNo),
           category: info.category,
           price: info.price,
           printSize: info.print_size || info.printSize,
@@ -144,6 +149,7 @@ export default {
       const submitData = {
         name: this.form.name,
         has_receipt: this.form.hasReceipt,
+        need_card_no: this.form.needCardNo,
         category: this.form.category,
         price: this.form.price,
         print_size: this.form.printSize,

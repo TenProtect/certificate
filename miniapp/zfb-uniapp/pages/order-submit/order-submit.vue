@@ -21,6 +21,21 @@
     </view>
 
     <!-- 办理城市 -->
+    <view class="city-section" v-if="documentInfo.needCardNo">
+      <view class="city-row">
+        <text class="section-title">身份证号码</text>
+        <view class="city-input-container">
+          <input
+            class="city-input"
+            v-model="cardNo"
+            placeholder="请输入照片本人身份证号码"
+            type="text"
+            maxlength="18"
+          />
+        </view>
+      </view>
+    </view>
+
     <view class="city-section">
       <view class="city-row">
         <text class="section-title">办理城市</text>
@@ -109,6 +124,7 @@ export default {
       imagePath: '', // 用于显示的处理后图片路径
       originalImagePath: '', // 用于提交订单的原始图片路径
       selectedCity: '',
+      cardNo: '',
       orderRemark: '',
       documentInfo: {
         name: '身份证',
@@ -117,7 +133,8 @@ export default {
           printSize: '26x32mm',
           pixelSize: '358x441px',
           resolution: '300DPI'
-        }
+        },
+        needCardNo: false
       },
       agreedToTerms: false
     }
@@ -224,6 +241,17 @@ export default {
         return
       }
 
+      if (this.documentInfo.needCardNo) {
+        const idPattern = /^[1-9]\d{5}(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}[\dXx]$/
+        if (!idPattern.test(this.cardNo)) {
+          uni.showToast({
+            title: '请输入正确的身份证号码',
+            icon: 'none'
+          })
+          return
+        }
+      }
+
       if (!this.selectedCity || this.selectedCity.trim() === '') {
         uni.showToast({
           title: '请输入办理城市',
@@ -240,6 +268,9 @@ export default {
           amount: this.documentInfo.price,
           original_photo: photoUrl,
           certificate_snapshot: JSON.stringify(this.documentInfo)
+        }
+        if (this.documentInfo.needCardNo) {
+          orderData.card_no = this.cardNo
         }
 
         createOrder(orderData)
