@@ -18,6 +18,7 @@
 <script>
 import certificate from '@/model/certificate'
 import LinTable from '@/component/base/table/lin-table'
+import dayjs from 'dayjs'
 
 export default {
   components: {
@@ -34,6 +35,11 @@ export default {
         { prop: 'printSize', label: '打印尺寸' },
         { prop: 'pixelSize', label: '像素尺寸' },
         { prop: 'resolution', label: '分辨率' },
+        {
+          prop: 'createTime',
+          label: '创建时间',
+          formatter: (row) => dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss'),
+        },
       ],
       tableData: [],
       loading: false,
