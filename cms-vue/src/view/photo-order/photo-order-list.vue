@@ -50,12 +50,18 @@ import LinTable from '@/component/base/table/lin-table'
 import UploadImgs from '@/component/base/upload-image'
 import photoOrder from '@/model/photo-order'
 import PhotoOrderDetail from './photo-order-detail'
+import dayjs from 'dayjs'
 
 export default {
   components: { LinTable, UploadImgs, PhotoOrderDetail },
   data() {
     return {
       tableColumn: [
+        {
+          prop: 'createTime',
+          label: '创建时间',
+          formatter: row => dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss')
+        },
         { prop: 'orderNo', label: '订单号' },
         { prop: 'documentName', label: '证照' },
         { prop: 'location', label: '地区' },
