@@ -18,6 +18,7 @@
 <script>
 import certificate from '@/model/certificate'
 import LinTable from '@/component/base/table/lin-table'
+import dayjs from 'dayjs'
 
 export default {
   components: {
@@ -26,6 +27,11 @@ export default {
   data() {
     return {
       tableColumn: [
+        {
+          prop: 'createTime',
+          label: '创建时间',
+          formatter: (row) => dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss'),
+        },
         { prop: 'name', label: '名称' },
         { prop: 'category', label: '分类' },
         { prop: 'hasReceipt', label: '含回执' },

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,9 @@ public class PhotoOrderService extends ServiceImpl<PhotoOrderMapper, PhotoOrderD
         order.setOrderNo(String.valueOf(System.currentTimeMillis()));
         order.setStatus(PhotoOrderStatus.UNPAID.getValue());
         order.setUserId(LocalUser.getLocalUser().getId());
+        Date now = new Date();
+        order.setCreateTime(now);
+        order.setUpdateTime(now);
         this.save(order);
 
         // 从当前登录用户直接获取支付宝用户ID
