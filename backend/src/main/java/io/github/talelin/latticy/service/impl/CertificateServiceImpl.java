@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,6 +21,9 @@ public class CertificateServiceImpl implements CertificateService {
     public boolean create(CertificateDTO dto) {
         CertificateDO cert = new CertificateDO();
         copyFields(cert, dto);
+        Date now = new Date();
+        cert.setCreateTime(now);
+        cert.setUpdateTime(now);
         return certificateMapper.insert(cert) > 0;
     }
 
