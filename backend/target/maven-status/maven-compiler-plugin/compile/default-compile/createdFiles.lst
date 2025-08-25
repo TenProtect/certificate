@@ -66,6 +66,7 @@ io\github\talelin\latticy\vo\PageResponseVO.class
 io\github\talelin\latticy\service\impl\BookServiceImpl.class
 io\github\talelin\latticy\dto\CreatePhotoOrderDTO.class
 io\github\talelin\latticy\common\constant\IdentityConstant.class
+io\github\talelin\latticy\service\PhotoOrderService$2.class
 io\github\talelin\latticy\controller\cms\AdminController.class
 io\github\talelin\latticy\service\SpuDetailImgService.class
 io\github\talelin\latticy\common\configuration\CommonConfiguration.class
