@@ -258,7 +258,7 @@ export default {
       if (!this.capturedImage) return
       const handle = url => {
         if (this.orderId) {
-          resubmitOrder(this.orderId, { originalPhoto: url })
+          resubmitOrder(this.orderId, { original_photo: url })
             .then(() => {
               uni.hideLoading()
               uni.showToast({ title: '上传成功', icon: 'success' })
