@@ -88,7 +88,7 @@
     </view>
 
     <!-- 悬浮按钮 -->
-    <view class="floating-button-wrapper">
+    <view class="floating-button-wrapper" v-if="false">
       <contact-button
         class="floating-contact-button"
         size="46"

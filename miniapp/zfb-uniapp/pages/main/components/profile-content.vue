@@ -84,78 +84,56 @@ export default {
       // 如果已经有token，通知App.vue启动心跳检测
       uni.$emit('login-success')
       
-      my.getAuthCode({
-        scopes: 'auth_user',
-        success: (auth) => {
-          my.getOpenUserInfo({
-            success: async (user) => {
-              this.avatarUrl = user.avatar
-              this.userName = user.nickName
-              uni.setStorageSync('avatar', user.avatar)
-              uni.setStorageSync('nickName', user.nickName)
-              try {
-                const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
-                if (resp && resp.data) {
-                  uni.setStorageSync('token', resp.data.token)
-                  uni.setStorageSync('refreshToken', resp.data.refreshToken)
-                }
-              } catch (e) {
-                // ignore
-              }
-            },
-            fail: () => {
-              this.avatarUrl = uni.getStorageSync('avatar') || this.avatarUrl
-              this.userName = uni.getStorageSync('nickName') || '支付宝用户'
-            }
-          })
-        }
-      })
+      // 已登录时显示支付宝用户信息
+      this.avatarUrl = 'https://mdn.alipayobjects.com/huamei_gk2yv1/afts/img/A*z_q8T4l7hswAAAAAAAAAAAAADneBAQ/original'
+      this.userName = '支付宝用户'
     }
   },
   methods: {
     login() {
       my.getAuthCode({
-        scopes: 'auth_user',
         success: (auth) => {
-          my.getOpenUserInfo({
-            success: async (user) => {
-              user = JSON.parse(user.response)
-              user = user.response
-              console.log('获取用户信息成功:', user)
-              try {
-                const resp = await alipayLogin({ authCode: auth.authCode, nickName: user.nickName, avatar: user.avatar })
-                if (resp && resp.data && resp.data.token) {
-                  uni.setStorageSync('token', resp.data.token)
-                  uni.setStorageSync('refreshToken', resp.data.refreshToken)
-                  this.hasToken = true
-                  this.avatarUrl = user.avatar
-                  this.userName = user.nickName
-                  uni.setStorageSync('avatar', user.avatar)
-                  uni.setStorageSync('nickName', user.nickName)
-                  
-                  // 登录成功提示
-                  uni.showToast({ 
-                    title: '登录成功！现在可以拍摄证件照了', 
-                    icon: 'success',
-                    duration: 2000
-                  })
-                  
-                  // 通知App.vue重启心跳检测
-                  uni.$emit('login-success')
-                } else {
-                  uni.showToast({ title: '登录失败', icon: 'none' })
-                }
-              } catch (e) {
+          console.log('获取授权码成功:', auth.authCode)
+          try {
+            // 使用统一的用户信息
+            const defaultNickName = '支付宝用户'
+            const defaultAvatar = 'https://mdn.alipayobjects.com/huamei_gk2yv1/afts/img/A*z_q8T4l7hswAAAAAAAAAAAAADneBAQ/original'
+            
+            alipayLogin({ 
+              authCode: auth.authCode, 
+              nickName: defaultNickName, 
+              avatar: defaultAvatar 
+            }).then(resp => {
+              if (resp && resp.data && resp.data.token) {
+                uni.setStorageSync('token', resp.data.token)
+                uni.setStorageSync('refreshToken', resp.data.refreshToken)
+                this.hasToken = true
+                this.avatarUrl = defaultAvatar
+                this.userName = defaultNickName
+                
+                // 登录成功提示
+                uni.showToast({ 
+                  title: '登录成功！现在可以拍摄证件照了', 
+                  icon: 'success',
+                  duration: 2000
+                })
+                
+                // 通知App.vue重启心跳检测
+                uni.$emit('login-success')
+              } else {
                 uni.showToast({ title: '登录失败', icon: 'none' })
               }
-            },
-            fail: (error) => {
-              uni.showToast({ title: '授权失败', icon: 'none' })
-              console.log('获取用户信息失败:', error)
-            }
-          })
+            }).catch(e => {
+              console.error('登录失败:', e)
+              uni.showToast({ title: '登录失败', icon: 'none' })
+            })
+          } catch (e) {
+            console.error('登录异常:', e)
+            uni.showToast({ title: '登录失败', icon: 'none' })
+          }
         },
-        fail: () => {
+        fail: (error) => {
+          console.log('获取授权码失败:', error)
           uni.showToast({ title: '登录失败', icon: 'none' })
         }
       })

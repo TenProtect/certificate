@@ -5,20 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7878a65e-30c2-46c2-9632-564dd8bb0836" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3a849bc5-3f2d-424f-88e0-98a2ff776f70.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/3a849bc5-3f2d-424f-88e0-98a2ff776f70.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/backend-sleeve-0.3.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/backend-sleeve-0.3.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/backend-sleeve-0.3.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/backend-sleeve-0.3.0.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/dto/CertificateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/dto/CertificateDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/dto/CreatePhotoOrderDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/dto/CreatePhotoOrderDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/model/BaseModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/model/BaseModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/model/CertificateDO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/model/CertificateDO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/model/PhotoOrderDO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/model/PhotoOrderDO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/service/PhotoOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/service/PhotoOrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/service/impl/CertificateServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/talelin/latticy/service/impl/CertificateServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,6 +159,7 @@
       <workItem from="1755842118262" duration="9087000" />
       <workItem from="1756038556953" duration="1740000" />
       <workItem from="1756108035679" duration="38000" />
+      <workItem from="1756108631333" duration="684000" />
     </task>
     <task id="LOCAL-00009" summary="Enhance Alipay integration by adding buyer_open_id to trade creation and loading user identities">
       <option name="closed" value="true" />

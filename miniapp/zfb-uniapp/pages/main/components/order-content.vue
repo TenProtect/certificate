@@ -17,26 +17,36 @@
     </view>
     
     <view class="order-list">
-      <!-- 全局温馨提示 - 在所有订单最顶部 -->
-      <view v-if="currentOrders.length > 0" class="global-warm-tip">
-        <view class="tip-icon">🔊</view>
-        <text class="tip-text">温馨提示：回执审核时间：早上 8:00 到晚上 23:00</text>
+      <!-- Loading状态 -->
+      <view v-if="loading" class="loading-container">
+        <view class="loading-spinner-large"></view>
+        <text class="loading-text-large">正在加载订单...</text>
       </view>
       
-      <view v-if="currentOrders.length === 0" class="empty-state">
-        <view class="empty-icon">
-          <text class="icon">📋</text>
+      <!-- 非Loading状态下的内容 -->
+      <template v-else>
+        <!-- 全局温馨提示 - 在所有订单最顶部 -->
+        <view v-if="currentOrders.length > 0" class="global-warm-tip">
+          <view class="tip-icon">🔊</view>
+          <text class="tip-text">温馨提示：回执审核时间：早上 8:00 到晚上 23:00</text>
         </view>
-        <view class="empty-content">
-          <text class="empty-title">暂无订单</text>
-          <text class="empty-subtitle">您还没有任何{{ currentTabName }}订单记录</text>
+        
+        <!-- 空状态 -->
+        <view v-if="currentOrders.length === 0" class="empty-state">
+          <view class="empty-icon">
+            <text class="icon">📋</text>
+          </view>
+          <view class="empty-content">
+            <text class="empty-title">暂无订单</text>
+            <text class="empty-subtitle">您还没有任何{{ currentTabName }}订单记录</text>
+          </view>
+          <view class="empty-action">
+            <text class="action-btn" @tap="goToHome">去拍摄</text>
+          </view>
         </view>
-        <view class="empty-action">
-          <text class="action-btn" @tap="goToHome">去拍摄</text>
-        </view>
-      </view>
-      
-      <view v-else class="orders-container">
+        
+        <!-- 订单列表 -->
+        <view v-else class="orders-container">
         <view 
           v-for="order in currentOrders" 
           :key="order.orderNo"
@@ -55,7 +65,20 @@
           <!-- 订单内容 -->
           <view class="order-content">
             <view class="document-info">
-              <image class="doc-photo" :src="order.photo" mode="aspectFill"></image>
+              <view class="doc-photo-container">
+                <image 
+                  class="doc-photo" 
+                  :src="order.photo" 
+                  mode="aspectFill"
+                  @load="onOrderImageLoad(order)"
+                  @error="onOrderImageError(order)"
+                  :style="{ opacity: order.imageProcessing ? 0.3 : 1 }"
+                ></image>
+                <!-- 图片加载中状态 -->
+                <view v-if="order.imageProcessing" class="doc-photo-loading">
+                  <view class="loading-spinner-small"></view>
+                </view>
+              </view>
               <view class="doc-details">
                 <text class="doc-name">{{ order.documentName }}</text>
                 <text class="process-location">办理地区：{{ order.location }}</text>
@@ -159,6 +182,7 @@
           </view>
         </view>
       </view>
+      </template>
     </view>
     
     <!-- 预览对话框 -->
@@ -242,6 +266,7 @@ export default {
         { label: '已完成', value: 'completed' }
       ],
       orders: [],
+      loading: true, // 订单加载状态
       contactConfig,
       // 预览对话框相关数据
       previewDialog: {
@@ -311,44 +336,13 @@ export default {
       this.$emit('switch-tab', 0)
     },
     async loadOrders() {
+      this.loading = true
       try {
         const res = await getOrders()
         this.isDev = res.__isDev__ || false
-        // 处理每个订单的图片信息
-        const processedOrders = await Promise.all(res.map(async (o) => {
-          let processedPhoto = o.originalPhoto
-          
-          // 使用 my.getImageInfo 获取图片信息，确保真机显示正常
-          if (o.originalPhoto) {
-            try {
-              // #ifdef MP-ALIPAY
-              const imageInfo = await new Promise((resolve, reject) => {
-                my.getImageInfo({
-                  src: o.originalPhoto,
-                  success: resolve,
-                  fail: reject
-                })
-              })
-              // 使用 getImageInfo 返回的路径，确保图片能正常显示
-              processedPhoto = imageInfo.path || imageInfo.src || o.originalPhoto
-              // #endif
-              
-              // #ifndef MP-ALIPAY
-              const imageInfo = await new Promise((resolve, reject) => {
-                uni.getImageInfo({
-                  src: o.originalPhoto,
-                  success: resolve,
-                  fail: reject
-                })
-              })
-              processedPhoto = imageInfo.path || o.originalPhoto
-              // #endif
-            } catch (error) {
-              console.warn('获取图片信息失败，使用原始路径:', error)
-              processedPhoto = o.originalPhoto
-            }
-          }
-          
+        
+        // 先处理基本订单数据并立即渲染
+        const basicOrders = res.map(o => {
           const snapshot = JSON.parse(o.certificateSnapshot || '{}')
           const hasLayout = snapshot.printLayout && !!o.layoutPhoto
           const hasReceipt = snapshot.hasReceipt && !!o.receiptPhoto
@@ -357,7 +351,7 @@ export default {
           return {
             ...o,
             amount: `¥${o.amount}`,
-            photo: processedPhoto,
+            photo: o.originalPhoto, // 先使用原始图片路径
             hasReceipt,
             hasLayout,
             hasStandard,
@@ -371,14 +365,88 @@ export default {
             // 处理后的URL用于预览显示
             standardPhoto: o.standardPhoto,
             layoutPhoto: o.layoutPhoto,
-            receiptPhoto: o.receiptPhoto
+            receiptPhoto: o.receiptPhoto,
+            imageProcessing: !!o.originalPhoto // 有图片时设置为true，无图片时为false
           }
-        }))
+        })
         
-        this.orders = processedOrders
+        // 先设置基本订单数据，立即渲染
+        this.orders = basicOrders
+        this.loading = false
+        
+        // 使用 $nextTick 确保DOM更新后再处理图片
+        this.$nextTick(() => {
+          this.processOrderImages()
+        })
+        
       } catch (error) {
         console.error('加载订单失败:', error)
         this.orders = []
+        this.loading = false
+      }
+    },
+    
+    // 异步处理订单图片信息
+    async processOrderImages() {
+      // 逐个处理图片，避免阻塞UI
+      for (let i = 0; i < this.orders.length; i++) {
+        const order = this.orders[i]
+        if (!order.originalPhoto) continue
+        
+        try {
+          let processedPhoto = order.originalPhoto
+          
+          // 使用 my.getImageInfo 获取图片信息，确保真机显示正常
+          // #ifdef MP-ALIPAY
+          const imageInfo = await new Promise((resolve, reject) => {
+            my.getImageInfo({
+              src: order.originalPhoto,
+              success: resolve,
+              fail: reject
+            })
+          })
+          // 使用 getImageInfo 返回的路径，确保图片能正常显示
+          processedPhoto = imageInfo.path || imageInfo.src || order.originalPhoto
+          // #endif
+          
+          // #ifndef MP-ALIPAY
+          const imageInfo = await new Promise((resolve, reject) => {
+            uni.getImageInfo({
+              src: order.originalPhoto,
+              success: resolve,
+              fail: reject
+            })
+          })
+          processedPhoto = imageInfo.path || order.originalPhoto
+          // #endif
+          
+          // 更新单个订单的图片信息
+          this.$set(this.orders[i], 'photo', processedPhoto)
+          this.$set(this.orders[i], 'imageProcessing', false)
+          
+        } catch (error) {
+          console.warn(`订单${order.orderNo}图片信息获取失败，使用原始路径:`, error)
+          this.$set(this.orders[i], 'imageProcessing', false)
+        }
+        
+        // 添加小延迟，避免过快的连续请求
+        await new Promise(resolve => setTimeout(resolve, 50))
+      }
+    },
+    
+    // 订单图片加载完成
+    onOrderImageLoad(order) {
+      const index = this.orders.findIndex(o => o.id === order.id)
+      if (index !== -1) {
+        this.$set(this.orders[index], 'imageProcessing', false)
+      }
+    },
+    
+    // 订单图片加载失败
+    onOrderImageError(order) {
+      const index = this.orders.findIndex(o => o.id === order.id)
+      if (index !== -1) {
+        this.$set(this.orders[index], 'imageProcessing', false)
       }
     },
     contactService() {
@@ -960,6 +1028,18 @@ export default {
   box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.06);
   overflow: hidden;
   transition: all 0.2s ease;
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .order-item:active {
@@ -1029,13 +1109,42 @@ export default {
   margin-bottom: 30rpx;
 }
 
-.doc-photo {
+.doc-photo-container {
+  position: relative;
   width: 120rpx;
   height: 160rpx;
-  border-radius: 12rpx;
   margin-right: 24rpx;
-  background: #f5f5f5;
   flex-shrink: 0;
+}
+
+.doc-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 12rpx;
+  background: #f5f5f5;
+  transition: opacity 0.3s ease;
+}
+
+.doc-photo-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245, 245, 245, 0.8);
+  border-radius: 12rpx;
+}
+
+.loading-spinner-small {
+  width: 40rpx;
+  height: 40rpx;
+  border: 3rpx solid #f3f3f3;
+  border-top: 3rpx solid #3d45e6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
 .doc-details {
@@ -1300,6 +1409,46 @@ export default {
 .btn-text-clickthrough {
   pointer-events: none;
   user-select: none;
+}
+
+/* Loading 样式 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 40rpx;
+  background: white;
+  margin: 20rpx 0;
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.loading-spinner-large {
+  width: 80rpx;
+  height: 80rpx;
+  border: 6rpx solid #f3f3f3;
+  border-top: 6rpx solid #3d45e6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 30rpx;
+}
+
+.loading-text-large {
+  font-size: 28rpx;
+  color: #999;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+  animation: fade-pulse 2s ease-in-out infinite;
+}
+
+@keyframes fade-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 .empty-state {
