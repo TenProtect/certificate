@@ -66,6 +66,14 @@ export default {
         { prop: 'documentName', label: '证照' },
         { prop: 'location', label: '地区' },
         { prop: 'cardNo', label: '身份证号' },
+        {
+          prop: 'requireType',
+          label: '照片类型',
+          formatter: row => {
+            const map = { 0: '电子照', 1: '冲印照' }
+            return row.requireType === 0 || row.requireType === 1 ? map[row.requireType] : ''
+          }
+        },
         { prop: 'remark', label: '备注' },
         { prop: 'amount', label: '金额' },
         { prop: 'statusText', label: '状态' }
