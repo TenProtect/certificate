@@ -35,6 +35,7 @@ CREATE TABLE photo_order (
   layout_photo VARCHAR(255),
   receipt_photo VARCHAR(255),
   certificate_snapshot TEXT,
+  require_type TINYINT,
   remark VARCHAR(255),
   reject_reason VARCHAR(255),
   status TINYINT DEFAULT 0,
