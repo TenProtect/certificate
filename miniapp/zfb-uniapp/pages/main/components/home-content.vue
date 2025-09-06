@@ -120,7 +120,7 @@ export default {
       activeTab: 0, // 当前激活的选项卡索引
       categories: [
         { id: 0, name: '回执', icon: '📋' },
-        { id: 1, name: '证照', icon: '👤' },
+        { id: 1, name: '寸照', icon: '👤' },
         { id: 2, name: '签证', icon: '🌐' },
         { id: 3, name: '考试', icon: '📝' },
         { id: 4, name: '近期', icon: '🕐' }
@@ -255,13 +255,23 @@ export default {
     groupDocuments() {
       const grouped = {}
       this.allDocuments.forEach(doc => {
-        if (!grouped[doc.category]) grouped[doc.category] = []
-        grouped[doc.category].push(doc)
+        const key = doc.category
+        if (!grouped[key]) grouped[key] = []
+        grouped[key].push(doc)
       })
       this.documentsData = {}
       this.categories.forEach((cat, index) => {
         if (cat.name === '近期') {
           this.documentsData[index] = this.allDocuments.slice(0, 5)
+        } else if (cat.name === '寸照') {
+          // 寸照分类除了匹配名字为“寸照”的外，也要包含名字为“证照”的文档
+          const cun = grouped['寸照'] || []
+          const zheng = grouped['证照'] || []
+          // 合并并去重（按 id）以保持顺序
+          const merged = [...cun]
+          const ids = new Set(merged.map(d => d.id))
+          zheng.forEach(d => { if (!ids.has(d.id)) merged.push(d) })
+          this.documentsData[index] = merged
         } else {
           this.documentsData[index] = grouped[cat.name] || []
         }

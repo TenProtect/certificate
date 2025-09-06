@@ -19,7 +19,8 @@ export default {
                 
                 // 监听登录成功事件，重启心跳检测
                 uni.$on('login-success', () => {
-                        console.log('收到登录成功事件，重启心跳检测')
+                        console.log('收到登录成功事件，重置token过期标志并重启心跳检测')
+                        this.tokenExpiredShown = false // 重置token过期标志
                         this.startHeartbeat()
                 })
         },
@@ -48,8 +49,13 @@ export default {
                                return
                        }
                        
+                       // 如果已经显示过token过期弹框，则不再启动心跳检测
+                       if (this.tokenExpiredShown) {
+                               console.log('token已过期且已显示弹框，不重新启动心跳检测')
+                               return
+                       }
+                       
                        this.stopHeartbeat()
-                       this.tokenExpiredShown = false
                        console.log('启动心跳检测')
                        this.heartbeatTimer = setInterval(this.checkToken, 3 * 1000)
                        this.checkToken()
@@ -67,7 +73,9 @@ export default {
                        try {
                                await heartbeat()
                        } catch (e) {
+                               console.log('token过期，显示登录提醒')
                                this.tokenExpiredShown = true
+                               this.stopHeartbeat() // 立即停止心跳检测
                                uni.removeStorageSync('token')
                                uni.removeStorageSync('refreshToken')
                                uni.showModal({
